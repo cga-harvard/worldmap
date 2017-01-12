@@ -1,0 +1,14 @@
+{% extends 'index.html' %}
+{% load i18n %}
+{% comment %}
+This is where you can override the hero area block. You can simply modify the content below or replace it wholesale to meet your own needs.
+{% endcomment %}
+  {% block hero %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1>{% trans "Welcome to WorldMap" %}</h1>
+      <p>{% blocktrans %}Build your own mapping portal and publish it to the world or to just a few collaborators.{% endblocktrans %}</p>
+      <p>{% blocktrans %}WorldMap is open source software.{% endblocktrans %}</p>
+    </div>
+  </div>
+  {% endblock %}
