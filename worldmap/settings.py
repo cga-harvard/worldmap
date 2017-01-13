@@ -737,14 +737,18 @@ _DEFAULT_MAP_BASELAYERS = [{
     "visibility": False,
     "fixed": True,
     "group":"background"
-}, {
-    "source": {"ptype": "gxp_osmsource"},
-    "type": "OpenLayers.Layer.OSM",
-    "name": "mapnik",
-    "visibility": True,
-    "fixed": True,
-    "group": "background"
-}]
+},
+# enable this when we enable the gxp_osmsource plugin in worldmap client
+# {
+#     "source": {"ptype": "gxp_osmsource"},
+#     "type": "OpenLayers.Layer.OSM",
+#     "name": "mapnik",
+#     "visibility": True,
+#     "fixed": True,
+#     "group": "background"
+# }
+
+]
 
 MAP_BASELAYERS = os.getenv('MAP_BASELAYERS',_DEFAULT_MAP_BASELAYERS)
 
