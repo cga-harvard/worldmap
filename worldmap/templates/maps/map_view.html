@@ -3,7 +3,7 @@
 {% load i18n %}
 {% load base_tags %}
 
-{% block title %} {% trans "Map" %} - {{ block.super }} {% endblock %}
+{% block title %} Rendering map with {{ preview }} {% trans "Map" %} - {{ block.super }} {% endblock %}
 
 {% block head %}
 	{% if preview == 'geoext' %}
@@ -11,7 +11,7 @@
 	{% elif preview == 'react' %}
 		{% include 'geonode-client/map_view.html' %}
   {% elif preview == 'worldmap' %}
-  	{% include 'maps/worldmap.html' %}
+  	{% include 'worldmap_client/worldmap.html' %}
 	{% else %}
 		{% include 'maps/map_geoexplorer.js' %}
 	{% endif %}
