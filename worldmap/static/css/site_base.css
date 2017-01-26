@@ -1,0 +1,13 @@
+.navbar-inverse {
+  background-color: #666;
+  border: 0;
+  height: 55px;
+}
+
+.navbar-brand {
+	background: url(../img/worldmap_logo.png) 0 10px no-repeat;
+	background-size: 100%;
+	text-indent: -9999px;
+	height: 65px;
+	width: 200px;
+}
