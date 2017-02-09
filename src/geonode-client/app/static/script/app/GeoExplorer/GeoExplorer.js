@@ -2251,21 +2251,19 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         if (!this.mapID || as) {
             /* create a new map */
             Ext.Ajax.request({
-                url: this.rest,
+                //url: this.rest,
+                url: "/maps/new/data",
                 method: 'POST',
                 jsonData: config,
                 success: function(response, options) {
-                    var id = response.getResponseHeader("Location");
-                    // trim whitespace to avoid Safari issue where the trailing newline is included
-                    id = id.replace(/^\s*/, '');
-                    id = id.replace(/\s*$/, '');
-                    id = id.match(/[\d]*$/)[0];
+                    var id = JSON.parse(response.responseText)['id']
                     this.mapID = id; //id is url, not mapID
                     this.fireEvent("saved", id);
                     this.metadataForm.hide();
                     Ext.Msg.wait('Saving Map', "Your new map is being saved...");
 
-                    window.location = response.getResponseHeader("Location");
+                    //window.location = response.getResponseHeader("Location");
+                    window.location = '/maps/' + id + '/view';
                 },
                 failure: function(response, options) {
                     if (response.status === 401)

@@ -1,6 +1,13 @@
 Worldmap
 ========
 
+How to use the WorldMap client
+------------------------------
+
+In your local_settings.py file, change the variable LAYER_PREVIEW_LIBRARY to 'worldmap'::
+
+    LAYER_PREVIEW_LIBRARY = 'worldmap'
+
 For JavaScript Developers
 -------------------------
 
