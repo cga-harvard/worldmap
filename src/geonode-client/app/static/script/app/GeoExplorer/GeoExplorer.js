@@ -184,7 +184,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     saveFailMessage: "UT: Sorry, your map could not be saved.",
     saveFailTitle: "UT: Error While Saving",
     saveMapText: "UT: Save Map",
-    saveMapBtnText: "UT: Save",
+    saveMapBtnText: "UT:Save",
     saveMapAsText: "UT: Copy",
     saveNotAuthorizedMessage: "UT: You Must be logged in to save this map.",
     shareLayerText: 'UT: Share Layer',
