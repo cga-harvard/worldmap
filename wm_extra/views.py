@@ -3,10 +3,11 @@ import math
 import urlparse
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseServerError
-from django.shortcuts import render_to_response, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 
 from geonode.base.models import TopicCategory
@@ -20,6 +21,18 @@ from geonode.maps.views import _resolve_map, _PERMISSION_MSG_VIEW
 
 
 from .models import LayerStats
+
+@login_required
+def create_pg_layer(request):
+    # TODO implement this!
+    #return redirect('layer_upload')
+    return HttpResponse('')
+
+
+@login_required
+def upload_layer(request):
+    # TODO implement this!
+    return HttpResponse('')
 
 
 def ajax_increment_layer_stats(request):
@@ -268,6 +281,9 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
         topicArray.append([topic.identifier, topic.gn_description])
 
     config['topic_categories'] = topicArray
+
+    config['proxy'] = '/proxy/?url='
+
     # TODO check permissions here
     config['edit_map'] = True
     groups = set()
