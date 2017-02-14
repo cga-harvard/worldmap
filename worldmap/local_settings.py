@@ -1,6 +1,10 @@
 import os
 
+import dj_database_url
+
 from django.conf import settings
+
+PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
                                "http://localhost:8080/geoserver/")
@@ -14,6 +18,44 @@ LAYER_PREVIEW_LIBRARY = 'worldmap'
 
 
 settings.TEMPLATES[0]['OPTIONS']['context_processors'].append("worldmap.context_processors.worldmap")
+
+DATABASE_URL = 'postgres://worldmap:worldmap@localhost:5432/worldmap'
+DATASTORE_URL = 'postgis://worldmap:worldmap@localhost:5432/data'
+DB_DATASTORE = True
+
+# Defines settings for development
+DATABASES = {
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600),
+    'datastore': dj_database_url.parse(DATASTORE_URL, conn_max_age=600),
+}
+
+_DEFAULT_OGC_SERVER = {
+    'default': {
+        'BACKEND': 'geonode.geoserver',
+        'LOCATION': 'http://localhost:8080/geoserver/',
+        'LOGIN_ENDPOINT': 'j_spring_oauth2_geonode_login',
+        'LOGOUT_ENDPOINT': 'j_spring_oauth2_geonode_logout',
+        # PUBLIC_LOCATION needs to be kept like this because in dev mode
+        # the proxy won't work and the integration tests will fail
+        # the entire block has to be overridden in the local_settings
+        'PUBLIC_LOCATION': 'http://localhost:8080/geoserver/',
+        'USER': 'admin',
+        'PASSWORD': 'geoserver',
+        'MAPFISH_PRINT_ENABLED': True,
+        'PRINT_NG_ENABLED': True,
+        'GEONODE_SECURITY_ENABLED': True,
+        'GEOGIG_ENABLED': False,
+        'WMST_ENABLED': False,
+        'BACKEND_WRITE_ENABLED': True,
+        'WPS_ENABLED': False,
+        'LOG_FILE': '%s/geoserver/data/logs/geoserver.log' % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
+        # Set to name of database in DATABASES dictionary to enable
+        'DATASTORE': 'datastore',
+        'PG_GEOGIG': False,
+        'TIMEOUT': 10  # number of seconds to allow for HTTP requests
+    }
+}
+OGC_SERVER = os.getenv('OGC_SERVER',_DEFAULT_OGC_SERVER)
 
 WORLDMAP_APPS = (
     # WorldMap applications
