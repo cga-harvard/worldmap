@@ -1,14 +1,19 @@
 import json
 import math
 import urlparse
+from httplib import HTTPConnection, HTTPSConnection
+from urlparse import urlsplit
 
 from django.conf import settings
+from django.utils.http import is_safe_url
+from django.http.request import validate_host
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.serializers.json import DjangoJSONEncoder
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponseNotAllowed, HttpResponseServerError
 from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
+from django.views.decorators.csrf import csrf_exempt
 
 from geonode.base.models import TopicCategory
 from geonode.geoserver.helpers import ogc_server_settings
@@ -21,6 +26,83 @@ from geonode.maps.views import _resolve_map, _PERMISSION_MSG_VIEW
 
 
 from .models import LayerStats
+
+
+@csrf_exempt
+def proxy(request):
+    PROXY_ALLOWED_HOSTS = getattr(settings, 'PROXY_ALLOWED_HOSTS', ())
+
+    host = None
+
+    if 'geonode.geoserver' in settings.INSTALLED_APPS:
+        from geonode.geoserver.helpers import ogc_server_settings
+        hostname = (ogc_server_settings.hostname,) if ogc_server_settings else ()
+        PROXY_ALLOWED_HOSTS += hostname
+        host = ogc_server_settings.netloc
+
+    if 'url' not in request.GET:
+        return HttpResponse("The proxy service requires a URL-encoded URL as a parameter.",
+                            status=400,
+                            content_type="text/plain"
+                            )
+
+    raw_url = request.GET['url']
+    url = urlsplit(raw_url)
+    locator = str(url.path)
+    if url.query != "":
+        locator += '?' + url.query
+    if url.fragment != "":
+        locator += '#' + url.fragment
+
+    if not settings.DEBUG:
+        if not validate_host(url.hostname, PROXY_ALLOWED_HOSTS):
+            return HttpResponse("DEBUG is set to False but the host of the path provided to the proxy service"
+                                " is not in the PROXY_ALLOWED_HOSTS setting.",
+                                status=403,
+                                content_type="text/plain"
+                                )
+    headers = {}
+
+    if settings.SESSION_COOKIE_NAME in request.COOKIES and is_safe_url(url=raw_url, host=host):
+        headers["Cookie"] = request.META["HTTP_COOKIE"]
+
+    if request.method in ("POST", "PUT") and "CONTENT_TYPE" in request.META:
+        headers["Content-Type"] = request.META["CONTENT_TYPE"]
+
+    if url.scheme == 'https':
+        conn = HTTPSConnection(url.hostname, url.port)
+    else:
+        conn = HTTPConnection(url.hostname, url.port)
+    conn.request(request.method, locator, request.body, headers)
+
+    result = conn.getresponse()
+
+    # If we get a redirect, let's add a useful message.
+    if result.status in (301, 302, 303, 307):
+        response = HttpResponse(('This proxy does not support redirects. The server in "%s" '
+                                 'asked for a redirect to "%s"' % (url, result.getheader('Location'))),
+                                status=result.status,
+                                content_type=result.getheader("Content-Type", "text/plain")
+                                )
+
+        response['Location'] = result.getheader('Location')
+    else:
+        response = HttpResponse(
+            result.read(),
+            status=result.status,
+            content_type=result.getheader("Content-Type", "text/plain"))
+
+    return response
+
+
+@login_required
+def ajax_layer_update(request, layername):
+    """
+    Used to update layer bounds and gazetteer after an edit transaction.
+    """
+    # TODO implement this!
+    return HttpResponse('')
+
 
 @login_required
 def create_pg_layer(request):
