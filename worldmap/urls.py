@@ -33,7 +33,7 @@ from geonode.api.views import verify_token, roles, users, admin_role
 
 import autocomplete_light
 
-from wm_extra.views import proxy, ajax_layer_update, upload_layer, create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm
+from wm_extra.views import proxy, ajax_layer_update, ajax_layer_edit_check, upload_layer, create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm
 
 # Setup Django Admin
 autocomplete_light.autodiscover()
@@ -71,6 +71,7 @@ if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
                             url(r'^maps/(?P<mapid>[^/]+)/view$', map_view_wm, name='map_view_wm'),
                             # TODO develop the create layer app
                             # layers
+                            url(r'^data/(?P<layername>[^/]*)/ajax-edit-check/?$', ajax_layer_edit_check, name = 'ajax_layer_edit_check'),
                             url(r'^data/(?P<layername>[^/]*)/ajax_layer_update/?$', ajax_layer_update, name = 'ajax_layer_update'),
                             url(r'^data/create_pg_layer', create_pg_layer, name='create_pg_layer'),
                             url(r'^data/upload', upload_layer, name='data_upload'),

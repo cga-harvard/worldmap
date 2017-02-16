@@ -95,6 +95,19 @@ def proxy(request):
     return response
 
 
+def ajax_layer_edit_check(request, layername):
+    """
+    Check if the the layer style is editable.
+    """
+    # TODO implement this
+    #layer = get_object_or_404(Layer, typename=layername);
+    #editable = request.user.has_perm("maps.change_layer", obj=layer)
+    editable = True
+    return HttpResponse(
+        str(editable),
+        status=200 if editable else 403
+    )
+
 @login_required
 def ajax_layer_update(request, layername):
     """
@@ -388,6 +401,10 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
                         layer_config['group'] = group
                         layer_config['llbbox'] = [-180,-90,180,90]
                         layer_config['local'] = True
+                        styles = ml.styles
+                        if styles == '':
+                            styles = layer.styles.all()[0].name
+                        layer_config['styles'] = styles
                     if 'url' not in layer_config:
                         layer_config['url'] = layer.ows_url
         except ObjectDoesNotExist:
