@@ -402,7 +402,7 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
                         layer_config['llbbox'] = [-180,-90,180,90]
                         layer_config['local'] = True
                         styles = ml.styles
-                        if styles == '':
+                        if styles == '' or styles is None:
                             styles = layer.styles.all()[0].name
                         layer_config['styles'] = styles
                     if 'url' not in layer_config:
