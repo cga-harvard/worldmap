@@ -7,8 +7,8 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('layers', '26_initial'),
-        ('maps', '26_initial'),
+        ('layers', '24_initial'),
+        ('maps', '24_initial'),
     ]
 
     operations = [
