@@ -6,11 +6,15 @@ build:
 	docker-compose build django
 	docker-compose build celery
 
-sync:
+sync: up 
 	# set up the database tablea
-	docker-compose run django python manage.py makemigrations --noinput
-	docker-compose exec django python manage.py migrate account --noinput
-	docker-compose run django python manage.py migrate --noinput
+	docker-compose exec django django-admin.py migrate --noinput
+	docker-compose exec django django-admin.py loaddata sample_admin
+	docker-compose exec django django-admin.py loaddata fixtures/default_oauth_apps_docker.json
+	docker-compose exec django django-admin.py loaddata fixtures/initial_data.json
+
+pull:
+	docker-compose pull
 
 wait:
 	sleep 5
@@ -22,7 +26,7 @@ down:
 	docker-compose down
 
 test:
-	docker-compose run django python manage.py test --failfast
+	docker-compose exec django django-admin.py test --failfast
 
 reset: down up wait sync
 
