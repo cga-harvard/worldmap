@@ -4,16 +4,21 @@ import dj_database_url
 
 from django.conf import settings
 
+
+def str2bool(v):
+        return v.lower() in ("yes", "true", "t", "1")
+
+
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
                                "http://localhost:8080/geoserver/")
 
 #GEONODE_CLIENT_LOCATION = '/static/worldmap_client/'
-GEONODE_CLIENT_LOCATION = "http://localhost:9090/"
+GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',"http://localhost:9090/")
 
 #LAYER_PREVIEW_LIBRARY = 'geoext'
-LAYER_PREVIEW_LIBRARY = 'worldmap'
+LAYER_PREVIEW_LIBRARY = os.getenv("LAYER_PREVIEW_LIBRARY","worldmap")
 #LAYER_PREVIEW_LIBRARY = 'react'
 
 
@@ -21,7 +26,7 @@ settings.TEMPLATES[0]['OPTIONS']['context_processors'].append("worldmap.context_
 
 DATABASE_URL = 'postgres://worldmap:worldmap@localhost:5432/worldmap'
 DATASTORE_URL = 'postgis://worldmap:worldmap@localhost:5432/data'
-DB_DATASTORE = True
+DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE','True'))
 
 # Defines settings for development
 DATABASES = {

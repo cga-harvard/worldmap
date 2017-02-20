@@ -77,13 +77,28 @@ DATABASE_URL = os.getenv(
         path=os.path.join(PROJECT_ROOT, 'development.db')
     )
 )
+# The FULLY QUALIFIED url to the GeoServer instance for this GeoNode.
+GEOSERVER_LOCATION = os.getenv(
+    'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
+)
+GEOSERVER_PUBLIC_LOCATION = os.getenv(
+    'GEOSERVER_PUBLIC_LOCATION', 'http://localhost:8080/geoserver/'
+)
+
+
+DATASTORE_URL = os.getenv('DATASTORE_URL',
+                          'postgis://worldmap:worldmap@localhost:5432/data')
+
+DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE','True'))
 
 # Defines settings for development
 DATABASES = {
-    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600)
+    'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600),
+    'datastore': dj_database_url.parse(DATASTORE_URL, conn_max_age=600),
 }
 
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -237,6 +252,11 @@ MAX_DOCUMENT_SIZE = int(os.getenv('MAX_DOCUMENT_SIZE ', '2'))  # MB
 # DOCUMENT_TYPE_MAP = {}
 # DOCUMENT_MIMETYPE_MAP = {}
 
+WORLDMAP_APPS = (
+    # WorldMap applications
+    'wm_extra',
+)
+
 GEONODE_APPS = (
     # GeoNode internal apps
     'geonode.people',
@@ -260,6 +280,7 @@ GEONODE_APPS = (
     'geonode.tasks'
 )
 
+
 GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
     'geonode.contrib.dynamic',
@@ -271,6 +292,7 @@ GEONODE_CONTRIB_APPS = (
     'geonode.contrib.slack',
     'geonode.contrib.metadataxsl'
 )
+
 
 # Uncomment the following line to enable contrib apps
 # GEONODE_APPS = GEONODE_APPS + GEONODE_CONTRIB_APPS
@@ -332,7 +354,7 @@ _DEFAULT_INSTALLED_APPS = (
     'guardian',
     'oauth2_provider',
 
-) + GEONODE_APPS
+) +  GEONODE_APPS + WORLDMAP_APPS
 
 INSTALLED_APPS = os.getenv('INSTALLED_APPS',_DEFAULT_INSTALLED_APPS)
 
@@ -411,11 +433,14 @@ TEMPLATES = [
                 'account.context_processors.account',
                 'geonode.context_processors.resource_urls',
                 'geonode.geoserver.context_processors.geoserver_urls',
+                'worldmap.context_processors.worldmap',
             ],
             'debug': DEBUG,
         },
     }
 ]
+
+
 
 _DEFAULT_MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
@@ -578,13 +603,13 @@ CACHE_TIME = int(os.getenv('CACHE_TIME','0'))
 _DEFAULT_OGC_SERVER = {
     'default': {
         'BACKEND': 'geonode.geoserver',
-        'LOCATION': 'http://localhost:8080/geoserver/',
+        'LOCATION':  GEOSERVER_LOCATION,
         'LOGIN_ENDPOINT': 'j_spring_oauth2_geonode_login',
         'LOGOUT_ENDPOINT': 'j_spring_oauth2_geonode_logout',
         # PUBLIC_LOCATION needs to be kept like this because in dev mode
         # the proxy won't work and the integration tests will fail
         # the entire block has to be overridden in the local_settings
-        'PUBLIC_LOCATION': 'http://localhost:8080/geoserver/',
+        'PUBLIC_LOCATION': GEOSERVER_PUBLIC_LOCATION,
         'USER': 'admin',
         'PASSWORD': 'geoserver',
         'MAPFISH_PRINT_ENABLED': True,
@@ -596,7 +621,7 @@ _DEFAULT_OGC_SERVER = {
         'WPS_ENABLED': False,
         'LOG_FILE': '%s/geoserver/data/logs/geoserver.log' % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
         # Set to name of database in DATABASES dictionary to enable
-        'DATASTORE': '',  # 'datastore',
+        'DATASTORE': 'datastore',  # 'datastore',
         'PG_GEOGIG': False,
         'TIMEOUT': 10  # number of seconds to allow for HTTP requests
     }
@@ -695,10 +720,9 @@ PYCSW = os.getenv('PYCSW',_DEFAULT_PYSCSW)
 # Note: If set to EPSG:4326, then only EPSG:4326 basemaps will work.
 DEFAULT_MAP_CRS = os.getenv('DEFAULT_MAP_CRS',"EPSG:900913")
 
-
-# The FULLY QUALIFIED url to the GeoServer instance for this GeoNode.
-GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
-                               "http://localhost:8001/geoserver-geonode-dev/")
+#GeoNode Client 
+GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
+                                     "http://localhost:9090/")
 
 # The username and password for a user that can add and edit layer details on GeoServer
 
@@ -727,8 +751,9 @@ _INIT_DEFAULT_LAYER_SOURCE = {
     "restUrl": "/gs/rest"
 }
 
-DEFAULT_LAYER_SOURCE = os.getenv('DEFAULT_LAYER_SOURCE',_INIT_DEFAULT_LAYER_SOURCE)
 
+
+DEFAULT_LAYER_SOURCE = os.getenv('DEFAULT_LAYER_SOURCE',_INIT_DEFAULT_LAYER_SOURCE)
 _DEFAULT_MAP_BASELAYERS = [{
     "source": {"ptype": "gxp_olsource"},
     "type": "OpenLayers.Layer",
@@ -738,16 +763,14 @@ _DEFAULT_MAP_BASELAYERS = [{
     "fixed": True,
     "group":"background"
 },
-# enable this when we enable the gxp_osmsource plugin in worldmap client
-# {
-#     "source": {"ptype": "gxp_osmsource"},
-#     "type": "OpenLayers.Layer.OSM",
-#     "name": "mapnik",
-#     "visibility": True,
-#     "fixed": True,
-#     "group": "background"
-# }
-
+{
+    "source": {"ptype": "gxp_osmsource"},
+    "type": "OpenLayers.Layer.OSM",
+    "name": "mapnik",
+    "visibility": True,
+    "fixed": True,
+    "group": "background"
+},
 ]
 
 MAP_BASELAYERS = os.getenv('MAP_BASELAYERS',_DEFAULT_MAP_BASELAYERS)
@@ -951,7 +974,7 @@ CACHES = {
     #     }
 }
 
-LAYER_PREVIEW_LIBRARY = 'geoext'
+LAYER_PREVIEW_LIBRARY = os.getenv("LAYER_PREVIEW_LIBRARY","worldmap")
 
 SERVICE_UPDATE_INTERVAL = 0
 
