@@ -10,5 +10,10 @@ RUN cd && \
     rm apache-ant-${ANT_VERSION}-bin.tar.gz
 
 ENV ANT_HOME /opt/ant
-#Adding to bin
+#Adding ANT into bin
 ENV PATH ${PATH}:/opt/ant/bin
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+COPY . /usr/src/app
+EXPOSE 9090
