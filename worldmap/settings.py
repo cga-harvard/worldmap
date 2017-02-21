@@ -725,7 +725,7 @@ DEFAULT_MAP_CRS = os.getenv('DEFAULT_MAP_CRS',"EPSG:900913")
 
 #GeoNode Client 
 GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
-                                     "http://localhost:9090/")
+                                     '/static/worldmap_client/')
 
 # The username and password for a user that can add and edit layer details on GeoServer
 
