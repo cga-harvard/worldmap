@@ -78,6 +78,9 @@ DATABASE_URL = os.getenv(
     )
 )
 # The FULLY QUALIFIED url to the GeoServer instance for this GeoNode.
+GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
+                               "http://localhost:8080/geoserver/")
+                               
 GEOSERVER_LOCATION = os.getenv(
     'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
 )
