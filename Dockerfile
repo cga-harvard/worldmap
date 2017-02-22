@@ -24,7 +24,7 @@ ENV ANT_HOME /opt/ant
 #Adding ANT into bin
 ENV PATH ${PATH}:/opt/ant/bin
 
-RUN cd /usr/src/app/src/geonode-client
+#RUN cd /usr/src/app/src/geonode-client
 
 #how is the best way to compile geonode-client???? 
 #Lennin: Compile code goes here.
