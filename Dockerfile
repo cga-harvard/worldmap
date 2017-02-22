@@ -1,34 +1,14 @@
-FROM terranodo/django:geonode
+FROM geonode/django:geonode
 MAINTAINER Ariel Núñez<ariel@terranodo.io>
 
-## Install Java
+# Copy the requirements first to avoid having to re-do it when the code changes.
+# Requirements in requirements.txt are pinned to specific version
+# usually the output of a pip freeze
 
-RUN \
-  apt-get update -y && \
-  apt-get install -y openjdk-7-jdk && \
-  rm -rf /var/lib/apt/lists/*
+COPY requirements.txt /usr/src/app/
+RUN pip install --no-cache-dir -r requirements.txt
+COPY . /usr/src/app/
+RUN pip install --no-deps --no-cache-dir -e /usr/src/app/
+EXPOSE 8000
 
-# Define commonly used JAVA_HOME variable
-ENV JAVA_HOME /usr/lib/jvm/java-7-openjdk-amd64
-
-## Install Ant
-
-ENV ANT_VERSION 1.9.4
-RUN cd && \
-    wget -q http://archive.apache.org/dist/ant/binaries/apache-ant-${ANT_VERSION}-bin.tar.gz && \
-    tar -xzf apache-ant-${ANT_VERSION}-bin.tar.gz && \
-    mv apache-ant-${ANT_VERSION} /opt/ant && \
-    rm apache-ant-${ANT_VERSION}-bin.tar.gz
-
-ENV ANT_HOME /opt/ant
-#Adding ANT into bin
-ENV PATH ${PATH}:/opt/ant/bin
-
-WORKDIR /usr/src/app/src/geonode-client
-RUN ant dist
-
-WORKDIR /usr/src/app
-#how is the best way to compile geonode-client????
-#Lennin: Compile code goes here.
-#make sure directory
-#RUN ant dist
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
