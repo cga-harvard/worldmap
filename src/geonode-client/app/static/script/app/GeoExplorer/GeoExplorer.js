@@ -794,7 +794,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         var addLayerButton = new Ext.Button({
             id: "worldmap_addlayers_button",
             disabled: false,
-            text: '<span class="x-btn-text">' + this.addLayersButtonText + '</span>',
+            text: '<span class="x-btn-text">Papi que?</span>',
             handler : this.showSearchWindow,
             scope: this
         });

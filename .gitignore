@@ -61,4 +61,9 @@ uploaded/
 development.db
 development.db-journal
 
+# Docker stuff:
+*.bak
+*.dat
+*.dir
+
 .DS_Store
