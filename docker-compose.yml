@@ -16,7 +16,8 @@ services:
       - postgres
       - elasticsearch
       - rabbitmq
-      - geonode_client
+    volumes:
+      - /usr/src/app/worldmap/static/worldmap_client/script
     command: django-admin.py runserver 0.0.0.0:8000 --settings=worldmap.settings
     env_file:
       - ./docker/env/production/django.env
@@ -56,11 +57,6 @@ services:
     command: /bin/true
     volumes:
       - /geoserver_data/data
-
-  geonode_client:
-    build: ./src/geonode-client/ 
-    command: /bin/true
-
 
 volumes:
 
