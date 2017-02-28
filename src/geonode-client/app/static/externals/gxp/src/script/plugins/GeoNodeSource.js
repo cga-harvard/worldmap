@@ -157,7 +157,6 @@ gxp.plugins.GeoNodeSource = Ext.extend(gxp.plugins.WMSSource, {
                 'source': config.source,
                 'group': config.group,
                 'attributes': config.attributes,
-                'properties': "gxp_wmslayerpanel",
                 'fixed': config.fixed,
                 'selected': "selected" in config ? config.selected : false,
                 'layer': layer,
@@ -172,7 +171,12 @@ gxp.plugins.GeoNodeSource = Ext.extend(gxp.plugins.WMSSource, {
                 'local': config.local
             };
 
-
+            // properties is different if local or not (hypermap)
+            if(config.local){
+                data['properties'] = "gxp_wmslayerpanel";
+            } else {
+                data['properties'] = "gxp_hhlayerpanel";
+            }
 
             // add additional fields
             var fields = [
