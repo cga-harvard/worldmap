@@ -794,7 +794,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         var addLayerButton = new Ext.Button({
             id: "worldmap_addlayers_button",
             disabled: false,
-            text: '<span class="x-btn-text">Papi que?</span>',
+            text: '<span class="x-btn-text">' + this.addLayersButtonText + '</span>',
             handler : this.showSearchWindow,
             scope: this
         });
@@ -1027,13 +1027,14 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     setWorldMapSourceKey : function() {
         for (var id in this.layerSources) {
             source = this.layerSources[id];
-            if (source instanceof gxp.plugins.GeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
-                this.localGeoServerBaseUrl.replace(
-                    this.urlPortRegEx, "$1/")) === 0) {
-                this.worldMapSourceKey = id;
-            }
+            console.log('source', source);
+            var isIninstanceofGeoNodeSource = (source instanceof gxp.plugins.GeoNodeSource);
+            // if (isIninstanceofGeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
+            //     this.localGeoServerBaseUrl.replace(this.urlPortRegEx, "$1/")) === 0) {
+            //     this.worldMapSourceKey = id;
+            // }
+            this.worldMapSourceKey = id;
         }
-
     },
 
     setHGLSourceKey : function() {
@@ -1052,8 +1053,9 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     },
 
     addWorldMapLayers: function(records) {
-        if (this.worldMapSourceKey == null)
+        if (this.worldMapSourceKey == null) {
             this.setWorldMapSourceKey();
+        }
         var wmSource = this.layerSources[this.worldMapSourceKey];
         if (wmSource) {
             for (var i = 0; i < records.length; i++) {
