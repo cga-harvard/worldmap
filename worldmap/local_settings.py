@@ -137,6 +137,7 @@ _DEFAULT_INSTALLED_APPS = (
     # 'modeltranslation',
     'djcelery',
     'storages',
+    'floppyforms',
 
     # Theme
     "pinax_theme_bootstrap_account",
@@ -160,7 +161,6 @@ _DEFAULT_INSTALLED_APPS = (
 ) + GEONODE_APPS + WORLDMAP_APPS
 
 INSTALLED_APPS = os.getenv('INSTALLED_APPS',_DEFAULT_INSTALLED_APPS)
-
 
 #### layers configuration
 
