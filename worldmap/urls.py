@@ -34,6 +34,8 @@ from geonode.api.views import verify_token, roles, users, admin_role
 import autocomplete_light
 
 from wm_extra.views import proxy, ajax_layer_update, ajax_layer_edit_check, upload_layer, create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm
+from tastypie.api import Api
+from wm_extra.api.resources import LayerResource, TagResource, TopicCategoryResource
 
 # Setup Django Admin
 autocomplete_light.autodiscover()
@@ -49,6 +51,12 @@ sitemaps = {
     "layer": LayerSitemap,
     "map": MapSitemap
 }
+
+# api
+wm_api = Api(api_name='2.6')
+wm_api.register(LayerResource())
+wm_api.register(TagResource())
+wm_api.register(TopicCategoryResource())
 
 # main urlpatterns for GeoNode
 urlpatterns = patterns('',
@@ -66,6 +74,8 @@ urlpatterns = patterns('',
 # overrides when using the WM client
 if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
     urlpatterns += patterns('',
+                            # api
+                            (r'^api/', include(wm_api.urls)),
                             # maps
                             url(r'^maps/new$', new_map_wm, name="new_map_wm"),
                             url(r'^maps/(?P<mapid>[^/]+)/view$', map_view_wm, name='map_view_wm'),
