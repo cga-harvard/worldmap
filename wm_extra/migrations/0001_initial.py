@@ -6,10 +6,10 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('layers', '24_initial'),
-        ('maps', '24_initial'),
-    ]
+    #dependencies = [
+    #    ('layers', '24_initial'),
+    #    ('maps', '24_initial'),
+    #]
 
     operations = [
         migrations.CreateModel(
