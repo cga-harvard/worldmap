@@ -12,7 +12,7 @@ GeoNode.BoundingBoxWidget = Ext.extend(Ext.util.Observable, {
     isEnabled: false,
     useGxpViewer: false,
 
-    gwcBackend: 'http://hh.worldmap.harvard.edu/registry/hypermap/layer/',
+    gwcBackend: this.hypermapRegistryUrl + '/registry/hypermap/layer/',
 
     layers: {},
 
@@ -50,8 +50,8 @@ GeoNode.BoundingBoxWidget = Ext.extend(Ext.util.Observable, {
                 hideBBox: function(bbox){
                     self.hideLayerBBox();
                 },
-                showPreviewLayer: function(typename,layerId, uuid){
-                    self.showPreviewLayer(typename, layerId, uuid);
+                showPreviewLayer: function(name, uuid){
+                    self.showPreviewLayer(name, uuid);
                 },
                 hidePreviewLayer: function(){
                     self.hidePreviewLayer();
@@ -338,10 +338,10 @@ GeoNode.BoundingBoxWidget = Ext.extend(Ext.util.Observable, {
         }
     },
 
-    showPreviewLayer: function(typename, layerId, uuid){
+    showPreviewLayer: function(name, uuid){
         if (!uuid) return;
         var map = this.viewer.mapPanel.map;
-        var layer = this.createPreviewLayer(typename, layerId, uuid);
+        var layer = this.createPreviewLayer(name, uuid);
         map.addLayer(layer);
     },
 
@@ -354,10 +354,11 @@ GeoNode.BoundingBoxWidget = Ext.extend(Ext.util.Observable, {
         };
     },
 
-    createPreviewLayer: function(typename, layerId, uuid){
+    createPreviewLayer: function(name, uuid){
+        var gwcBackend = this.viewer.hypermapRegistryUrl + '/registry/hypermap/layer/';
         var layer = new OpenLayers.Layer.OSM(
-            typename,
-            this.gwcBackend + uuid + '/map/wmts/' + typename.replace('geonode:', '')  + '/default_grid/${z}/${x}/${y}.png',
+            name,
+            gwcBackend + uuid + '/map/wmts/' + name.replace('geonode:', '')  + '/default_grid/${z}/${x}/${y}.png',
             {
                 isBaseLayer: false
             }
@@ -368,9 +369,10 @@ GeoNode.BoundingBoxWidget = Ext.extend(Ext.util.Observable, {
 
     getOrCreateLayer: function(typename, layerId, uuid){
         if(!this.layers.hasOwnProperty(typename)){
+            var gwcBackend = this.viewer.hypermapRegistryUrl + '/registry/hypermap/layer/';
             var layer = new OpenLayers.Layer.OSM(
                 typename,
-                this.gwcBackend + uuid + '/map/wmts/' + typename.replace('geonode:', '') + '/default_grid/${z}/${x}/${y}.png',
+                gwcBackend + uuid + '/map/wmts/' + typename.replace('geonode:', '') + '/default_grid/${z}/${x}/${y}.png',
                 {
                     isBaseLayer: false
                 }

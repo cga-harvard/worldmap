@@ -62,6 +62,24 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     localCSWBaseUrl: "",
 
     /**
+     * api: config[hypermapRegistryUrl]
+     * ``String`` url of the HHypermap Registry instance
+     */
+    hypermapRegistryUrl: "",
+
+    /**
+     * api: config[mapProxyUrl]
+     * ``String`` url of the MapProxy instance
+     */
+    mapProxyUrl: "",
+
+    /**
+     * api: config[solrUrl]
+     * ``String`` url of the Solr instance
+     */
+    solrUrl: "",
+
+    /**
      * api: config[useMapOverlay]
      * ``Boolean`` Should we add a scale overlay to the map? Set to false
      * to not add a scale overlay.
@@ -213,9 +231,6 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     worldmapDataText: 'Search',
     externalDataText: 'External Data',
     leavePageWarningText: 'If you leave this page, unsaved changes will be lost.',
-
-    mapproxy_backend: 'http://hh.worldmap.harvard.edu',
-    //mapproxy_backend: 'http://192.168.33.15:8001',
 
     constructor: function(config) {
         this.config = config;
@@ -1027,13 +1042,13 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     setWorldMapSourceKey : function() {
         for (var id in this.layerSources) {
             source = this.layerSources[id];
-            if (source instanceof gxp.plugins.GeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
-                this.localGeoServerBaseUrl.replace(
-                    this.urlPortRegEx, "$1/")) === 0) {
+            //if (source instanceof gxp.plugins.GeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
+            //    this.localGeoServerBaseUrl.replace(
+            //this.urlPortRegEx, "$1/")) === 0) {
+            if (source.hasOwnProperty("url") && source.url.replace(this.urlPortRegEx, "$1/").indexOf(this.localGeoServerBaseUrl.replace(this.urlPortRegEx, "$1/")) === 0){
                 this.worldMapSourceKey = id;
             }
         }
-
     },
 
     setHGLSourceKey : function() {
@@ -1103,7 +1118,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             parseFloat(thisRecord.get('max_y'))
             ];
 
-        var layer_detail_url = this.mapproxy_backend + '/registry/hypermap/layer/' + thisRecord.get('uuid') + '/';
+        var layer_detail_url = this.mapProxyUrl + '/registry/hypermap/layer/' + thisRecord.get('uuid') + '/';
 
         var layer = {
             "styles": "",
@@ -2076,12 +2091,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             trackSelection: true,
             permalinkURL: '/data/search',
             // 0. use this one in production
-            //searchURL: "/solr",
-            // 1. when developing use the following searchURLs
-            // 1.1 this one in case using HH on dev server
-            // searchURL: "http://192.168.33.15:8983/solr/hypermap/select",
-            // 1.2 this one in case using HH on prod server
-            searchURL: "http://worldmap.harvard.edu/solr/hypermap/select",
+            searchURL: this.solrUrl,
             layerDetailURL: '/data/search/detail',
             constraints: [this.bbox],
             searchParams: {'limit':10, 'bbox': llbounds.toBBOX()},

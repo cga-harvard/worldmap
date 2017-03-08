@@ -614,7 +614,7 @@ GeoNode.SearchTable = Ext.extend(Ext.util.Observable, {
         if($.parseJSON(record.get('is_public'))){
             var typename = this.getlayerTypename(record);
             var uuid = this.getuuid(record);
-            this.heatmap.bbox_widget.viewer.fireEvent("showPreviewLayer", typename, this.getLayerID(record), uuid);
+            this.heatmap.bbox_widget.viewer.fireEvent("showPreviewLayer", typename, uuid);
         }
     },
 

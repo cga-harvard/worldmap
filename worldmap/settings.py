@@ -1095,6 +1095,11 @@ if 'geonode.geoserver' in INSTALLED_APPS:
 # Filter: (boolean, optional, default false) a filter option on that thesaurus will appear in the main search page
 THESAURI = []
 
+# WorldMap client settings
+HYPERMAP_REGISTRY_URL = os.getenv('HYPERMAP_REGISTRY_URL', "http://192.168.33.15:8002")
+MAPPROXY_URL = os.getenv('MAPPROXY_URL', "http://192.168.33.15:8002")
+SOLR_URL = os.getenv('SOLR_URL', "http://192.168.33.15:8983/solr/hypermap/select")
+
 # There are 3 ways to override GeoNode settings:
 # 1. Using environment variables, if your changes to GeoNode are minimal.
 # 2. Creating a downstream project, if you are doing a lot of customization.

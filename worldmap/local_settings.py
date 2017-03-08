@@ -6,9 +6,6 @@ from django.conf import settings
 
 PROJECT_ROOT = os.path.abspath(os.path.dirname(__file__))
 
-GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
-                               "http://localhost:8080/geoserver/")
-
 #GEONODE_CLIENT_LOCATION = '/static/worldmap_client/'
 GEONODE_CLIENT_LOCATION = "http://localhost:9090/"
 
