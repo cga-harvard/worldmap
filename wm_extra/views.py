@@ -360,6 +360,8 @@ def new_map_config(request):
             geoexplorer2worldmap(config, map_obj, layers)
         else:
             # a new map with no layer
+            map_obj = Map(projection=getattr(settings, 'DEFAULT_MAP_CRS',
+                          'EPSG:900913'))
             config = DEFAULT_MAP_CONFIG
             geoexplorer2worldmap(config, map_obj)
 
@@ -374,6 +376,7 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
     topicArray = []
     for topic in topics:
         topicArray.append([topic.identifier, topic.gn_description])
+    topicArray.append(['General', 'General'])
 
     config['topic_categories'] = topicArray
 
@@ -388,32 +391,45 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
     if layers is None:
         layers = map_obj.layer_set.all()
 
-    for ml in layers:
-        try:
-            layer = Layer.objects.get(typename=ml.name)
-            group = layer.category.gn_description if layer.category else "General"
+    # 3 different layer types
+    #
+    # 1. background layer: group: background, ows_url: None
+    #
+    # 2. WM local layer:
+    #    ows_url: http://localhost:8080/geoserver/wms,
+    #    layer_params = {"selected": true, "title": "camer_hyd_basins_vm0_2007", "url": "http://localhost:8080/geoserver/wms",
+    #       "tiled": true, "detail_url": "http://worldmap.harvard.edu/data/geonode:camer_hyd_basins_vm0_2007", "local": true,
+    #       "llbbox": [-94.549682617, 9.553222656, -82.972412109, 18.762207031]}
+    #
+    # 3. WM remote layer (HH):
+    #    ows_url: http://192.168.33.15:8002/registry/hypermap/layer/13ff2fea-d479-4fc7-87a6-3eab7d349def/map/wmts/market/default_grid/$%7Bz%7D/$%7Bx%7D/$%7By%7D.png
+    #    layer_params = {"title": "market", "selected": true, "detail_url": "http://192.168.33.15:8002/registry/hypermap/layer/13ff2fea-d479-4fc7-87a6-3eab7d349def/", "local": false}
+
+    for layer_config in config['map']['layers']:
+        # detect if it is a WM or HH layer
+        if 'local' in layer_config:
+            # set the group
+            group = layer_config['group']
             if group not in groups:
                 groups.add(group)
-            # add group, local to layer config
-            for layer_config in config['map']['layers']:
-                if 'name' in layer_config:
-                    if layer_config['name'] == ml.name:
-                        layer_config['group'] = group
-                        layer_config['llbbox'] = [-180,-90,180,90]
-                        layer_config['local'] = True
-                        styles = ml.styles
-                        if styles == '' or styles is None:
-                            styles = layer.styles.all()[0].name
-                        layer_config['styles'] = styles
-                    if 'url' not in layer_config:
-                        layer_config['url'] = layer.ows_url
-        except ObjectDoesNotExist:
-            # bad layer, skip
-            continue
+            # TODO fix this accordingly to layer extent
+            layer_config['llbbox'] = [-180,-90,180,90]
+            # detect if it is a WM layer
+            if layer_config['local'] == True:
+                # WM local layer to process
+                if 'styles' not in layer_config:
+                    layer = Layer.objects.get(typename=layer_config['name'])
+                    styles = layer.styles.all()[0].name
+                    layer_config['styles'] = styles
+            else:
+                # detect if it is a HH layer
+                layer_config['styles'] = ''
+                # need to access to maplayer to read the url
+                ml = layers.get(name=layer_config['name'])
+                layer_config['url'] = ml.ows_url
 
     config['map']['groups'] = []
     for group in groups:
         if group not in json.dumps(config['map']['groups']):
             config['map']['groups'].append({"expanded":"true", "group":group})
-
     print json.dumps(config)

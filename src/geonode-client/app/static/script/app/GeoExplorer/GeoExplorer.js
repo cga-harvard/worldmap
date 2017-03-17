@@ -1040,6 +1040,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     },
 
     setWorldMapSourceKey : function() {
+        /*
         for (var id in this.layerSources) {
             source = this.layerSources[id];
             //if (source instanceof gxp.plugins.GeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
@@ -1049,6 +1050,9 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                 this.worldMapSourceKey = id;
             }
         }
+        */
+        var WorldMapSource = this.addLayerSource({"config":{"url": this.localGeoServerBaseUrl + 'wms', "ptype":"gxp_gnsource"}});
+        this.worldMapSourceKey = WorldMapSource.id;
     },
 
     setHGLSourceKey : function() {
@@ -1078,7 +1082,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                     if (record.data['service_type'] == 'Hypermap:WorldMap'){
                         this.addLayerAjax(wmSource, this.worldMapSourceKey, record);
                     } else {
-                        url = 'http://hh.worldmap.harvard.edu/registry/hypermap/layer/' + record.data['uuid'] + '/map/wmts/' + record.data['name'] + '/default_grid/${z}/${x}/${y}.png';
+                        url = this.hypermapRegistryUrl + '/registry/hypermap/layer/' + record.data['uuid'] + '/map/wmts/' + record.data['name'] + '/default_grid/${z}/${x}/${y}.png';
                         var hhSource = this.addLayerSource({"config":{"url":url, "ptype":"gxp_gnsource"}});
                         this.addLayerAjax(hhSource, hhSource.id, record);
                     }
