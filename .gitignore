@@ -65,4 +65,4 @@ development.db-journal
 .DS_Store
 
 # static files are built
-worldmap/static
+worldmap/static/worldmap_client/
