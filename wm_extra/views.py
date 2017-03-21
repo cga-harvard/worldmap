@@ -26,6 +26,7 @@ from geonode.maps.views import _resolve_map, _PERMISSION_MSG_VIEW
 
 
 from .models import LayerStats
+from .forms import EndpointForm
 
 
 @csrf_exempt
@@ -433,3 +434,33 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
         if group not in json.dumps(config['map']['groups']):
             config['map']['groups'].append({"expanded":"true", "group":group})
     print json.dumps(config)
+
+
+@login_required
+def add_endpoint(request):
+    """
+    Let the user to add an endpoint for a remote service.
+    """
+    if request.method == 'POST':
+        endpoint_form = EndpointForm(request.POST)
+        if endpoint_form.is_valid():
+            endpoint = endpoint_form.save(commit=False)
+            endpoint.owner = request.user
+            endpoint.save()
+            return render_to_response(
+                'wm_extra/endpoint_added.html',
+                RequestContext(request, {
+                    "endpoint": endpoint,
+                })
+            )
+        else:
+            logger.info('Error posting an endpoint')
+    else:
+        endpoint_form = EndpointForm()
+
+    return render_to_response(
+        'wm_extra/endpoint_add.html',
+        RequestContext(request, {
+            "form": endpoint_form,
+        })
+    )

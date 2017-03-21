@@ -1,10 +1,9 @@
 from django.contrib import admin
 
-from .models import LayerStats, MapStats
+from .models import LayerStats, MapStats, Endpoint
 
 
 class LayerStatsAdmin(admin.ModelAdmin):
-    model = LayerStats
     list_display = (
         'layer',
         'visits',
@@ -13,7 +12,6 @@ class LayerStatsAdmin(admin.ModelAdmin):
     )
 
 class MapStatsAdmin(admin.ModelAdmin):
-    model = MapStats
     list_display = (
         'map',
         'visits',
@@ -21,5 +19,12 @@ class MapStatsAdmin(admin.ModelAdmin):
         'last_modified',
     )
 
+class EndpointAdmin(admin.ModelAdmin):
+    list_display = ('id', 'description', 'owner', 'url')
+    list_display_links = ('id',)
+    search_fields = ['description', 'url']
+
+
 admin.site.register(LayerStats, LayerStatsAdmin)
 admin.site.register(MapStats, MapStatsAdmin)
+admin.site.register(Endpoint, EndpointAdmin)
