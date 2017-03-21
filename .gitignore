@@ -12,4 +12,4 @@ worldmap/uploaded/
 worldmap/static/worldmap_client/
 src/geonode-client/build
 src/geonode-client/app/static/externals/openlayers/build/
-worldmap/static/worldmap_client/script
+worldmap/static/worldmap_client/script/
