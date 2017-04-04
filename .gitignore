@@ -8,6 +8,9 @@ geoserver/
 # uploaded files
 worldmap/uploaded/
 
+# local settings
+worldmap/local_settings.py
+
 # static files are built
 worldmap/static/worldmap_client/
 src/geonode-client/build
