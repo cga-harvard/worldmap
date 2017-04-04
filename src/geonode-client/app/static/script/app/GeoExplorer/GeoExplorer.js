@@ -1040,19 +1040,15 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     },
 
     setWorldMapSourceKey : function() {
-        /*
         for (var id in this.layerSources) {
             source = this.layerSources[id];
-            //if (source instanceof gxp.plugins.GeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
-            //    this.localGeoServerBaseUrl.replace(
-            //this.urlPortRegEx, "$1/")) === 0) {
-            if (source.hasOwnProperty("url") && source.url.replace(this.urlPortRegEx, "$1/").indexOf(this.localGeoServerBaseUrl.replace(this.urlPortRegEx, "$1/")) === 0){
-                this.worldMapSourceKey = id;
-            }
+            var isIninstanceofGeoNodeSource = (source instanceof gxp.plugins.GeoNodeSource);
+            // if (isIninstanceofGeoNodeSource && source.url.replace(this.urlPortRegEx, "$1/").indexOf(
+            //     this.localGeoServerBaseUrl.replace(this.urlPortRegEx, "$1/")) === 0) {
+            //     this.worldMapSourceKey = id;
+            // }
+            this.worldMapSourceKey = id;
         }
-        */
-        var WorldMapSource = this.addLayerSource({"config":{"url": this.localGeoServerBaseUrl + 'wms', "ptype":"gxp_gnsource"}});
-        this.worldMapSourceKey = WorldMapSource.id;
     },
 
     setHGLSourceKey : function() {
@@ -1071,8 +1067,9 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     },
 
     addWorldMapLayers: function(records) {
-        if (this.worldMapSourceKey == null)
+        if (this.worldMapSourceKey == null) {
             this.setWorldMapSourceKey();
+        }
         var wmSource = this.layerSources[this.worldMapSourceKey];
         if (wmSource) {
             for (var i = 0; i < records.length; i++) {
