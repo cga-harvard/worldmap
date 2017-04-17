@@ -1,15 +1,69 @@
-*.pyc
-.DS_Store
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
 
-# GN build dir
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+#  Usually these files are written by a python script from a template
+#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*,cover
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+target/
+
+# Downstream Project
 downloaded/
 geoserver/
+uploaded/
+development.db
+development.db-journal
 
-# uploaded files
-worldmap/uploaded/
+# Docker stuff:
+*.bak
+*.dat
+*.dir
 
-# static files are built
-worldmap/static/worldmap_client/
-src/geonode-client/build
-src/geonode-client/app/static/externals/openlayers/build/
-worldmap/static/worldmap_client/script/
+.DS_Store
