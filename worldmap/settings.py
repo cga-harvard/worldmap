@@ -56,7 +56,7 @@ DEBUG_STATIC = str2bool(os.getenv('DEBUG_STATIC', 'False'))
 # geonode to be listening for GeoServer auth requests.
 os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8000'
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', ['localhost', ])
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 # AUTH_IP_WHITELIST property limits access to users/groups REST endpoints
 # to only whitelisted IP addresses.
@@ -1112,15 +1112,12 @@ if 'geonode.geoserver' in INSTALLED_APPS:
     # TODO: Allow overriding with an env var
     DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE', 'True'))
 
-    ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', ['localhost', ])
-
-
 # Keywords thesauri
 # e.g. THESAURI = [{'name':'inspire_themes', 'required':True, 'filter':True}, {'name':'inspire_concepts', 'filter':True}, ]
 # Required: (boolean, optional, default false) mandatory while editing metadata (not implemented yet)
 # Filter: (boolean, optional, default false) a filter option on that thesaurus will appear in the main search page
 THESAURI = []
-
+DISABLE_SECURITY = str2bool(os.getenv('DISABLE_SECURITY', 'False'))
 # WorldMap client settings
 HYPERMAP_REGISTRY_URL = os.getenv('HYPERMAP_REGISTRY_URL', "http://192.168.33.15:8002")
 MAPPROXY_URL = os.getenv('MAPPROXY_URL', "http://192.168.33.15:8002")
