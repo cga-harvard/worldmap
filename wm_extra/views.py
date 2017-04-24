@@ -410,9 +410,17 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
         # detect if it is a WM or HH layer
         if 'local' in layer_config:
             # set the group
-            group = layer_config['group']
+
+            # TODO: Decide what to do about blank group setting.
+            # Newer Geonode requires a Group to be set but older maps do not have one.
+            if 'group' in layer_config:
+                group = layer_config['group']
+            else:
+                group = 'unknown'
+
             if group not in groups:
                 groups.add(group)
+
             # TODO fix this accordingly to layer extent
             layer_config['llbbox'] = [-180,-90,180,90]
             # detect if it is a WM layer
@@ -420,8 +428,14 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
                 # WM local layer to process
                 if 'styles' not in layer_config:
                     layer = Layer.objects.get(typename=layer_config['name'])
-                    styles = layer.styles.all()[0].name
-                    layer_config['styles'] = styles
+
+                    layer_styles = layer.styles.all()
+                    if layer_styles.count() > 0:
+                        styles = layer_styles[0].name
+                        layer_config['styles'] = styles
+                    else:
+                        # TODO: Decide what to do when the layer does not have any styles.
+                        layer_config['styles'] = ''
             else:
                 # detect if it is a HH layer
                 layer_config['styles'] = ''
