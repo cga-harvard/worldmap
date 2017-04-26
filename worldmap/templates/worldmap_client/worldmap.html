@@ -156,7 +156,7 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
 
 {{ block.super }}
 
-<script type="text/javascript">
+<script>
     var originalConfigureLayerNode =  GeoExt.WMSLegend.prototype.getLegendUrl;
     GeoExt.WMSLegend.prototype.getLegendUrl = function(layerName,layerNames) {
         var rec = this.layerRecord;
@@ -168,159 +168,152 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
         }
     };
 
-
-var app;
-var init = function() {
-{% autoescape off %}
-
-    var config = Ext.apply({
-        tools:  [{
-            ptype: "gxp_geonodequerytool",
-            id: "worldmap_query_tool",
-            actionTarget:  {target: "paneltbar", index: 2},
-            toolText: '<span class="x-btn-text">{% trans 'Identify' %}</span>',
-            iconCls: null,
-            outputConfig: {width: 400, height: 200, panIn: false},
-            featurePanel: 'queryPanel',
-            attributePanel: 'gridWinPanel',
-            toggleGroup: 'featureGroup'
-        },
-            {
-                ptype: "gxp_coordinatetool",
-                title: "<span class='x-btn-text'>{% trans 'Map Coordinates - longitude, latitude' %}</span>",
-                actionTarget:  {target: "paneltbar"}
-            },
-            {
-                ptype: "gxp_printpage",
-                openInNewWindow: true,
-                includeLegend: true,
-                text: '<span class="x-btn-text">{% trans 'Print' %}</span>',
-                iconCls: null,
-                actionTarget: {target: "paneltbar", index: 4}
-            },
-            {
-                ptype: "gxp_annotation",
-                user: "{{ user.id }}",
-                toggleGroup: 'featureGroup',
-                actionTarget:  {target: "paneltbar", index: 6}
-            },
-            {
-                ptype: "gxp_googleearth",
-                text: '<span class="x-btn-text">{% trans 'Google Earth' %}</span>',
-                iconCls: null,
-                actionTarget: {target: "paneltbar", index: 7}
-            },
-            {
-            	ptype: "gxp_streetviewtool",
-            	actionTarget:   {target: "paneltbar", index: 8},
-                toggleGroup: 'featureGroup'
-            },
-            {
-            	  ptype: "gxp_measure",
-                toggleGroup: 'featureGroup',
-                text: '<span class="x-btn-text">{% trans 'Measure' %}</span>',
-                iconCls: null,
-            	  actionTarget:   {target: "paneltbar", index: 9}
-            },
-            {
-            	ptype: 'gxp_mapshare',
-            	target: this,
-            	text: '<span class="x-btn-text">{% trans 'Share Map' %}</span>',
-            	iconCls: null,
-                actionTarget:  {target: "paneltbar", index: 24}
-            }{% if USE_GAZETTEER %},
-            {
-                ptype: "gxp_gazetteertool",
-                actionTarget:  {target: "paneltbar", index: 5},
-                title: '<span class="x-btn-text">{% trans 'Find Place' %}</span>',
-                iconCls: null,
-                toggleGroup: 'featureGroup',
-                pressed: false
-            }{% endif %}
-            {% if user.is_authenticated and DB_DATASTORE  %},
-            {
-                ptype: "gxp_featuremanager",
-                id: "feature_manager",
-                paging: false,
-                autoSetLayer: true,
-                autoLoadFeatures: true,
-                listeners: {
-                    'layerchange': function(mgr, layer, schema) {
-                        app.checkLayerPermissions(layer);
-                    }
-                },
-                actionTarget:  {target: "paneltbar"},
-                toggleGroup: 'featureGroup'
-            },
-            {
-                ptype: "gxp_featureeditor",
-                id: "gn_layer_editor",
-                featureManager: "feature_manager",
-                autoLoadFeature: true,
-                iconClsAdd: null,
-                iconClsEdit: null,
-                createFeatureActionText: '<span class="x-btn-text" >{% trans 'Create Feature' %}</span>',
-                editFeatureActionText: '<span class="x-btn-text">{% trans 'Edit Feature' %}</span>',
+    var app;
+    var init = function() {
+    {% autoescape off %}
+        var config = Ext.apply({
+            tools:  [{
+                ptype: "gxp_geonodequerytool",
+                id: "worldmap_query_tool",
                 actionTarget:  {target: "paneltbar", index: 2},
+                toolText: '<span class="x-btn-text">{% trans 'Identify' %}</span>',
+                iconCls: null,
+                outputConfig: {width: 400, height: 200, panIn: false},
+                featurePanel: 'queryPanel',
+                attributePanel: 'gridWinPanel',
                 toggleGroup: 'featureGroup'
-            }{% endif %}
-            {% if editmap %},
-            {
-            	ptype: "gxp_maprevisiontool",
-            	actionTarget:   {target: "paneltbar", index: 20}
-            }{% endif %}
-            ],
-            proxy: "{{ PROXY_URL }}",
+            },
+                {
+                    ptype: "gxp_coordinatetool",
+                    title: "<span class='x-btn-text'>{% trans 'Map Coordinates - longitude, latitude' %}</span>",
+                    actionTarget:  {target: "paneltbar"}
+                },
+                {
+                    ptype: "gxp_printpage",
+                    openInNewWindow: true,
+                    includeLegend: true,
+                    text: '<span class="x-btn-text">{% trans 'Print' %}</span>',
+                    iconCls: null,
+                    actionTarget: {target: "paneltbar", index: 4}
+                },
+                {
+                    ptype: "gxp_annotation",
+                    user: "{{ user.id }}",
+                    toggleGroup: 'featureGroup',
+                    actionTarget:  {target: "paneltbar", index: 6}
+                },
+                {
+                    ptype: "gxp_googleearth",
+                    text: '<span class="x-btn-text">{% trans 'Google Earth' %}</span>',
+                    iconCls: null,
+                    actionTarget: {target: "paneltbar", index: 7}
+                },
+                {
+                	ptype: "gxp_streetviewtool",
+                	actionTarget:   {target: "paneltbar", index: 8},
+                    toggleGroup: 'featureGroup'
+                },
+                {
+                	  ptype: "gxp_measure",
+                    toggleGroup: 'featureGroup',
+                    text: '<span class="x-btn-text">{% trans 'Measure' %}</span>',
+                    iconCls: null,
+                	  actionTarget:   {target: "paneltbar", index: 9}
+                },
+                {
+                	ptype: 'gxp_mapshare',
+                	target: this,
+                	text: '<span class="x-btn-text">{% trans 'Share Map' %}</span>',
+                	iconCls: null,
+                    actionTarget:  {target: "paneltbar", index: 24}
+                }{% if USE_GAZETTEER %},
+                {
+                    ptype: "gxp_gazetteertool",
+                    actionTarget:  {target: "paneltbar", index: 5},
+                    title: '<span class="x-btn-text">{% trans 'Find Place' %}</span>',
+                    iconCls: null,
+                    toggleGroup: 'featureGroup',
+                    pressed: false
+                }{% endif %}
+                {% if user.is_authenticated and DB_DATASTORE  %},
+                {
+                    ptype: "gxp_featuremanager",
+                    id: "feature_manager",
+                    paging: false,
+                    autoSetLayer: true,
+                    autoLoadFeatures: true,
+                    listeners: {
+                        'layerchange': function(mgr, layer, schema) {
+                            app.checkLayerPermissions(layer);
+                        }
+                    },
+                    actionTarget:  {target: "paneltbar"},
+                    toggleGroup: 'featureGroup'
+                },
+                {
+                    ptype: "gxp_featureeditor",
+                    id: "gn_layer_editor",
+                    featureManager: "feature_manager",
+                    autoLoadFeature: true,
+                    iconClsAdd: null,
+                    iconClsEdit: null,
+                    createFeatureActionText: '<span class="x-btn-text" >{% trans 'Create Feature' %}</span>',
+                    editFeatureActionText: '<span class="x-btn-text">{% trans 'Edit Feature' %}</span>',
+                    actionTarget:  {target: "paneltbar", index: 2},
+                    toggleGroup: 'featureGroup'
+                }{% endif %}
+                {% if editmap %},
+                {
+                	ptype: "gxp_maprevisiontool",
+                	actionTarget:   {target: "paneltbar", index: 20}
+                }{% endif %}
+                ],
+                proxy: "{{ PROXY_URL }}",
 
-        /* The URL to a REST map configuration service.  This service
-         * provides listing and, with an authenticated user, saving of
-         * maps on the server for sharing and editing.
-         */
-        rest: "{% url "maps_browse" %}",
-        ajaxLoginUrl: "{% url "account_ajax_login" %}",
-        homeUrl: "{% url "home" %}",
-        localGeoServerBaseUrl: "{{ GEOSERVER_BASE_URL }}",
-        localCSWBaseUrl: "{{ CATALOGUE_BASE_URL }}",
-        hypermapRegistryUrl: "{{ HYPERMAP_REGISTRY_URL }}",
-        mapProxyUrl: "{{ HYPERMAP_REGISTRY_URL }}",
-        solrUrl: "{{ SOLR_URL }}",
-        csrfToken: "{{ csrf_token }}",
-        {% if user.is_authenticated %}
-        db_datastore: true,
-        {% endif %}
-        authorizedRoles: "{{ user.is_authenticated|yesno:"ROLE_ADMINISTRATOR,ROLE_ANONYMOUS" }}"
-    }, {{ config }});
+            /* The URL to a REST map configuration service.  This service
+             * provides listing and, with an authenticated user, saving of
+             * maps on the server for sharing and editing.
+             */
+            rest: "{% url "maps_browse" %}",
+            ajaxLoginUrl: "{% url "account_ajax_login" %}",
+            homeUrl: "{% url "home" %}",
+            localGeoServerBaseUrl: "{{ GEOSERVER_BASE_URL }}",
+            localCSWBaseUrl: "{{ CATALOGUE_BASE_URL }}",
+            hypermapRegistryUrl: "{{ HYPERMAP_REGISTRY_URL }}",
+            mapProxyUrl: "{{ HYPERMAP_REGISTRY_URL }}",
+            solrUrl: "{{ SOLR_URL }}",
+            csrfToken: "{{ csrf_token }}",
+            {% if user.is_authenticated %}
+            db_datastore: true,
+            {% endif %}
+            authorizedRoles: "{{ user.is_authenticated|yesno:"ROLE_ADMINISTRATOR,ROLE_ANONYMOUS" }}"
+        }, {{ config }});
 
-    app = new GeoExplorer(config, true);
+        app = new GeoExplorer(config, true);
 
-    var permalinkTemplate = new Ext.Template("{protocol}//{host}/maps/{id}/edit");
-    var permalink = function(id) {
-        return permalinkTemplate.apply({
-            protocol: window.location.protocol,
-            host: window.location.host,
-            id: id
-        })
-    };
+        var permalinkTemplate = new Ext.Template("{protocol}//{host}/maps/{id}/edit");
+        var permalink = function(id) {
+            return permalinkTemplate.apply({
+                protocol: window.location.protocol,
+                host: window.location.host,
+                id: id
+            })
+        };
 
 
-    var titleTemplate = new Ext.Template("<span>{title}</span>");
-    Ext.DomHelper.overwrite(Ext.get("page-breadcrumb"), titleTemplate.apply({title: (config.about.title ? config.about.title : gettext('New Map'))}));
-
-    app.on("saved", function(id) {
-        //reset title header
+        var titleTemplate = new Ext.Template("<span>{title}</span>");
         Ext.DomHelper.overwrite(Ext.get("page-breadcrumb"), titleTemplate.apply({title: (config.about.title ? config.about.title : gettext('New Map'))}));
 
+        app.on("saved", function(id) {
+            //reset title header
+            Ext.DomHelper.overwrite(Ext.get("page-breadcrumb"), titleTemplate.apply({title: (config.about.title ? config.about.title : gettext('New Map'))}));
 
+        }, this);
 
-
-    }, this);
-
-
-    {% endautoescape %}
+        {% endautoescape %}
     }
 
-    window.onload = init;
-
+    $(document).ready(init);
 </script>
 
 {% endblock %}
