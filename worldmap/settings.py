@@ -930,16 +930,19 @@ _DEFAULT_LEAFLET_CONFIG = {
          <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'),
     ],
     'PLUGINS': {
+        # TODO: Include versions for development as ?v=%s % VERSION
         'esri-leaflet': {
-            'js': 'lib/js/esri-leaflet.js?v=%s' % VERSION,
+            'js': 'lib/js/esri-leaflet.js',
             'auto-include': True,
         },
         'leaflet-fullscreen': {
-            'css': 'lib/css/leaflet.fullscreen.css?v=%s' % VERSION,
-            'js': 'lib/js/Leaflet.fullscreen.min.js?v=%s' % VERSION,
+            'css': 'lib/css/leaflet.fullscreen.css',
+            'js': 'lib/js/Leaflet.fullscreen.min.js',
             'auto-include': True,
         },
-    }
+    },
+    'SRID': 3857,
+    'RESET_VIEW': False
 }
 LEAFLET_CONFIG = os.getenv('LEAFLET_CONFIG',_DEFAULT_LEAFLET_CONFIG)
 
