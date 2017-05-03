@@ -419,11 +419,8 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
             if layer_config['local'] == True:
                 # WM local layer to process
                 if 'styles' not in layer_config:
-                    # TODO: Use correct styles from database, when migration done.
-                    # layer = Layer.objects.get(typename=layer_config['name'])
-                    # styles = layer.styles.all()[0].name
-                    # layer_config['styles'] = styles
-                    layer_config['styles'] = ''
+                    layer = Layer.objects.get(typename=layer_config['name'])
+                    layer_config['styles'] = [style.name for style in layer.styles.all()]
             else:
                 # detect if it is a HH layer
                 layer_config['styles'] = ''
