@@ -1075,14 +1075,19 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             for (var i = 0; i < records.length; i++) {
                 var record = records[i];
                 // add an existing layers
+                // Provisional fix. Force records to be read from hhypermap.
                 if ('uuid' in record.data){
-                    if (record.data['service_type'] == 'Hypermap:WorldMap'){
-                        this.addLayerAjax(wmSource, this.worldMapSourceKey, record);
-                    } else {
-                        url = this.hypermapRegistryUrl + '/registry/hypermap/layer/' + record.data['uuid'] + '/map/wmts/' + record.data['name'] + '/default_grid/${z}/${x}/${y}.png';
-                        var hhSource = this.addLayerSource({"config":{"url":url, "ptype":"gxp_gnsource"}});
-                        this.addLayerAjax(hhSource, hhSource.id, record);
-                    }
+                    url = this.hypermapRegistryUrl + '/registry/hypermap/layer/' + record.data['uuid'] + '/map/wmts/' + record.data['name'] + '/default_grid/${z}/${x}/${y}.png';
+                    var hhSource = this.addLayerSource({"config":{"url":url, "ptype":"gxp_gnsource"}});
+                    this.addLayerAjax(hhSource, hhSource.id, record);
+
+                    // if (record.data['service_type'] == 'Hypermap:WorldMap'){
+                    //     this.addLayerAjax(wmSource, this.worldMapSourceKey, record);
+                    // } else {
+                    //     url = this.hypermapRegistryUrl + '/registry/hypermap/layer/' + record.data['uuid'] + '/map/wmts/' + record.data['name'] + '/default_grid/${z}/${x}/${y}.png';
+                    //     var hhSource = this.addLayerSource({"config":{"url":url, "ptype":"gxp_gnsource"}});
+                    //     this.addLayerAjax(hhSource, hhSource.id, record);
+                    // }
                 } else {
                     // newly uploaded and created layers
                     this.addLayerAjax(wmSource, this.worldMapSourceKey, record);
