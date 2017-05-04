@@ -64,6 +64,7 @@ GeoNode.SearchTable = Ext.extend(Ext.util.Observable, {
                 {name: 'location', type: 'string'},
                 {name: 'layer_date', type: 'string'},
                 {name: 'layer_datetype', type: 'string'},
+                {name: 'srs', type: 'string'},
                 // not used?
                 {name: 'Availability', type: 'string'},
                 {name: 'LayerUsername', type: 'string'}
