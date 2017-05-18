@@ -42,7 +42,6 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
         // This ensures that the heatmap layer is added after the base layers
         this.bbox_widget.viewer.mapPanel.map.events.register('addlayer', '', function(){
             if (map.layers.length === 2) {
-                console.log('added by addlayer');
                 self.fireEvent('fireSearch', true);
             }
         });
@@ -108,7 +107,6 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
             dataType: "jsonp",
             data : $.param(params, true),
             success: function(response){
-                console.log('heatmap response', response);
                 var facetCounts = response.facet_counts;
                 if (facetCounts != null){
                     var heatmapObject = facetCounts.facet_heatmaps.bbox;
