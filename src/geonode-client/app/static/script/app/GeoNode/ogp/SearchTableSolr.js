@@ -72,6 +72,7 @@ GeoNode.SearchTable = Ext.extend(Ext.util.Observable, {
             ]
         });
         this.searchStore.on('load', function() {
+
             this.updateControls();
             if (this.dataCart) {
                 this.dataCart.reselect();

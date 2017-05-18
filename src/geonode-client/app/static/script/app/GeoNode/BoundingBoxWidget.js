@@ -71,17 +71,14 @@ GeoNode.BoundingBoxWidget = Ext.extend(Ext.util.Observable, {
         viewerConfig = Ext.apply(viewerConfig, this.viewerConfig)
 
         /* Use regular gxp.Viewer if displaying in window on map page, to avoid confusion/conflict with main GeoExplorer instance */
-        if (this.useGxpViewer)
-        {
+        if (this.useGxpViewer){
             viewerConfig.mapItems = [{
                 xtype: "gx_zoomslider",
                 vertical: true,
                 height: 100
             }];
             this.viewer = new gxp.Viewer(viewerConfig);
-        }
-
-        else{
+        } else{
             this.viewer = new GeoExplorer.Viewer(viewerConfig);
         }
     },
