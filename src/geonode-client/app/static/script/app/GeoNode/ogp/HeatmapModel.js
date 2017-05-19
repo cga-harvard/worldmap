@@ -14,61 +14,54 @@ var heatmapParams = {
 };
 
 GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
+    radiusAdjust: 1.1,
+    global_layers: 0,
 
-  radiusAdjust: 1.1,
+    constructor: function(config) {
+        var self = this;
+        Ext.apply(this, config);
+        this.addEvents({
+            fireSearch: true
+        });
+        this.addListener('fireSearch', function(propagateToSearchTable){
+            this.handleHeatmap();
 
-  global_layers: 0,
+              // should this search trigger also the search table?
+            if(propagateToSearchTable){
+                this.searchTable.doSearch();
+            }
 
-  constructor: function(config) {
-    var self = this;
-    Ext.apply(this, config);
-    this.addEvents({
-      fireSearch: true
-    });
-    this.addListener('fireSearch', function(propagateToSearchTable){
-      this.handleHeatmap();
+        });
 
-      // should this search trigger also the search table?
-      if(propagateToSearchTable){
-        this.searchTable.doSearch();
-      }
-    });
+        var map = this.bbox_widget.viewer.mapPanel.map;
+        this.bbox_widget.viewer.mapPanel.map.events.register('moveend', '', function(){
+            if (map.layers.length > 2) {
+                self.fireEvent('fireSearch', true);
+            }
+        });
+        // This ensures that the heatmap layer is added after the base layers
+        this.bbox_widget.viewer.mapPanel.map.events.register('addlayer', '', function(){
+            if (map.layers.length === 2) {
+                self.fireEvent('fireSearch', true);
+            }
+        });
 
-    this.bbox_widget.viewer.mapPanel.map.events.register('moveend', '', function(){
-      self.fireEvent('fireSearch', true);
-    });
+        this.bbox_widget.viewer.mapPanel.map.events.register('mousemove',
+            this.bbox_widget.viewer.mapPanel.map, function(event) {
+            self.processEvent(event);
+        }, true);
 
-    this.bbox_widget.viewer.mapPanel.map.events.register('mousemove',this.bbox_widget.viewer.mapPanel.map, function(event){
-      self.processEvent(event);
-    },true);
+        this.WGS84ToMercator = this.bbox_widget.WGS84ToMercator;
 
-    this.WGS84ToMercator = this.bbox_widget.WGS84ToMercator;
+        Ext.QuickTips.init();
 
-    Ext.QuickTips.init();
-
-    this.tooltip = new Ext.ToolTip({
-        html: 'test',
-        cls: 'ogp-tooltip',
-        hideDelay: 0,
-        showDelay: 0,
-        width: 80
-      });
-
-    //get the number of global layers
-    // $.ajax({
-    //   url: GeoNode.solrBackend,
-    //   jsonp: "json.wrf",
-    //   dataType: "jsonp",
-    //   data : {
-    //     q: '*',
-    //     fq: 'area:[401 TO *]',
-    //     rows: 0,
-    //     wt: 'json'
-    //   },
-    //   success: function(response){
-    //     self.global_layers = response.response.numFound;
-    //   }
-    // });
+        this.tooltip = new Ext.ToolTip({
+            html: 'test',
+            cls: 'ogp-tooltip',
+            hideDelay: 0,
+            showDelay: 0,
+            width: 80
+        });
   },
 
   handleHeatmap: function(){
@@ -102,27 +95,27 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
     return new Heatmap.Layer("Heatmap");
   },
 
-  makeHeatmapLayer: function(){
-    var self = this;
-    this.setQueryParameters();
-    var params = $.extend({}, GeoNode.queryTerms, heatmapParams);
-    params.fq = $.merge([],  GeoNode.queryTerms.fq);
-    $.merge(params.fq, heatmapParams.fq);
-    $.ajax({
-      url: GeoNode.solrBackend,
-      jsonp: "json.wrf",
-      dataType: "jsonp",
-      data : $.param(params, true),
-      success: function(response){
-        var facetCounts = response.facet_counts;
-        if (facetCounts != null){
-          var heatmapObject = facetCounts.facet_heatmaps.bbox;
-          self.heatmapObject = heatmapObject;
-          self.drawHeatmapOpenLayers(heatmapObject);
-        }
-      }
-    });
-  },
+    makeHeatmapLayer: function(){
+        var self = this;
+        this.setQueryParameters();
+        var params = $.extend({}, GeoNode.queryTerms, heatmapParams);
+        params.fq = $.merge([],  GeoNode.queryTerms.fq);
+        $.merge(params.fq, heatmapParams.fq);
+        $.ajax({
+            url: GeoNode.solrBackend,
+            jsonp: "json.wrf",
+            dataType: "jsonp",
+            data : $.param(params, true),
+            success: function(response){
+                var facetCounts = response.facet_counts;
+                if (facetCounts != null){
+                    var heatmapObject = facetCounts.facet_heatmaps.bbox;
+                    self.heatmapObject = heatmapObject;
+                    self.drawHeatmapOpenLayers(heatmapObject);
+                }
+            }
+        });
+    },
 
   drawHeatmapOpenLayers: function(heatmapObject){
 
@@ -176,11 +169,11 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
     }
     this.heatmapLayer.setOpacity(0.50);
 
-    if(map.getLayersByName("Heatmap").length == 0){
-      map.addLayer(this.heatmapLayer);
-      map.setLayerIndex(this.heatmapLayer, 2);
+    if(map.getLayersByName("Heatmap").length === 0){
+        map.addLayer(this.heatmapLayer);
+        map.setLayerIndex(this.heatmapLayer, 2);
     }else{
-      this.heatmapLayer.redraw();
+        this.heatmapLayer.redraw();
     }
   },
 
@@ -326,9 +319,10 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
   },
 
   getCountGeodetic: function(heatmapObject, latitude, longitude){
-    var heatmap = heatmapObject[15];
-      if (heatmap == null)
-        return;
+      var heatmap = heatmapObject[15];
+      if (!heatmap.length){
+          return;
+      }
       var minimumLatitude = heatmapObject[11];
       var maximumLatitude = heatmapObject[13];
       var deltaLatitude = maximumLatitude - minimumLatitude;
@@ -346,6 +340,7 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
 
       if (latitudeIndex < 0) latitudeIndex = 0;
       if (longitudeIndex < 0) longitudeIndex = 0;
+
       try{
         var heatmapValue = heatmap[heatmap.length - latitudeIndex - 1][longitudeIndex];
         return heatmapValue;

@@ -321,36 +321,31 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
 {% block body %}
 <div id="header-wrapper">
     {{ block.super }}
-
     <div id="dataTabs" class="x-hidden">
+        <div id="searchDiv" style="background-color:#fff;width:100%;">
+            <div style="position:relative;float:left;margin:10px;width:500px;height:250px;">
+                <div class="block">
+                    <div id="search_form"></div>
+                </div>
+                <div id="refine" style="float:left;width:100%;padding-bottom:15px;">
+                    <div class="bbox-controls">
+                        <div class="bbox-expand"></div>
+                    </div>
+                </div>
+            </div>
 
-<div id="searchDiv" style="background-color:#fff;width:100%;">
-<div style="position:relative;float:left;margin:10px;width:500px;height:250px;">
-  <div class="block">
-    <div id="search_form"></div>
-  </div>
-  <div id="refine" style="float:left;width:100%;padding-bottom:15px;">
-    <div class="bbox-controls">
-      <div class="bbox-expand">
-      </div>
-    </div>
-  </div>
-</div>
+            <div style="position:relative;float:right;width:330px;margin-right:10px;">
+                <div style="">
+                    <div id="search_results" style="margin-left:15px;"></div>
+                    <div id="search_controls"></div>
+                    <div id="selection">
+                        <div id="data_cart" style="margin-left:15px;"></div>
+                    </div>
+                    <div id="data_ops" style="margin-left: 15px; float:left"></div>
+                </div>
+            </div>
+        </div>
 
-
-
-<div style="position:relative;float:right;width:330px;margin-right:10px;">
-  <div style="">
-    <div id="search_results" style="margin-left:15px;"></div>
-    <div id="search_controls"></div>
-    <div id="selection">
-        <div id="data_cart" style="margin-left:15px;"></div>
-    </div>
-    <div id="data_ops" style="margin-left: 15px; float:left">
-    </div>
-  </div>
-</div>
-</div>
         <div id="externalDiv"></div>
         {% if user.is_authenticated %}
             <div id="uploadDiv"></div>
@@ -362,8 +357,6 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
             <div id="tabContainer" style="padding:20px;">
 
                 <div style="position:relative;float:left;">
-
-
                     <h3>{%trans "Rectify Images"  %}</h3>
 
                     <p style="font-size: 14px">{% trans "Use <a target='_blank' href='http://warp.worldmap.harvard.edu'>WorldMap WARP</a> to upload and rectify scanned maps for use in WorldMap." %} <br/><br/> {% trans "Maps rectified using this tool can be brought into WorldMap by following the instructions under Section 4.5 in <a href='{{ STATIC_URL }}docs/WorldMap_Help.pdf'>WorldMap Help</a>." %}</p>
@@ -390,7 +383,6 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
         </div>
 
     </div>
-
 </div>
 <div id="featuredetails" style="float:right; width: 300px"></div>
 

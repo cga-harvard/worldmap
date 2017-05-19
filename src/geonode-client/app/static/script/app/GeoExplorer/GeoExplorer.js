@@ -1388,7 +1388,6 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
      * map-friendliness.
      */
     createMapOverlay: function() {
-
         var cgaLink = new Ext.BoxComponent({
             html:'<div class="cga-link" onclick="javascript:window.open(\'http://gis.harvard.edu\', \'_blank\');"><a href="http://gis.harvard.edu">Center for Geographic Analysis</a></div>'
         });
@@ -2009,24 +2008,25 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 //            renderTo: "feedDiv"
 //        });
 
-
         this.dataTabPanel = new Ext.TabPanel({
-
             activeTab: 0,
             region:'center',
-            items: [
-                {contentEl: 'searchDiv', title: this.worldmapDataText, autoScroll: true}
-            ]
+            items: [{
+                contentEl: 'searchDiv',
+                title: this.worldmapDataText,
+                autoScroll: true
+            }]
         });
+
         if (this.config["edit_map"] && Ext.get("uploadDiv")) {
             this.dataTabPanel.add(this.uploadPanel);
             if (this.config["db_datastore"]) {
                 this.dataTabPanel.add(this.createPanel);
             }
         }
+
         this.dataTabPanel.add(this.warperPanel);
         this.dataTabPanel.add(this.submitEndpointPanel);
-
     },
 
 
@@ -2067,7 +2067,6 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     },
 
     initSearchWindow: function() {
-
         var mapBounds = this.mapPanel.map.getExtent();
         var llbounds = mapBounds.transform(
             new OpenLayers.Projection(this.mapPanel.map.projection),
@@ -2143,7 +2142,6 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             resizable: true,
             bodyStyle: 'background-color:#FFF'
         });
-
     },
 
     showFeedDialog:function (selectedOption) {
@@ -2201,7 +2199,6 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         if (this.mapPanel.layers.data.items.length > this.maxMapLayers) {
             Ext.Msg.alert(this.maxLayersTitle, this.maxLayersText.replace('%n', this.mapPanel.layers.data.items.length).replace("%max", this.maxMapLayers));
         }
-
     },
 
 
