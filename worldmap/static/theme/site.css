@@ -193,11 +193,7 @@ Layout
 }
 
 #header {
-    background: #FFFFFF url(img/header-gradient.png) repeat-x;
-    border-top: 1px solid #7a7a7a;
-    border-bottom: 2px solid #000000;
-    font-size: 1.2em;
-    height:50px;
+    height:71px;
 }
 
 #header .wrap {
@@ -985,8 +981,8 @@ Comments
   //position:relative;
   //top:1px;
   }
-  
-  
+
+
 .helptext {
 	display: inline-block;
 	font-size: 0px;

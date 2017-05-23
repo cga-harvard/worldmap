@@ -300,16 +300,6 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
             })
         };
 
-
-        var titleTemplate = new Ext.Template("<span>{title}</span>");
-        Ext.DomHelper.overwrite(Ext.get("page-breadcrumb"), titleTemplate.apply({title: (config.about.title ? config.about.title : gettext('New Map'))}));
-
-        app.on("saved", function(id) {
-            //reset title header
-            Ext.DomHelper.overwrite(Ext.get("page-breadcrumb"), titleTemplate.apply({title: (config.about.title ? config.about.title : gettext('New Map'))}));
-
-        }, this);
-
         {% endautoescape %}
     }
 

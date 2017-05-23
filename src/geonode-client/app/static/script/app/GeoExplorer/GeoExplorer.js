@@ -999,6 +999,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         });
 
         var header = new Ext.Panel({
+            id: 'header-temp',
             region: "north",
             autoHeight: true,
             contentEl: 'header-wrapper'
@@ -1008,6 +1009,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
         this.portalItems = [
             header, {
+                id: "portalItems",
                 region: "center",
                 xtype: "container",
                 layout: "fit",
