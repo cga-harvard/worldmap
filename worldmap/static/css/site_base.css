@@ -1,7 +1,8 @@
 .navbar-inverse {
-  background-color: #666;
+  background-color: #ffffff !important;
   border: 0;
-  height: 55px;
+  height: 66px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 2px 1px -1px rgba(0,0,0,.12);
 }
 
 .navbar-brand {
@@ -10,4 +11,20 @@
 	text-indent: -9999px;
 	height: 65px;
 	width: 200px;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #515151;
+    padding-top: 22px;
+    padding-bottom: 23px;
+}
+.navbar-inverse .navbar-nav>li>a:focus {
+    color: #515151;
+}
+.navbar-inverse .navbar-nav .open>li>a:focus {
+    color: #fff;
+    background-color: transparent;
+}
+.navbar-inverse .navbar-nav>li>a:hover {
+    color: #fff;
 }

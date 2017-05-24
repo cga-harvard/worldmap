@@ -892,7 +892,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             split: true,
             bbar: [searchPanel],
             region: "west",
-            width: 250
+            width: 280
         });
 
 
@@ -999,6 +999,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         });
 
         var header = new Ext.Panel({
+            id: 'header-temp',
             region: "north",
             autoHeight: true,
             contentEl: 'header-wrapper'
@@ -1008,6 +1009,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
         this.portalItems = [
             header, {
+                id: "portalItems",
                 region: "center",
                 xtype: "container",
                 layout: "fit",
@@ -1412,7 +1414,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         var zoomSelectorWrapper = new Ext.Panel({
             cls: 'overlay-element overlay-scalechooser',
             ctCls: 'transparent-panel',
-            border: false
+            border: false,
+            width: 130
         });
 
         this.on("ready", function() {
@@ -1421,13 +1424,14 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             });
 
             var zoomSelector = new Ext.form.ComboBox({
+                id: 'zoomselectorinfo',
                 emptyText: this.zoomSelectorText,
                 tpl: '<tpl for="."><div class="x-combo-list-item">1 : {[parseInt(values.scale)]}</div></tpl>',
                 editable: false,
                 triggerAction: 'all',
                 mode: 'local',
                 store: zoomStore,
-                width: 110
+                width: 120
             });
 
             zoomSelector.on({
