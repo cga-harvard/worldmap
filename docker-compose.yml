@@ -2,7 +2,7 @@ version: '2'
 services:
 
   postgres:
-    image: terranodo/postgis
+    build: './docker/postgres'
 
   elasticsearch:
    image: elasticsearch
