@@ -99,7 +99,7 @@ gxp.plugins.Styler = Ext.extend(gxp.plugins.Tool, {
     /** private: method[destroy]
      */
     destroy: function() {
-        this.target.un("authorizationchange", this.enableOrDisable, this);
+        this.target.on("authorizationchange", this.enableOrDisable, this);
         gxp.plugins.Styler.superclass.destroy.apply(this, arguments);
     },
 
@@ -224,7 +224,6 @@ gxp.plugins.Styler = Ext.extend(gxp.plugins.Tool, {
         this.outputConfig.title = origCfg.title ||
             this.menuText + ": " + record.get("title");
         this.outputConfig.shortTitle = record.get("title");
-
         Ext.apply(config, gxp.WMSStylesDialog.createGeoServerStylerConfig(record));
         if (this.rasterStyling === true) {
             config.plugins.push({

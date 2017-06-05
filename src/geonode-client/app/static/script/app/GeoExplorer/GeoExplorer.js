@@ -370,6 +370,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             fn: function(result) {
                 if (result == "ok") {
                     var details = new Ext.Window({
+                        id: 'displayXHRTrouble',
                         title: response.status + " " + response.statusText,
                         width: 400,
                         height: 300,
@@ -451,6 +452,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                 ptype: "gxp_removelayer",
                 actionTarget: ["treecontent.contextMenu"]
             }, {
+                id: "layerproperties_id",
                 ptype: "gxp_layerproperties",
                 layerPanelConfig: {
                     "gxp_wmslayerpanel": {rasterStyling: true}
@@ -503,6 +505,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                 this.customEditors["Description"].addListener("startedit",
                     function(el, value) {
                         var htmlEditWindow = new Ext.Window({
+                                id: 'displayXHRTrouble',
                                 title: 'HTML Editor',
                                 renderTo: Ext.getBody(),
                                 width: 600,
@@ -525,6 +528,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                                     "->",
                                     //saveAsButton,
                                     new Ext.Button({
+                                        id: 'saveAsButtonBbar',
                                         text: "Save",
                                         cls:'x-btn-text',
                                         handler: function() {
@@ -536,7 +540,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                                         scope: this
                                     }),
                                     new Ext.Button({
-                                        text: "Cancel",
+                                        id: 'cancelButtonBbar',
+                                        text: 'Cancel',
                                         cls:'x-btn-text',
                                         handler: function() {
                                             htmlEditWindow.destroy();
@@ -628,6 +633,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
 
         this.loginWin = new Ext.Window({
+            id: 'loginWin',
             title: "WorldMap Login",
             modal: true,
             width: 230,
@@ -877,6 +883,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             target: this
         });
         var searchPanel = new Ext.Panel({
+            id: 'search_panel_id',
             anchor: "100% 5%",
             items: [this.gxSearchBar]
         });
@@ -1412,6 +1419,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         }, this);
 
         var zoomSelectorWrapper = new Ext.Panel({
+            id: 'zoom_selector_Wrapper',
             cls: 'overlay-element overlay-scalechooser',
             ctCls: 'transparent-panel',
             border: false,
@@ -1471,6 +1479,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         }, this);
 
         var mapOverlay = new Ext.Panel({
+            id: 'map_overlay',
             // title: "Overlay",
             cls: 'map-overlay',
             items: [
@@ -1506,6 +1515,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         var info = {controls: []};
         // create an info control to show introductory text window
         var infoButton = new Ext.Button({
+            id: 'infoButtonId',
             tooltip: this.infoButtonText,
             text: '<span class="x-btn-text">' + this.infoButtonText + '</span>',
             handler: this.showInfoWindow,
@@ -1581,6 +1591,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         var saveText = (this.config["edit_map"] || this.about["urlsuffix"] !== "boston") ? this.saveMapBtnText : this.saveMapAsText;
         var tools = [
             new Ext.Button({
+                id: 'saveTextId',
                 tooltip: saveText,
                 handler: this.showMetadataForm,
                 scope: this,
@@ -1633,6 +1644,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                 var encodedSnapshotId = response.responseText;
                 if (encodedSnapshotId != null) {
                     new Ext.Window({
+                        id: 'encodedSnapshotId',
                         title: this.publishActionText,
                         layout: "fit",
                         width: 380,
@@ -1669,6 +1681,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         var saveButton = Ext.getCmp("gx_saveButton");
         var saveAsButton = Ext.getCmp("gx_saveAsButton");
         var titleField = new Ext.form.TextField({
+            id: 'titleField',
             width: '95%',
             fieldLabel: this.metaDataMapTitle,
             value: this.config["edit_map"] ? this.about.title : "",
@@ -1740,6 +1753,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         });
 
         var urlField = new Ext.form.TextField({
+            id: 'url_field',
             width:'30%',
             fieldLabel: this.metaDataMapUrl + "<br/><span style='font-style:italic;'>http://" + document.location.hostname + "/maps/</span>",
             labelSeparator:'',
@@ -1820,6 +1834,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         };
 
         var abstractField = new Ext.form.TextArea({
+            id: 'abstract_field',
             width: '95%',
             height: 50,
             fieldLabel: this.metaDataMapAbstract,
@@ -1837,6 +1852,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
 
         var metaDataPanel = new Ext.FormPanel({
+            id: 'meta_data_panel',
             bodyStyle: {padding: "5px"},
             labelAlign: "top",
             items: [
@@ -1873,6 +1889,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         });
 
         this.metadataForm = new Ext.Window({
+            id: 'metadataForm',
             title: this.metaDataHeader,
             closeAction: 'hide',
             items: metaDataPanel,
@@ -1885,6 +1902,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                 saveButton,
                 saveAsButton,
                 new Ext.Button({
+                    id: 'metadataFormCancelText',
                     text: this.metadataFormCancelText,
                     cls:'x-btn-text',
                     handler: function() {
@@ -1903,6 +1921,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
     initInfoTextWindow: function() {
         this.infoTextPanel = new Ext.FormPanel({
+            id: 'info_text_panel',
             bodyStyle: {padding: "5px"},
             labelAlign: "top",
             preventBodyReset: true,
@@ -1914,6 +1933,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
 
         this.infoTextWindow = new Ext.Window({
+            id: 'infoTextWindow',
             title: this.about.title,
             closeAction: 'hide',
             items: this.infoTextPanel,
@@ -1927,6 +1947,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
     initHelpTextWindow: function() {
         this.helpTextPanel = new Ext.FormPanel({
+            id: 'help_text_panel',
             bodyStyle: {padding: "5px"},
             labelAlign: "top",
             preventBodyReset: true,
@@ -1938,6 +1959,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         this.helpTextPanel.enable();
 
         this.helpTextWindow = new Ext.Window({
+            id: 'helpTextWindow',
             title: this.helpLabel,
             closeAction: 'hide',
             items: this.helpTextPanel,

@@ -885,7 +885,6 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
             // add userStyle objects to the stylesStore
             //TODO this only works if the LAYERS param contains one layer
             var userStyles = sld.namedLayers[layerParams.LAYERS].userStyles;
-
             // add styles from the layer's SLD_BODY *after* the userStyles
             var inlineStyles;
             if (layerParams.SLD_BODY) {
@@ -914,9 +913,10 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
                 });
                 record.phantom = false;
                 this.stylesStore.add(record);
+
                 // set the default style if no STYLES param is set on the layer
                 if (!this.selectedStyle && (initialStyle === userStyle.name ||
-                    (!initialStyle && userStyle.isDefault === true))) {
+                    ( (!initialStyle || !initialStyle.length)  && userStyle.isDefault === true))) {
                     this.selectedStyle = record;
                 }
             }
@@ -1067,6 +1067,7 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
             //TODO don't force 1.1.1, fall back instead
             version = "1.1.1";
         }
+
         Ext.Ajax.request({
             url:layer.url,
             params:{
