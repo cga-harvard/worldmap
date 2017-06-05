@@ -195,7 +195,7 @@ gxp.plugins.AddLayers = Ext.extend(gxp.plugins.Tool, {
      *  The currently selected layer source.
      */
     selectedSource: null,
-    
+
     /** private: property[urlRegExp]
      *  ``RegExp``
      */

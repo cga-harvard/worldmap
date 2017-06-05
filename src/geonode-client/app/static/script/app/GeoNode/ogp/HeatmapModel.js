@@ -319,10 +319,10 @@ GeoNode.HeatmapModel = Ext.extend(Ext.util.Observable, {
   },
 
   getCountGeodetic: function(heatmapObject, latitude, longitude){
-      var heatmap = heatmapObject[15];
-      if (!heatmap.length){
+      if (!heatmapObject || !heatmapObject[15]){
           return;
       }
+      var heatmap = heatmapObject[15];
       var minimumLatitude = heatmapObject[11];
       var maximumLatitude = heatmapObject[13];
       var deltaLatitude = maximumLatitude - minimumLatitude;
