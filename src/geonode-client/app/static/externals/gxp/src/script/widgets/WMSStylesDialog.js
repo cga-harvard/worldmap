@@ -915,8 +915,9 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
                 this.stylesStore.add(record);
 
                 // set the default style if no STYLES param is set on the layer
+
                 if (!this.selectedStyle && (initialStyle === userStyle.name ||
-                    ( (!initialStyle || !initialStyle.length)  && userStyle.isDefault === true))) {
+                    userStyle.isDefault === true )) {
                     this.selectedStyle = record;
                 }
             }
@@ -1188,6 +1189,7 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
     addStylesCombo:function () {
         var store = this.stylesStore;
         var combo = new Ext.form.ComboBox(Ext.apply({
+            id: 'stylesComboId',
             fieldLabel:this.chooseStyleText,
             store:store,
             editable:false,
@@ -1201,7 +1203,7 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
             typeAhead:true,
             triggerAction:"all",
             forceSelection:true,
-            anchor:"100%",
+            anchor:"95%",
             listeners:{
                 "select":function (combo, record) {
                     this.changeStyle(record);
