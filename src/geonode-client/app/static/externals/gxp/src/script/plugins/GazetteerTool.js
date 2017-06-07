@@ -185,6 +185,7 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
 
         // data store
         this.gazetteerDataStore = new Ext.data.Store({
+            // url: 'http://worldmap.harvard.edu/gazetteer/colombia/Service/worldmap,google?_dc=1496844914348',
             proxy: this.gazetteerProxy,
             reader:this.gazetteerReader
         });
@@ -254,7 +255,7 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
 
         // Grid to display search results
         this.gazetteerGrid = new Ext.grid.GridPanel({
-            store:this.gazetteerDataStore,
+            store: this.gazetteerDataStore,
             width: 700,
             columns: [
                 {header: 'Place Name', width:200, dataIndex: 'placename', sortable: true},
@@ -337,18 +338,16 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
 
     //Query gazetteer & geocoders for placenames
     performSearch: function() {
-
         this.gazetteerDataStore.proxy.conn.url = '/gazetteer/' + this.searchTB.getValue() + '/Service/' + this.services
             + (this.startDateField.getValue() && this.startDateField.getValue() !== '' ? '/StartDate/' + this.startDateField.getValue(): '')
             + (this.endDateField.getValue() && this.endDateField.getValue() !== '' ? '/EndDate/' + this.endDateField.getValue(): '');
 
-        if (this.firstLoad === true)
-        {
+        if (this.firstLoad === true) {
             this.gazetteerDataStore.load();
             this.firstLoad = false;
-        }
-        else
+        } else {
             this.gazetteerDataStore.reload();
+        }
     }
 
 });
