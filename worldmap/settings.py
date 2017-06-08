@@ -94,6 +94,29 @@ DATASTORE_URL = os.getenv('DATASTORE_URL',
 
 DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE','True'))
 
+"""
+START GAZETTEER SETTINGS
+"""
+# Defines settings for multiple databases,
+# only use if PostGIS integration enabled
+# and USE_GAZETTEER = True
+USE_GAZETTEER = False
+GAZETTEER_DB_ALIAS = "wmdata"
+GAZETTEER_FULLTEXTSEARCH = False
+# Uncomment the following if USE_GAZETTEER = True
+# DATABASE_ROUTERS = ['geonode.utils.WorldmapDatabaseRouter']
+# SOUTH_DATABASE_ADAPTERS = {
+#    'default': "south.db.sqlite3",
+#    'wmdata' : "south.db.postgresql_psycopg2",
+#
+#    }
+# SOUTH_TESTS_MIGRATE = False
+"""
+END GAZETTEER SETTINGS
+"""
+
+
+
 # Defines settings for development
 DATABASES = {
     'default': dj_database_url.parse(DATABASE_URL, conn_max_age=600),
@@ -357,6 +380,7 @@ _DEFAULT_INSTALLED_APPS = (
     'polymorphic',
     'guardian',
     'oauth2_provider',
+    'geonode.gazetteer',
 
 ) +  GEONODE_APPS + WORLDMAP_APPS
 

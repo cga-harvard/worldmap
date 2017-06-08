@@ -26,7 +26,6 @@ from geonode.sitemap import LayerSitemap, MapSitemap
 from django.views.generic import TemplateView
 from django.contrib import admin
 
-import geonode.gazetteer.urls
 import geonode.proxy.urls
 
 from geonode.api.urls import api
