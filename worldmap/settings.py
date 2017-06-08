@@ -100,7 +100,7 @@ START GAZETTEER SETTINGS
 # Defines settings for multiple databases,
 # only use if PostGIS integration enabled
 # and USE_GAZETTEER = True
-USE_GAZETTEER = False
+USE_GAZETTEER = True
 GAZETTEER_DB_ALIAS = "wmdata"
 GAZETTEER_FULLTEXTSEARCH = False
 # Uncomment the following if USE_GAZETTEER = True
@@ -115,7 +115,8 @@ GAZETTEER_FULLTEXTSEARCH = False
 END GAZETTEER SETTINGS
 """
 
-
+# set to true to have multiple recipients in /message/create/
+USER_MESSAGES_ALLOW_MULTIPLE_RECIPIENTS = False
 
 # Defines settings for development
 DATABASES = {
