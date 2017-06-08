@@ -26,6 +26,7 @@ from geonode.sitemap import LayerSitemap, MapSitemap
 from django.views.generic import TemplateView
 from django.contrib import admin
 
+import geonode.gazetteer.urls
 import geonode.proxy.urls
 
 from geonode.api.urls import api
@@ -142,6 +143,9 @@ urlpatterns += patterns('',
 
                        # OAuth Provider
                        url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+
+                       #Gazetteer
+                       (r'^gazetteer/', include('geonode.gazetteer.urls')),
 
                        # Api Views
                        url(r'^api/o/v4/tokeninfo', verify_token, name='tokeninfo'),
