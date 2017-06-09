@@ -188,6 +188,7 @@ def new_map_wm(request, template='maps/map_new.html'):
     config = new_map_config(request)
     context_dict = {
         'config': config,
+        'USE_GAZETTEER': settings.USE_GAZETTEER
     }
     context_dict["preview"] = getattr(
         settings,
