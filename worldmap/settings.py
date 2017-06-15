@@ -80,7 +80,7 @@ DATABASE_URL = os.getenv(
 # The FULLY QUALIFIED url to the GeoServer instance for this GeoNode.
 GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
                                "http://localhost:8080/geoserver/")
-                               
+
 GEOSERVER_LOCATION = os.getenv(
     'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
 )
@@ -125,6 +125,8 @@ DATABASES = {
 }
 
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
+
+USE_GAZETTEER = os.getenv('USE_GAZETTEER', True)
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -749,7 +751,7 @@ PYCSW = os.getenv('PYCSW',_DEFAULT_PYSCSW)
 # Note: If set to EPSG:4326, then only EPSG:4326 basemaps will work.
 DEFAULT_MAP_CRS = os.getenv('DEFAULT_MAP_CRS',"EPSG:900913")
 
-#GeoNode Client 
+#GeoNode Client
 GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
                                      '/static/worldmap_client/')
 

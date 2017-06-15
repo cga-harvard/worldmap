@@ -11,4 +11,5 @@ def worldmap(request):
         'HYPERMAP_REGISTRY_URL': settings.HYPERMAP_REGISTRY_URL,
         'MAPPROXY_URL': settings.MAPPROXY_URL,
         'SOLR_URL': settings.SOLR_URL,
+        'USE_GAZETTEER': settings.USE_GAZETTEER
     }

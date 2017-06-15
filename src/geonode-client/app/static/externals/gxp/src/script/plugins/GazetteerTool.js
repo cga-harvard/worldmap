@@ -110,7 +110,7 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
         };
 
         // Gazetteer/Geocoder service options
-        var geocoderWorldMap = {text: 'WorldMap', id: 'worldmap', checked: true, disabled: true, hideOnClick: false, checkHandler: serviceCheck};
+        var geocoderWorldMap = {text: 'WorldMap', id: 'worldmap', checked: true, disabled: false, hideOnClick: false, checkHandler: serviceCheck};
         var geocoderGoogle = {text: 'Google', id: 'google', checked: true, hideOnClick: false, checkHandler: serviceCheck};
         var geocoderNominatim = {text: 'Nominatim', id: 'nominatim', checked: false, hideOnClick: false, checkHandler: serviceCheck};
         var geocoderGeonames = {text: 'GeoNames', id: 'geonames', checked: false, hideOnClick: false, checkHandler: serviceCheck};
@@ -185,6 +185,7 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
 
         // data store
         this.gazetteerDataStore = new Ext.data.Store({
+            // url: 'http://worldmap.harvard.edu/gazetteer/colombia/Service/worldmap,google?_dc=1496844914348',
             proxy: this.gazetteerProxy,
             reader:this.gazetteerReader
         });
@@ -254,7 +255,7 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
 
         // Grid to display search results
         this.gazetteerGrid = new Ext.grid.GridPanel({
-            store:this.gazetteerDataStore,
+            store: this.gazetteerDataStore,
             width: 700,
             columns: [
                 {header: 'Place Name', width:200, dataIndex: 'placename', sortable: true},
@@ -337,18 +338,16 @@ gxp.plugins.GazetteerTool = Ext.extend(gxp.plugins.Tool, {
 
     //Query gazetteer & geocoders for placenames
     performSearch: function() {
-
         this.gazetteerDataStore.proxy.conn.url = '/gazetteer/' + this.searchTB.getValue() + '/Service/' + this.services
             + (this.startDateField.getValue() && this.startDateField.getValue() !== '' ? '/StartDate/' + this.startDateField.getValue(): '')
             + (this.endDateField.getValue() && this.endDateField.getValue() !== '' ? '/EndDate/' + this.endDateField.getValue(): '');
 
-        if (this.firstLoad === true)
-        {
+        if (this.firstLoad === true) {
             this.gazetteerDataStore.load();
             this.firstLoad = false;
-        }
-        else
+        } else {
             this.gazetteerDataStore.reload();
+        }
     }
 
 });
