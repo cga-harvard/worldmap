@@ -226,7 +226,7 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
                 	text: '<span class="x-btn-text">{% trans 'Share Map' %}</span>',
                 	iconCls: null,
                     actionTarget:  {target: "paneltbar", index: 24}
-                },
+                }{% if USE_GAZETTEER %},
                 {
                     ptype: "gxp_gazetteertool",
                     actionTarget:  {target: "paneltbar", index: 5},
@@ -234,7 +234,7 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
                     iconCls: null,
                     toggleGroup: 'featureGroup',
                     pressed: false
-                }
+                }{% endif %}
                 {% if user.is_authenticated and DB_DATASTORE  %},
                 {
                     ptype: "gxp_featuremanager",
