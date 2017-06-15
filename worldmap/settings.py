@@ -94,27 +94,6 @@ DATASTORE_URL = os.getenv('DATASTORE_URL',
 
 DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE','True'))
 
-"""
-START GAZETTEER SETTINGS
-"""
-# Defines settings for multiple databases,
-# only use if PostGIS integration enabled
-# and USE_GAZETTEER = True
-USE_GAZETTEER = True
-GAZETTEER_DB_ALIAS = "wmdata"
-GAZETTEER_FULLTEXTSEARCH = False
-# Uncomment the following if USE_GAZETTEER = True
-# DATABASE_ROUTERS = ['geonode.utils.WorldmapDatabaseRouter']
-# SOUTH_DATABASE_ADAPTERS = {
-#    'default': "south.db.sqlite3",
-#    'wmdata' : "south.db.postgresql_psycopg2",
-#
-#    }
-# SOUTH_TESTS_MIGRATE = False
-"""
-END GAZETTEER SETTINGS
-"""
-
 # set to true to have multiple recipients in /message/create/
 USER_MESSAGES_ALLOW_MULTIPLE_RECIPIENTS = False
 
@@ -125,8 +104,6 @@ DATABASES = {
 }
 
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
-
-USE_GAZETTEER = os.getenv('USE_GAZETTEER', True)
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -383,7 +360,6 @@ _DEFAULT_INSTALLED_APPS = (
     'polymorphic',
     'guardian',
     'oauth2_provider',
-    'geonode.gazetteer',
 
 ) +  GEONODE_APPS + WORLDMAP_APPS
 
@@ -1141,6 +1117,21 @@ if 'geonode.geoserver' in INSTALLED_APPS:
 
     # TODO: Allow overriding with an env var
     DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE', 'True'))
+
+"""
+START GAZETTEER SETTINGS
+"""
+# Defines settings for multiple databases,
+# only use if PostGIS integration enabled
+USE_GAZETTEER = str2bool(os.getenv('USE_GAZETTEER', 'False'))
+if USE_GAZETTEER:
+    INSTALLED_APPS += ('geonode.gazetteer', )
+    GAZETTEER_DB_ALIAS = "wmdata"
+    GAZETTEER_FULLTEXTSEARCH = False
+
+"""
+END GAZETTEER SETTINGS
+"""
 
 # Keywords thesauri
 # e.g. THESAURI = [{'name':'inspire_themes', 'required':True, 'filter':True}, {'name':'inspire_concepts', 'filter':True}, ]

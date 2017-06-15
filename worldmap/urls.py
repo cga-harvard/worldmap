@@ -143,9 +143,6 @@ urlpatterns += patterns('',
                        # OAuth Provider
                        url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
-                       #Gazetteer
-                       (r'^gazetteer/', include('geonode.gazetteer.urls')),
-
                        # Api Views
                        url(r'^api/o/v4/tokeninfo', verify_token, name='tokeninfo'),
                        url(r'^api/roles', roles, name='roles'),
@@ -171,6 +168,11 @@ if 'geonode.geoserver' in settings.INSTALLED_APPS:
                             # Upload views
                             (r'^upload/', include('geonode.upload.urls')),
                             (r'^gs/', include('geonode.geoserver.urls')),
+                            )
+
+if "geonode.gazetteer" in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+                            (r'^gazetteer/', include('geonode.gazetteer.urls')),
                             )
 
 if 'notification' in settings.INSTALLED_APPS:
