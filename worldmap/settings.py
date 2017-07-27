@@ -581,7 +581,9 @@ NOSE_ARGS = os.getenv('NOSE_ARGS',_DEFAULT_NOSE_ARGS)
 
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"ABQIAAAAkofooZxTfcCv9Wi3zzGTVxTnme5EwnLVtEDGnh-lFVzRJhbdQhQgAhB1eT_2muZtc0dl-ZSWrtzmrw")
+GOOGLE_SECRET_KEY = None
 
+GEONAMES_USER = ''
 #
 # GeoNode specific settings
 #
