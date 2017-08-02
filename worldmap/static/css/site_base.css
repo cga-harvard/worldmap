@@ -61,6 +61,10 @@
   padding: 10px 15px;
 }
 
+.container {
+  width: 80%;
+}
+
 .container .row .col-md-8 p {
   font-size: 1.65em;
 }
