@@ -761,23 +761,127 @@ _INIT_DEFAULT_LAYER_SOURCE = {
 
 
 DEFAULT_LAYER_SOURCE = os.getenv('DEFAULT_LAYER_SOURCE',_INIT_DEFAULT_LAYER_SOURCE)
-_DEFAULT_MAP_BASELAYERS = [{
-    "source": {"ptype": "gxp_olsource"},
-    "type": "OpenLayers.Layer",
-    "args": ["No background"],
-    "name": "background",
-    "visibility": False,
-    "fixed": True,
-    "group":"background"
-},
+_DEFAULT_MAP_BASELAYERS = [
+    {
+        "source": {
+            "ptype": "gxp_gnsource",
+            "url": GEOSERVER_BASE_URL + "wms",
+            "restUrl": "/gs/rest"
+        }
+    }, {
+        "source": {"ptype": "gx_olsource"},
+        "type": "OpenLayers.Layer",
+        "args": ["No background"],
+        "visibility": False,
+        "fixed": True,
+        "group": "background"
+    }, {
+        "source": {"ptype": "gx_olsource"},
+        "type": "OpenLayers.Layer.OSM",
+        "args": ["OpenStreetMap"],
+        "visibility": False,
+        "fixed": True,
+        "group": "background"
+    }, {
+        "source": {
+            "ptype": "gxp_bingsource",
+            "apiKey": BING_API_KEY
+        },
+        "name": "AerialWithLabels",
+        "fixed": True,
+        "visibility": False,
+        "group": "background"
+    },
 {
-    "source": {"ptype": "gxp_osmsource"},
-    "type": "OpenLayers.Layer.OSM",
-    "name": "mapnik",
-    "visibility": True,
-    "fixed": True,
-    "group": "background"
-},
+        "source": {"ptype": "gxp_mapboxsource"},
+    },
+    {
+        "source": {"ptype": "gxp_stamensource"},
+        "name": "watercolor",
+        "visibility": False,
+        "group": "background",
+        "title": "Stamen Watercolor"
+        },
+    {
+        "source": {"ptype": "gxp_stamensource"},
+        "name": "toner",
+        "visibility": False,
+        "group": "background",
+        "title": "Stamen Toner"
+    },
+    {
+        "source": {
+            "url": "http://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+            "ptype": "gxp_arcgiscachesource"},
+        "group": "background",
+        "name": "World Street Map",
+        "visibility": False,
+        "fixed": True,
+        "format": "jpeg",
+        "tiled" : False,
+        "title": "ESRI World Street Map"
+    },{
+        "source": {
+            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
+            "ptype": "gxp_arcgiscachesource"},
+        "group": "background",
+        "format": "jpeg",
+        "name": "World Imagery",
+        "visibility": False,
+        "fixed": True,
+        "tiled" : False,
+        "title": "ESRI World Imagery"
+    },
+    {
+        "source": {
+            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer",
+            "ptype": "gxp_arcgiscachesource"},
+        "group": "background",
+        "name": "Light Gray Canvas Base",
+        "visibility": False,
+        "fixed": True,
+        "format": "jpeg",
+        "tiled" : False,
+        "title": "ESRI Light Gray Reference"
+    },
+    {
+        "source": {
+            "url": "http://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer",
+            "ptype": "gxp_arcgiscachesource"},
+        "group": "background",
+        "name": "Dark Gray Canvas Base",
+        "visibility": False,
+        "fixed": True,
+        "format": "jpeg",
+        "tiled" : False,
+        "title": "ESRI Dark Gray Reference"
+    },
+    {
+        "source": {"ptype": "gx_googlesource"},
+        "group": "background",
+        "name": "SATELLITE",
+        "visibility": False,
+        "fixed": True,
+    }, {
+        "source": {"ptype": "gx_googlesource"},
+        "group": "background",
+        "name": "TERRAIN",
+        "visibility": True,
+        "fixed": True,
+    }, {
+        "source": {"ptype": "gx_googlesource"},
+        "group": "background",
+        "name": "HYBRID",
+        "visibility": False,
+        "fixed": True,
+    }, {
+        "source": {"ptype": "gx_googlesource"},
+        "group": "background",
+        "name": "ROADMAP",
+        "visibility": False,
+        "fixed": True,
+        "group": "background"
+    }
 ]
 
 MAP_BASELAYERS = os.getenv('MAP_BASELAYERS',_DEFAULT_MAP_BASELAYERS)
