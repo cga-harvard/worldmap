@@ -883,51 +883,6 @@ _DEFAULT_MAP_BASELAYERS = [
         "group": "background"
     }
 ]
-# _DEFAULT_MAP_BASELAYERS = [{
-#     "source": {"ptype": "gxp_olsource"},
-#     "type": "OpenLayers.Layer",
-#     "args": ["No background"],
-#     "name": "background",
-#     "visibility": False,
-#     "fixed": True,
-#     "group":"background"
-# }, {
-#     "source": {"ptype": "gxp_osmsource"},
-#     "type": "OpenLayers.Layer.OSM",
-#     "name": "mapnik",
-#     "visibility": True,
-#     "fixed": True,
-#     "group": "background"
-# }, {
-#     "source": {"ptype": "gxp_mapquestsource"},
-#     "name":"osm",
-#     "group":"background",
-#     "visibility": False
-# }, {
-#     "source": {"ptype": "gxp_mapquestsource"},
-#     "name":"naip",
-#     "group":"background",
-#     "visibility": False
-# },{
-#     "source": {"ptype": "gxp_mapboxsource"},
-# }, {
-#     "source": {"ptype": "gxp_olsource"},
-#     "type":"OpenLayers.Layer.WMS",
-#     "group":"background",
-#     "visibility": False,
-#     "fixed": True,
-#     "args":[
-#         "bluemarble",
-#         "http://maps.opengeo.org/geowebcache/service/wms",
-#         {
-#           "layers":["bluemarble"],
-#           "format":"image/png",
-#           "tiled": True,
-#           "tilesOrigin": [-20037508.34, -20037508.34]
-#         },
-#         {"buffer": 0}
-#     ]
-# }]
 
 MAP_BASELAYERS = os.getenv('MAP_BASELAYERS',_DEFAULT_MAP_BASELAYERS)
 
