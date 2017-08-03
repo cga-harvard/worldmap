@@ -1,0 +1,36 @@
+{% load i18n %}
+{% verbatim %}
+<div class="row">
+  <div ng-if="results.length == 0" ng-cloak>
+    <div><h3>No content created yet.</h3></div>
+  </div>
+  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <article ng-repeat="item in results" resource_id="{{ item.id }}" ng-cloak class="ng-cloak">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading{{ item.id }}">
+      <a ng-if="item.detail_url.indexOf('/maps/') > -1" href="/maps/{{item.id}}/view">{{ item.title }}</a>
+      <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{ item.id }}" aria-expanded="false" aria-controls="collapse{{ item.id }}">
+      <span class="fa fa-chevron-down pull-right" aria-hidden="true"></span></a>
+    </div>
+    <div id="collapse{{ item.id }}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{ item.id }}">
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-md-8">
+            <b>Abstract: </b> {{ item.abstract | limitTo: 300 }}{{ item.abstract.length  > 300 ? '...' : ''}}
+          </div>
+          <div class="col-md-4">
+            <ul class="list-group map-items">
+              <li class="list-group-item"><span class="fa fa-user"></span>{{ item.owner__username }}</li>
+              <li class="list-group-item"><span class="fa fa-eye"></span>{{ item.popular_count }}</li>
+              <li class="list-group-item"><span class="fa fa-calendar-o"></span>{{ item.date|date:'d MMM y' }}</li>
+              <li class="list-group-item"><span class="fa fa-map-marker"></span><a ng-if="item.detail_url.indexOf('/maps/') > -1" href="/maps/{{item.id}}/view">View Map</a></li>
+            </ul>
+            
+        </div>
+      </div>
+    </div>
+  </div> 
+  </article>
+  </div>
+</div>
+{% endverbatim %}

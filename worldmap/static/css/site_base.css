@@ -95,6 +95,28 @@ footer a:hover {
   color: #fff;
 }
 
+.panel-heading {
+  background-color: #fff;
+}
+
+.list-group.map-items {
+  text-align: left;
+  margin-left: 1em;
+}
+
+.list-group.map-items li {
+  padding-bottom: 0.2em;
+  border: 0;
+}
+
+.list-group.map-items li span {
+  padding-right: 0.5em;
+}
+
+#filter_maps{
+  width: 50%;
+}
+
 /*.container .row .col-md-4 p{
   padding-top: 0.8em;
 }*/
