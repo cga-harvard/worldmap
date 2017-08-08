@@ -581,6 +581,7 @@ NOSE_ARGS = os.getenv('NOSE_ARGS',_DEFAULT_NOSE_ARGS)
 
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"ABQIAAAAkofooZxTfcCv9Wi3zzGTVxTnme5EwnLVtEDGnh-lFVzRJhbdQhQgAhB1eT_2muZtc0dl-ZSWrtzmrw")
+GOOGLE_MAPS_API_KEY = GOOGLE_API_KEY
 GOOGLE_SECRET_KEY = None
 
 GEONAMES_USER = ''
@@ -794,7 +795,7 @@ _DEFAULT_MAP_BASELAYERS = [
         "visibility": False,
         "group": "background"
     },
-{
+    {
         "source": {"ptype": "gxp_mapboxsource"},
     },
     {
@@ -859,25 +860,37 @@ _DEFAULT_MAP_BASELAYERS = [
         "title": "ESRI Dark Gray Reference"
     },
     {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gxp_googlesource",
+            "apiKey": GOOGLE_MAPS_API_KEY
+        },
         "group": "background",
         "name": "SATELLITE",
         "visibility": False,
         "fixed": True,
     }, {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gxp_googlesource",
+            "apiKey": GOOGLE_API_KEY
+        },
         "group": "background",
         "name": "TERRAIN",
         "visibility": True,
         "fixed": True,
     }, {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gx_googlesource",
+            "apiKey": GOOGLE_API_KEY
+        },
         "group": "background",
         "name": "HYBRID",
         "visibility": False,
         "fixed": True,
     }, {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gx_googlesource",
+            "apiKey": GOOGLE_API_KEY
+        },
         "group": "background",
         "name": "ROADMAP",
         "visibility": False,
