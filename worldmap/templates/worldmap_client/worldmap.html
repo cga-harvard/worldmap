@@ -5,6 +5,8 @@
 
 {% block head %}
 
+<script src="http://maps.google.com/maps/api/js?v=3&key=AIzaSyAjtdt_Db2IOZDVYznVqot45xUs1tNhhDw"></script>
+
 <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 
 <!-- ext_header -->
@@ -142,7 +144,7 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
 
 
 <script type="text/javascript" src="{{ GEONODE_CLIENT_LOCATION }}externals/misc/nicEdit.js"></script>
-
+ 
 {% if "gme-" in GOOGLE_API_KEY %}
     <script src="https://www.google.com/jsapi?client={{GOOGLE_API_KEY}}"></script>
 {% else %}
