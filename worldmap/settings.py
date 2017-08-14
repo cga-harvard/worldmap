@@ -580,7 +580,9 @@ _DEFAULT_NOSE_ARGS = [
 NOSE_ARGS = os.getenv('NOSE_ARGS',_DEFAULT_NOSE_ARGS)
 
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"gme-harvarduniversity1")
-GOOGLE_MAPS_API_KEY = GOOGLE_API_KEY
+
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
+
 GOOGLE_SECRET_KEY = None
 
 GEONAMES_USER = ''
@@ -784,16 +786,17 @@ _DEFAULT_MAP_BASELAYERS = [
         "visibility": False,
         "fixed": True,
         "group": "background"
-    }, {
-        "source": {
-            "ptype": "gxp_bingsource",
-            "apiKey": BING_API_KEY
-        },
-        "name": "AerialWithLabels",
-        "fixed": True,
-        "visibility": False,
-        "group": "background"
     },
+    # {
+    #     "source": {
+    #         "ptype": "gxp_bingsource",
+    #         "apiKey": BING_API_KEY
+    #     },
+    #     "name": "AerialWithLabels",
+    #     "fixed": True,
+    #     "visibility": False,
+    #     "group": "background"
+    # },
     {
         "source": {"ptype": "gxp_mapboxsource"},
     },
@@ -860,7 +863,7 @@ _DEFAULT_MAP_BASELAYERS = [
     },
     {
         "source": {
-            "ptype": "gx_googlesource"
+            "ptype": "gxp_googlesource"
         },
         "group": "background",
         "name": "SATELLITE",
@@ -869,23 +872,23 @@ _DEFAULT_MAP_BASELAYERS = [
     },
     {
         "source": {
-            "ptype": "gx_googlesource",
+            "ptype": "gxp_googlesource",
         },
         "group": "background",
         "name": "TERRAIN",
-        "visibility": False,
-        "fixed": True,
-    }, {
-        "source": {
-            "ptype": "gx_googlesource"
-        },
-        "group": "background",
-        "name": "HYBRID",
         "visibility": True,
         "fixed": True,
     }, {
         "source": {
-            "ptype": "gx_googlesource"
+            "ptype": "gxp_googlesource"
+        },
+        "group": "background",
+        "name": "HYBRID",
+        "visibility": False,
+        "fixed": True,
+    }, {
+        "source": {
+            "ptype": "gxp_googlesource"
         },
         "group": "background",
         "name": "ROADMAP",
