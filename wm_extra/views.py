@@ -426,8 +426,8 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
                 # detect if it is a HH layer
                 layer_config['styles'] = ''
                 # need to access to maplayer to read the url
-                ml = layers.get(name=layer_config['name'])
-                layer_config['url'] = ml.ows_url
+	        ml = layers.filter(name=layer_config['name'])
+                layer_config['url'] = ml[0].ows_url
 
     config['map']['groups'] = []
     for group in groups:
