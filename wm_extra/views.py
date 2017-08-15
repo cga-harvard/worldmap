@@ -419,7 +419,7 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
             # detect if it is a WM layer
             if layer_config['local'] == True:
                 # WM local layer to process
-                if 'styles' not in layer_config:
+                if 'styles' not in layer_config and Layer.objects.filter(typename=layer_config['name']).exists():
                     layer = Layer.objects.get(typename=layer_config['name'])
                     layer_config['styles'] = [style.name for style in layer.styles.all()]
             else:
