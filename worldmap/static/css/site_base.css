@@ -133,7 +133,7 @@ footer a:hover {
 
 .panel-default >.panel-heading {
 
- background-color: #fff; 
+ background-color: #fff;
  border: 0;
 }
 .panel-default {
@@ -170,10 +170,10 @@ footer a:hover {
   padding-right: 0.5em;
 }
 
-#filter_maps{
-  width: 50%;
+.title-margin {
+    margin-top: 22px;
+    margin-bottom: 22px;
 }
-
 /*.container .row .col-md-4 p{
   padding-top: 0.8em;
 }*/
