@@ -579,8 +579,10 @@ _DEFAULT_NOSE_ARGS = [
       ]
 NOSE_ARGS = os.getenv('NOSE_ARGS',_DEFAULT_NOSE_ARGS)
 
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"gme-harvarduniversity1")
 
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"ABQIAAAAkofooZxTfcCv9Wi3zzGTVxTnme5EwnLVtEDGnh-lFVzRJhbdQhQgAhB1eT_2muZtc0dl-ZSWrtzmrw")
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
+
 GOOGLE_SECRET_KEY = None
 
 GEONAMES_USER = ''
@@ -784,17 +786,18 @@ _DEFAULT_MAP_BASELAYERS = [
         "visibility": False,
         "fixed": True,
         "group": "background"
-    }, {
-        "source": {
-            "ptype": "gxp_bingsource",
-            "apiKey": BING_API_KEY
-        },
-        "name": "AerialWithLabels",
-        "fixed": True,
-        "visibility": False,
-        "group": "background"
     },
-{
+    # {
+    #     "source": {
+    #         "ptype": "gxp_bingsource",
+    #         "apiKey": BING_API_KEY
+    #     },
+    #     "name": "AerialWithLabels",
+    #     "fixed": True,
+    #     "visibility": False,
+    #     "group": "background"
+    # },
+    {
         "source": {"ptype": "gxp_mapboxsource"},
     },
     {
@@ -859,25 +862,34 @@ _DEFAULT_MAP_BASELAYERS = [
         "title": "ESRI Dark Gray Reference"
     },
     {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gxp_googlesource"
+        },
         "group": "background",
         "name": "SATELLITE",
         "visibility": False,
         "fixed": True,
-    }, {
-        "source": {"ptype": "gx_googlesource"},
+    },
+    {
+        "source": {
+            "ptype": "gxp_googlesource",
+        },
         "group": "background",
         "name": "TERRAIN",
         "visibility": True,
         "fixed": True,
     }, {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gxp_googlesource"
+        },
         "group": "background",
         "name": "HYBRID",
         "visibility": False,
         "fixed": True,
     }, {
-        "source": {"ptype": "gx_googlesource"},
+        "source": {
+            "ptype": "gxp_googlesource"
+        },
         "group": "background",
         "name": "ROADMAP",
         "visibility": False,
@@ -1204,7 +1216,6 @@ if 'geonode.geoserver' in INSTALLED_APPS:
     baselayers = MAP_BASELAYERS
     MAP_BASELAYERS = [LOCAL_GEOSERVER]
     MAP_BASELAYERS.extend(baselayers)
-
 
     def get_user_url(u):
         from django.contrib.sites.models import Site
