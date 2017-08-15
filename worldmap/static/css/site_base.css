@@ -151,6 +151,11 @@ footer a:hover {
     border: none !important;
 }
 
+.panel.panel-default {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+}
+
 .list-group.map-items {
   text-align: left;
   margin-left: 1em;
