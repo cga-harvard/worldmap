@@ -128,6 +128,27 @@ footer a:hover {
 
 .panel-heading {
   background-color: #fff;
+
+}
+
+.panel-default >.panel-heading {
+
+ background-color: #fff; 
+ border: 0;
+}
+.panel-default {
+ border-color:transparent;
+}
+
+.panel {
+
+    border-bottom: solid;
+    border-bottom-color: #ddd;
+    border-bottom-width: 1px;
+  }
+
+.panel .panel-body {
+    border: none !important;
 }
 
 .list-group.map-items {
