@@ -7,27 +7,30 @@
 
 {% block body %}
 <div class="page-header">
-  <div class="container">
-  <a href="{% url "new_map" %}" class="btn btn-primary pull-right">{% trans "Create a New Map" %}</a>
-  <h2>{% trans "Search for maps" %}</h2>
-
-  {% if SEARCH_FILTERS.TEXT_ENABLED %}
-  <div class="input-group" id="filter_maps">
-    <input name="text_search_input" id="text_search_input" ng-model="text_query" type="text"
-                   placeholder="{% trans 'Search by text' %}" class="form-control">
-    <span class="input-group-btn">
-      <button class="btn btn-secondary" type="submit" id="text_search_btn"><i class="fa fa-search"></i></button>
-    </span>
-
-    <span class="input-group-btn">
-      <a href="." class="btn btn-secondary" type="submit" id="text_search_btn"><i class="fa fa-remove"></i></a>
-    </span>
-
-  </div>
-
-  {% endif  %}
-
-  </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-5 col-sm-12">
+                <h2>{% trans "Search for maps" %}</h2>
+            </div>
+            <div class="col-md-7 col-sm-12 title-margin">
+                <a href="{% url "new_map" %}" class="btn btn-primary pull-right">{% trans "Create a New Map" %}</a>
+            </div>
+            <div class="col-md-12">
+                {% if SEARCH_FILTERS.TEXT_ENABLED %}
+                <div class="input-group form-group-lg">
+                    <input name="text_search_input" id="text_search_input" ng-model="text_query" type="text"
+                                   placeholder="{% trans 'Search by text' %}" class="form-control">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default btn-lg" type="submit" id="text_search_btn">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        <a href="." class="btn btn-default btn-lg" type="submit" id="text_search_btn"><i class="fa fa-remove"></i></a>
+                    </span>
+                </div>
+                {% endif  %}
+            </div>
+        </div>
+    </div>
 </div>
   {% include "search/_search_content.html" %}
   {% include "_bulk_permissions_form.html" %}
