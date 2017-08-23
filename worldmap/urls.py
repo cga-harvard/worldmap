@@ -139,7 +139,8 @@ urlpatterns += patterns('',
                        (r'^groups/', include('geonode.groups.urls')),
                        (r'^documents/', include('geonode.documents.urls')),
                        (r'^services/', include('geonode.services.urls')),
-
+                       (r'^datatables/', include('geonode.contrib.datatables.urls')),
+                       
                        # OAuth Provider
                        url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
