@@ -37,6 +37,7 @@ from wm_extra.views import (proxy, ajax_layer_update, ajax_layer_edit_check, upl
     create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm, add_endpoint)
 from tastypie.api import Api
 from wm_extra.api.resources import LayerResource, TagResource, TopicCategoryResource
+from wm_extra.accounts.views import SignupView
 
 # Setup Django Admin
 autocomplete_light.autodiscover()
@@ -67,7 +68,7 @@ urlpatterns = patterns('',
                        url(r'^help/$', TemplateView.as_view(template_name='help.html'), name='help'),
                        url(r'^developer/$', TemplateView.as_view(template_name='developer.html'), name='developer'),
                        url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),
-
+		       url(r'^upload_terms/$', TemplateView.as_view(template_name='upload_terms.html'), name='upload_terms'),
                        # Layer views
                        (r'^layers/', include('geonode.layers.urls')),
 )
@@ -110,7 +111,8 @@ urlpatterns += patterns('',
                        url(r'^search/$', TemplateView.as_view(template_name='search/search.html'), name='search'),
 
                        # Social views
-                       (r"^account/", include("account.urls")),
+		       url(r'^account/signup/', SignupView.as_view(), name='account_signup'),
+                       (r'^account/', include('account.urls')),
                        (r'^people/', include('geonode.people.urls')),
                        (r'^avatar/', include('avatar.urls')),
                        (r'^comments/', include('dialogos.urls')),

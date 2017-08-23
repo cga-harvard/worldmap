@@ -105,6 +105,8 @@ DATABASES = {
 
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
 
+USE_CUSTOM_ORG_AUTHORIZATION = True
+CUSTOM_ORG_AUTH_TEXT = 'Are you affiliated with Harvard University?'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
