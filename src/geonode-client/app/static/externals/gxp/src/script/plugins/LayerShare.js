@@ -46,7 +46,7 @@ gxp.plugins.LayerShare = Ext.extend(gxp.plugins.Tool, {
      */
     toolTip: "Layer info and download links",
 
-    linkPrefix: "/data/",
+    linkPrefix: "/layers/",
 
     constructor: function(config) {
         gxp.plugins.LayerProperties.superclass.constructor.apply(this, arguments);
