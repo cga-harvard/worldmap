@@ -24,6 +24,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.conf.urls.static import static
 from geonode.sitemap import LayerSitemap, MapSitemap
 from django.views.generic import TemplateView
+from django.views.generic.base import RedirectView
 from django.contrib import admin
 
 import geonode.proxy.urls
@@ -83,6 +84,7 @@ if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
                             url(r'^maps/add_endpoint?$', add_endpoint, name='add_endpoint'),
                             # TODO develop the create layer app
                             # layers
+                            url(r'^data/(?P<layername>[^/]*)$', RedirectView.as_view(pattern_name='layer_detail', permanent=False)),
                             url(r'^data/(?P<layername>[^/]*)/ajax-edit-check/?$', ajax_layer_edit_check, name = 'ajax_layer_edit_check'),
                             url(r'^data/(?P<layername>[^/]*)/ajax_layer_update/?$', ajax_layer_update, name = 'ajax_layer_update'),
                             url(r'^data/create_pg_layer', create_pg_layer, name='create_pg_layer'),
