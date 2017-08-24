@@ -39,6 +39,7 @@ from wm_extra.views import (proxy, ajax_layer_update, ajax_layer_edit_check, upl
 from tastypie.api import Api
 from wm_extra.api.resources import LayerResource, TagResource, TopicCategoryResource
 from wm_extra.accounts.views import SignupView
+from geonode.maps.views import snapshot_create
 
 # Setup Django Admin
 autocomplete_light.autodiscover()
@@ -83,6 +84,8 @@ if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
                             url(r'^maps/new$', new_map_wm, name="new_map_wm"),
                             url(r'^maps/(?P<mapid>[^/]+)/view$', map_view_wm, name='map_view_wm'),
                             url(r'^maps/add_endpoint?$', add_endpoint, name='add_endpoint'),
+			    url(r'^snapshot/create/?$', snapshot_create, name='snapshot_create'),
+			    url(r'^maps/(?P<mapid>[^/]+)/(?P<snapshot>[A-Za-z0-9_\-]+)/$', map_view_wm, name='map_view_wm'),
                             # TODO develop the create layer app
                             # layers
                             url(r'^data/(?P<layername>[^/]*)$', RedirectView.as_view(pattern_name='layer_detail', permanent=False)),

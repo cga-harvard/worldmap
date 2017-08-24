@@ -23,7 +23,7 @@ from geonode.utils import forward_mercator, default_map_config
 from geonode.utils import llbbox_to_mercator
 from geonode.layers.views import _resolve_layer
 from geonode.maps.views import _resolve_map, _PERMISSION_MSG_VIEW
-
+from geonode.maps.views import snapshot_config
 
 from .models import LayerStats
 from .forms import EndpointForm
