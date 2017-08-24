@@ -91,3 +91,11 @@ class SignupForm(forms.Form):
                 raise forms.ValidationError(_("You must type the same password each time."))
         return self.cleaned_data
 
+
+class SignupCodeForm(forms.ModelForm):
+
+    username = forms.CharField(max_length=30, required=False)
+    
+    class Meta:
+        model = SignupCode
+        fields = ('email', )
