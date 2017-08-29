@@ -325,6 +325,7 @@ _DEFAULT_INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.gis',
+    'geonode.contrib.datatables',
 
     # Third party apps
 
