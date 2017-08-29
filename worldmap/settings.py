@@ -1263,6 +1263,15 @@ HYPERMAP_REGISTRY_URL = os.getenv('HYPERMAP_REGISTRY_URL', "http://192.168.33.15
 MAPPROXY_URL = os.getenv('MAPPROXY_URL', "http://192.168.33.15:8002")
 SOLR_URL = os.getenv('SOLR_URL', "http://192.168.33.15:8983/solr/hypermap/select")
 
+# Each uploaded Layer must be approved by an Admin before becoming visible
+ADMIN_MODERATE_UPLOADS = False
+
+# If this option is enabled, Resources belonging to a Group won't be visible by others
+GROUP_PRIVATE_RESOURCES = False
+
+# If this option is enabled, Groups will become strictly Mandatory on Metadata Wizard
+GROUP_MANDATORY_RESOURCES = False
+
 # There are 3 ways to override GeoNode settings:
 # 1. Using environment variables, if your changes to GeoNode are minimal.
 # 2. Creating a downstream project, if you are doing a lot of customization.
