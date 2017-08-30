@@ -105,7 +105,7 @@ urlpatterns += patterns('',
 
                        # data.json
                        url(r'^data.json$', 'geonode.catalogue.views.data_json', name='data_json'),
-
+			
                        # ident
                        url(r'^ident.json$', 'geonode.views.ident_json', name='ident_json'),
 
@@ -156,7 +156,7 @@ urlpatterns += patterns('',
                        url(r'^api/adminRole', admin_role, name='adminRole'),
                        url(r'^api/users', users, name='users'),
                        url(r'', include(api.urls)),
-
+		       url(r'^certification/', include('geonode.certification.urls'))
                        )
 
 if "geonode.contrib.dynamic" in settings.INSTALLED_APPS:
