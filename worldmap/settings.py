@@ -293,6 +293,7 @@ GEONODE_APPS = (
 GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
     'geonode.contrib.dynamic',
+    'geonode.contrib.datatables',
     'geonode.contrib.exif',
     'geonode.contrib.favorite',
     'geonode.contrib.geogig',
@@ -325,6 +326,7 @@ _DEFAULT_INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.gis',
+    'geonode.contrib.datatables',
 
     # Third party apps
 

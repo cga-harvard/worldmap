@@ -2,6 +2,7 @@ five==0.4.0
 geonode==2.6a1
 django-floppyforms==1.7.0
 django-oauth-toolkit==0.12.0
+csvkit==0.9.1
 
 # For gazetteer.
 -e git+https://github.com/cga-harvard/geopy.git#egg=geopy
