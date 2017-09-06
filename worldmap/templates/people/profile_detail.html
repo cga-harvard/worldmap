@@ -1,9 +1,14 @@
 {% extends "people/profile_base.html" %}
 {% load static %}
+
 {% load friendly_loader %}
 {% friendly_load i18n avatar_tags relationship_tags activity_tags %}
 {% load pagination_tags %}
 {% load certified %}
+
+{% include 'geonode/ext_header.html' %}
+
+
 {% block title %} {% trans "Profile of " %}{{ profile.first_name|default:profile.username }}{% endblock %}
 
 {% block head %}
@@ -14,12 +19,13 @@
     {% include "people/_profile_opengraph.html" %}
   {% endif %}
   {{ block.super }}
-{% include 'geonode/ext_header.html' %}
 {% endblock %}
-
 {% block body_class %}people explore{% endblock %}
 
 {% block body %}
+
+
+
 
 <div class="page-header">
   <h2 class="page-title">{{ profile.name_long }}</h2>
@@ -169,22 +175,13 @@
     {% include "relationships/_list_connections.html" %}
   {% endif_has_tag %}
 </div>
-<div>
-    {% user_certifications profile.id as certifications %}
-    {% if certifications %}
-    <h2> {% trans "Maps & Layers certified by " %} {{profile.username}} </h2>
-    <div id="certifiedAssets"></div>    
-    {% endif %}
-    
-</div>
+
 <div class="col-md-9">
   <h4>{% trans "Resources" %}</h4>
   <div class="col-md-12">
     {% include "people/_profile_filters.html" %}
   </div>
-  <!-- <div class="col-md-12">
-    {% include "search/_sort_filters.html" %}
-  </div> -->
+
   <div class="col-md-12">
     {% include 'base/_resourcebase_snippet.html' %}
   </div>
@@ -192,6 +189,30 @@
     {% include 'search/_pagination.html' %}
   </div>
 </div>
+{% if user.is_authenticated %}
+{% user_certifications profile.id as certifications %}
+{% if certifications %}
+<div class="col-md-9">
+  <h4>{% trans "Certified Resources" %}</h4>
+  {% endif %}
+  <div class="row resourcebase-snippet">
+  {% for certification in certifications %}
+          <div class="col-lg-12 item-details" class="panel panel-default" style="border-bottom: 1px solid lightgrey;">
+            <div class="row">
+              <div class="col-xs-10" class="panel-heading">
+                  {% if certification.object_ct.model == "layer" and certification.object.typename %}
+                  <span>&nbsp;</span>
+                  <p><a href="/data/{{  certification.object.typename }}">{{certification.object.title}}</a></p>
+                  {% endif %}
+                  {% if certification.object_ct.model == "map" and certification.object_id %}
+                  <p><a href="/maps/{{  certification.object_id }}/info/">{{certification.object.title}}</a></p>
+                  {% endif %} 
+              </div>
+            </div>
+          </div>
+  {% endfor %}
+  </div> 
+{% endif %}
 
 {% endblock %}
 
@@ -206,269 +227,6 @@
       {% else %}
           SEARCH_URL = '{% url 'api_dispatch_list' api_name='api' resource_name='base' %}?owner__username={{profile.username}}';
       {% endif %}
-
-Ext.onReady(function() {
-    var mapsAndLayers = [];
-    {% for item in profile.resourcebase_set.all %}
-    {% if item.polymorphic_ctype.name == "map" %}
-    	mapsAndLayers.push(["map.{{ item.pk|escapejs }}", "{{ item.pk|escapejs }}", "map", "{{ item.get_absolute_url|escapejs }}/info/", "{{ item.title|escapejs }}", "{{ item.last_modified|escapejs }}"]);
-    {% endif %}
-    {% if item.polymorphic_ctype.name == "layer" %}
- 	mapsAndLayers.push(["item.{{ item.pk|escapejs }}", "{{ item.pk|escapejs }}", "layer", "{{ item.get_absolute_url|escapejs }}", "{{ item.title|escapejs }}", "{{ item.last_modified|escapejs }}"]);
-    {% endif %}
-    {% endfor %}
-    console.log('valores de mapsAndLayers');
-    console.log(mapsAndLayers[0]);
-    console.log(mapsAndLayers);
-    var assets = new Ext.data.Store({
-        reader: new Ext.data.ArrayReader({
-            idIndex: 0,
-            fields: ["pk", "id", "type", "href", "title", "date"]
-        }),
-        data: mapsAndLayers
-    });
-    var cb = new Ext.grid.CheckboxSelectionModel();
-    var columns = [
-       { header: gettext('Type'), tpl: "<div class='data-type {type}'>&nbsp;</div>",  width: 10 },
-       { header: gettext('Title'), dataIndex: 'title', autoExpand: true, sortable: true, tpl: "<a href='{href}'> {title} </a>" },
-       { header: gettext('Date'), dataIndex: 'date', sortable: true,  width: 30, tpl:'{date}'}
-    ]
-    {% if user == profile.user %}
-        columns.unshift(cb);
-        columns.push({
-            tpl: "<span class='data-edit'>&nbsp;</span><span class='data-delete'>&nbsp;</span>",
-            width: 15
-        });
-    {% endif %}
-    var assetView = new Ext.grid.GridPanel({
-        store: assets,
-        autoHeight: true,
-        border: false,
-        viewConfig: {
-            forceFit: true
-        },
-        hideCollapseTool: true,
-        header: false,
-        sm: cb,
-        colModel: new Ext.grid.ColumnModel({
-            defaults: { xtype: 'templatecolumn' },
-            columns: columns
-        }),
-        listeners: {
-            render: function(grid)  {
-                function doToRecord(act) {
-                    return function(evt, target) {
-                        var elem = evt.getTarget('.x-grid3-row');
-                        if (elem) {
-                            var idx = elem.rowIndex;
-                            var rec = grid.getStore().getAt(idx);
-                            act(rec);
-                        }
-                    }
-                }
-                var view = doToRecord(function(rec) {
-                    window.location = rec.get("href");
-                });
-                var edit = doToRecord(function(rec) {
-                    var link = rec.get("href");
-                    if (rec.get("type") === "map") {
-                        link = link.replace("info/","");
-                    }
-                    window.location = link;
-                });
-                var delete_ = doToRecord(function(rec) {
-                    var link = rec.get("href");
-                    if (rec.get("type") == "map") {
-                        link += "?remove&next=" + window.location;
-                    } else {
-                        link += "/remove";
-                    }
-                    window.location = link;
-                });
-                grid.getEl().on("click", view, this, { delegate: 'a' });
-                grid.getEl().on("click", edit, this, { delegate: '.data-edit' });
-                grid.getEl().on("click", delete_, this, { delegate: '.data-delete' });
-            }
-        }
-    });
-    function serialize() {
-        var list = { layers: [], maps: [] };
-        var selection = assetView.getSelectionModel().getSelections();
-        for (var i = 0; i < selection.length; i++) {
-            var rec = selection[i],
-                type = rec.get("type"),
-                id = rec.get("id");
-            if (type === "layer") {
-                list.layers.push(id);
-            } else if (type === "map") {
-                list.maps.push(id);
-            }
-        };
-        return list;
-    }
-    {% if user == profile.user %}
-    var tools = {
-        layout: 'hbox',
-        unstyled: true,
-        items: [
-            { xtype: 'button',
-              text: gettext("Remove selected"),
-              iconCls: 'icon-delete',
-              handler: function() {
-                  Ext.Msg.confirm(
-                      gettext("Delete layers"),
-                      gettext("You're about to delete multiple layers and maps.  Is that really what you want to do?"),
-                      function(btn) {
-                          if (btn == 'yes') {
-                              var spec = serialize();
-                              Ext.Ajax.request({
-                                  url: '/data/api/batch_delete',
-                                  method: 'post',
-                                  jsonData: spec,
-                                  success: function() {
-                                      assetView.getStore().remove(assetView.getSelectionModel().getSelections());
-                                  }
-                              });
-                          }
-                      }
-                  );
-              }
-            },
-            { xtype: 'button',
-              text: gettext("Change permissions on selected"),
-              iconCls: 'icon-security',
-              handler: function() {
-                  var activeList = serialize();
-                  var editor = new GeoNode.WorldMapPermissionsEditor({
-                      userLookup: "{% url geonode.views.ajax_lookup_email %}",
-                      customGroup: "{{ CUSTOM_GROUP_NAME }}",
-                      permissions: { users:[] }
-                  });
-                  editor.container.padding = 5;
-                  var saveButton = new Ext.Button({
-                      xtype: 'button',
-                      text: gettext("Apply changes"),
-                      handler: function() {
-                          var spec = serialize();
-                          spec.permissions = editor.writePermissions();
-                          Ext.Ajax.request({
-                              url: '/data/api/batch_permissions_by_email',
-                              method: 'post',
-                              jsonData: spec,
-                              success: function() {
-                                     win.hide(); 
-                              },
-                              failure: function(result, request) {
-                                res = Ext.util.JSON.decode(result.responseText);
-                                var error_message = res.errors[0];
-                                Ext.Msg.show({
-                                    title: gettext("Error"),
-                                    msg: error_message,
-                                    minWidth: 200,
-                                    modal: true,
-                                    icon: Ext.Msg.ERROR,
-                                    buttons: Ext.Msg.OK
-                                });
-                              }
-                          });
-                      }
-                  });
-                  var win = new Ext.Window({
-                      id: "profile_permissions_win",
-                      title: gettext("Permissions"),
-                      modal: true,
-                      items: [ editor.container, {
-                          padding: 5,
-                          border: false,
-                          items: [ saveButton ]
-                      }]
-                  });
-                  win.show();
-              }
-            }
-        ]
-    }
-    new Ext.Panel({
-        border: false,
-        renderTo: 'assets',
-        items: [tools, assetView]
-    });
-    {% else %}
-    new Ext.Panel({
-        border: false,
-        renderTo: 'assets',
-        items: [assetView]
-    });
-    {% endif %}
-
-/**
- * Certified maps/layers grid
- */
-    var certifiedMapsLayers = [];
-    {% for certification in certifications %}
-    	{% if certification.object_ct.model == "map" %}
-        	certifiedMapsLayers.push(["map.{{ certification.pk|escapejs }}", "{{ certification.object_id|escapejs }}", "map", "/maps/{{  certification.object_id }}/info/", "{{ certification.object.title|escapejs }}"]);
-    	
-    	{% else %}
-    		{% if certification.object_ct.model == "layer" %}
-    			certifiedMapsLayers.push(["layer.{{ certification.pk|escapejs }}", "{{ certification.object_id|escapejs }}", "layer", "/data/{{  certification.object.typename }}", "{{ certification.object.title|escapejs }}"]);
-    
-    		{% endif %}
-    	{% endif %}
-    {% endfor %}
-    
-    var certifiedAssets = new Ext.data.Store({
-        reader: new Ext.data.ArrayReader({
-            idIndex: 0,
-            fields: ["pk", "id", "type", "href", "title"]
-        }),
-        data: certifiedMapsLayers
-    });
-    var certifiedCb = new Ext.grid.CheckboxSelectionModel();
-    var certifiedColumns = [
-       { header: gettext('Type'), dataIndex: 'type', sortable: true, tpl: "<div class='data-type {type}'>&nbsp;</div>",  width: 10 },
-       { header: gettext('Title'), dataIndex: 'title', autoExpand: true, sortable: true, tpl: "<a href='{href}'> {title} </a>" }
-    ]
-    var certifiedAssetView = new Ext.grid.GridPanel({
-        store: certifiedAssets,
-        autoHeight: true,
-        border: false,
-        viewConfig: {
-            forceFit: true
-        },
-        hideCollapseTool: true,
-        header: false,
-        sm: certifiedCb,
-        colModel: new Ext.grid.ColumnModel({
-            defaults: { xtype: 'templatecolumn' },
-            columns: certifiedColumns
-        }),
-        listeners: {
-            render: function(grid)  {
-                function doToRecord(act) {
-                    return function(evt, target) {
-                        var elem = evt.getTarget('.x-grid3-row');
-                        if (elem) {
-                            var idx = elem.rowIndex;
-                            var rec = grid.getStore().getAt(idx);
-                            act(rec);
-                        }
-                    }
-                }
-                var view = doToRecord(function(rec) {
-                    window.location = rec.get("href");
-                });
-                grid.getEl().on("click", view, this, { delegate: 'a' });
-            }
-        }
-    });
-    new Ext.Panel({
-        border: false,
-        renderTo: 'certifiedAssets',
-        items: [certifiedAssetView]
-    });
-});
-
   </script>
   {% include 'search/search_scripts.html' %}
 {% endblock %}
