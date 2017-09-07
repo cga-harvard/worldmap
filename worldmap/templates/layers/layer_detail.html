@@ -532,7 +532,7 @@
                     {% trans "Uncertify this layer." %}
                 </a></p>
           {% else %}
-          <p><a hef="{% url "certify" 'layers.Layer' resource.id %}">
+          <p><a href="{% url "certify" 'layers.Layer' resource.id %}">
                     {% trans "Certify this layer." %}
                 </a></p>
           {% endif %}
