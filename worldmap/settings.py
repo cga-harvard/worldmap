@@ -1131,6 +1131,7 @@ FREETEXT_KEYWORDS_READONLY = False
 
 # Queue non-blocking notifications.
 NOTIFICATION_QUEUE_ALL = False
+PINAX_NOTIFICATIONS_QUEUE_ALL = False
 
 BROKER_URL = "django://"
 CELERY_ALWAYS_EAGER = True
