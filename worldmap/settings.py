@@ -292,20 +292,21 @@ GEONODE_APPS = (
 
 GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
-    'geonode.contrib.dynamic',
+    'geonode.contrib.api_basemaps',
+    'geonode.contrib.metadataxsl',
     'geonode.contrib.datatables',
-    'geonode.contrib.exif',
-    'geonode.contrib.favorite',
-    'geonode.contrib.geogig',
-    'geonode.contrib.geosites',
-    'geonode.contrib.nlp',
-    'geonode.contrib.slack',
-    'geonode.contrib.metadataxsl'
+    #'geonode.contrib.dynamic',
+    #'geonode.contrib.exif',
+    #'geonode.contrib.favorite',
+    #'geonode.contrib.geogig',
+    #'geonode.contrib.geosites',
+    #'geonode.contrib.nlp',
+    #'geonode.contrib.slack',
 )
 
 
 # Uncomment the following line to enable contrib apps
-# GEONODE_APPS = GEONODE_APPS + GEONODE_CONTRIB_APPS
+GEONODE_APPS = GEONODE_APPS + GEONODE_CONTRIB_APPS
 
 _DEFAULT_INSTALLED_APPS = (
 
@@ -326,7 +327,6 @@ _DEFAULT_INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.humanize',
     'django.contrib.gis',
-    'geonode.contrib.datatables',
 
     # Third party apps
 
