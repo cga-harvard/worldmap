@@ -464,3 +464,13 @@ def add_endpoint(request):
             "form": endpoint_form,
         })
     )
+
+
+def official_site(request, site):
+    """
+    The view that returns the map composer opened to
+    the map with the given urlsuffix  site url.
+    """
+    map_obj = get_object_or_404(Map,urlsuffix=site)
+    return map_view_wm(request, str(map_obj.id))
+

@@ -138,7 +138,7 @@ urlpatterns += patterns('',
 
                        url(r'^jsi18n/$', 'django.views.i18n.javascript_catalog', js_info_dict, name='jscat'),
                        url(r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps},
-                           name='sitemap'),
+                      		            name='sitemap'),
 
                        (r'^i18n/', include('django.conf.urls.i18n')),
                        (r'^autocomplete/', include('autocomplete_light.urls')),
@@ -157,7 +157,8 @@ urlpatterns += patterns('',
                        url(r'^api/adminRole', admin_role, name='adminRole'),
                        url(r'^api/users', users, name='users'),
                        url(r'', include(api.urls)),
-		       url(r'^certification/', include('geonode.certification.urls'))
+		       url(r'^certification/', include('geonode.certification.urls')),
+		       (r'^(?P<site>[A-Za-z0-9_\-]+)/$', 'wm_extra.views.official_site'),
                        )
 
 if "geonode.contrib.dynamic" in settings.INSTALLED_APPS:
