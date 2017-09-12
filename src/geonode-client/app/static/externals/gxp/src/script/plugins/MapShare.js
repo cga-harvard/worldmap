@@ -48,7 +48,7 @@ gxp.plugins.MapShare = Ext.extend(gxp.plugins.Tool, {
 
     linkPrefix: "/maps/",
     
-    linkSuffix: "/info/",
+    linkSuffix: "/view",
 
     iconCls: "gxp-icon-link",
     
