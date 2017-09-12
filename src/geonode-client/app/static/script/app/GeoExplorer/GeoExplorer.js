@@ -1516,8 +1516,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         // create an info control to show introductory text window
         var infoButton = new Ext.Button({
             id: 'infoButtonId',
-            tooltip: this.infoButtonText,
-            text: '<span class="x-btn-text">' + this.infoButtonText + '</span>',
+            tooltip: 'About',
+            text: '<span class="x-btn-text">About</span>',
             handler: this.showInfoWindow,
             scope:this
         });
