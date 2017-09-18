@@ -91,7 +91,7 @@ if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
                             url(r'^data/(?P<layername>[^/]*)$', RedirectView.as_view(pattern_name='layer_detail', permanent=False)),
                             url(r'^data/(?P<layername>[^/]*)/ajax-edit-check/?$', ajax_layer_edit_check, name = 'ajax_layer_edit_check'),
                             url(r'^data/(?P<layername>[^/]*)/ajax_layer_update/?$', ajax_layer_update, name = 'ajax_layer_update'),
-                            url(r'^data/create_pg_layer', create_pg_layer, name='create_pg_layer'),
+                            #url(r'^data/create_pg_layer', create_pg_layer, name='create_pg_layer'),
                             url(r'^data/upload', upload_layer, name='data_upload'),
                             url(r'^data/layerstats', ajax_increment_layer_stats, name='layer_stats'),
     )
@@ -105,7 +105,7 @@ urlpatterns += patterns('',
 
                        # data.json
                        url(r'^data.json$', 'geonode.catalogue.views.data_json', name='data_json'),
-			
+
                        # ident
                        url(r'^ident.json$', 'geonode.views.ident_json', name='ident_json'),
 
@@ -147,7 +147,7 @@ urlpatterns += patterns('',
                        (r'^documents/', include('geonode.documents.urls')),
                        (r'^services/', include('geonode.services.urls')),
                        (r'^datatables/', include('geonode.contrib.datatables.urls')),
-                       
+
                        # OAuth Provider
                        url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
 
@@ -158,7 +158,7 @@ urlpatterns += patterns('',
                        url(r'^api/users', users, name='users'),
                        url(r'', include(api.urls)),
 		       url(r'^certification/', include('geonode.certification.urls')),
-		       (r'^(?P<site>[A-Za-z0-9_\-]+)/$', 'wm_extra.views.official_site'),
+
                        )
 
 if "geonode.contrib.dynamic" in settings.INSTALLED_APPS:
@@ -177,6 +177,11 @@ if 'geonode.geoserver' in settings.INSTALLED_APPS:
                             # Upload views
                             (r'^upload/', include('geonode.upload.urls')),
                             (r'^gs/', include('geonode.geoserver.urls')),
+                            )
+
+if "geonode.contrib.createlayer" in settings.INSTALLED_APPS:
+    urlpatterns += patterns('',
+                            (r'^createlayer/', include('geonode.contrib.createlayer.urls')),
                             )
 
 if "geonode.gazetteer" in settings.INSTALLED_APPS:
@@ -206,4 +211,5 @@ handler403 = 'geonode.views.err403'
 urlpatterns += patterns('',
                         (r'^featured/(?P<site>[A-Za-z0-9_\-]+)/$', 'geonode.maps.views.featured_map'),
                         (r'^featured/(?P<site>[A-Za-z0-9_\-]+)/info$', 'geonode.maps.views.featured_map_info'),
+                        (r'^(?P<site>[A-Za-z0-9_\-]+)/$', 'wm_extra.views.official_site'),
                         )
