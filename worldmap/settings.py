@@ -94,6 +94,11 @@ DATASTORE_URL = os.getenv('DATASTORE_URL',
 
 DB_DATASTORE = str2bool(os.getenv('DB_DATASTORE','True'))
 
+# SHARD DATABASES SETTINGS
+SHARD_STRATEGY = 'monthly'
+SHARD_PREFIX = 'wm_'
+SHARD_SUFFIX = ''
+
 # set to true to have multiple recipients in /message/create/
 USER_MESSAGES_ALLOW_MULTIPLE_RECIPIENTS = False
 
@@ -294,7 +299,7 @@ GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
     'geonode.contrib.api_basemaps',
     'geonode.contrib.metadataxsl',
-    'geonode.contrib.datatables',
+    #'geonode.contrib.datatables',
     #'geonode.contrib.dynamic',
     #'geonode.contrib.exif',
     #'geonode.contrib.favorite',
@@ -302,6 +307,8 @@ GEONODE_CONTRIB_APPS = (
     #'geonode.contrib.geosites',
     #'geonode.contrib.nlp',
     #'geonode.contrib.slack',
+    'geonode.contrib.createlayer',
+    'geonode.contrib.datastore_shards',
 )
 
 
@@ -584,11 +591,12 @@ _DEFAULT_NOSE_ARGS = [
       ]
 NOSE_ARGS = os.getenv('NOSE_ARGS',_DEFAULT_NOSE_ARGS)
 
+# this is for the gazetteer
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"gme-harvarduniversity1")
-
+# this is for the basemaps
 GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
 
-GOOGLE_SECRET_KEY = None
+# GOOGLE_SECRET_KEY = None
 
 GEONAMES_USER = ''
 #
@@ -739,6 +747,7 @@ DEFAULT_MAP_CRS = os.getenv('DEFAULT_MAP_CRS',"EPSG:900913")
 #GeoNode Client
 GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
                                      '/static/worldmap_client/')
+#GEONODE_CLIENT_LOCATION = "http://localhost:9090/"
 
 # The username and password for a user that can add and edit layer details on GeoServer
 
