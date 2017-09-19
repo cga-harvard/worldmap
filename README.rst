@@ -1,6 +1,28 @@
 Worldmap
 ========
 
+How to build and run WorldMap
+-----------------------------
+
+Create a virtual environment and activate it::
+
+    $ virtualenv --no-site-packages env
+    $ . env/bin/activate
+
+Clone Worldmap:
+
+    $ git clone https://github.com/cga-harvard/worldmap.git
+
+Build it:
+
+    $ cd worldmap
+    $ paver setup
+    $ paver sync
+
+Start it:
+
+    $ paver start
+
 How to use the WorldMap client
 ------------------------------
 
