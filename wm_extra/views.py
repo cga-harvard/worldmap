@@ -274,10 +274,14 @@ def new_map_config(request):
 
                 config = layer.attribute_config()
 
-                # Add required parameters for GXP lazy-loading
+                # Add required parameters for a WM layer
+                config["local"] = True
+                config["name"] = layer.alternate
+                config["group"] = layer.category.identifier
                 config["title"] = layer.title
                 config["queryable"] = True
-
+                config['tiled'] = True
+                config['url'] = layer.ows_url
                 config["srs"] = getattr(settings, 'DEFAULT_MAP_CRS', 'EPSG:900913')
                 config["bbox"] = bbox if config["srs"] != 'EPSG:900913' \
                     else llbbox_to_mercator([float(coord) for coord in bbox])
@@ -319,7 +323,6 @@ def new_map_config(request):
                         layer_params=json.dumps(config, cls=DjangoJSONEncoder),
                         visibility=True
                     )
-
                 layers.append(maplayer)
 
             if bbox is not None:
@@ -419,9 +422,10 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
             # detect if it is a WM layer
             if layer_config['local'] == True:
                 # WM local layer to process
-                if 'styles' not in layer_config and Layer.objects.filter(typename=layer_config['name']).exists():
-                    layer = Layer.objects.get(typename=layer_config['name'])
+                if 'styles' not in layer_config and Layer.objects.filter(alternate=layer_config['name']).exists():
+                    layer = Layer.objects.get(alternate=layer_config['name'])
                     layer_config['styles'] = [style.name for style in layer.styles.all()]
+                    #layer_config['styles'] = layer.default_style.name
             else:
                 # detect if it is a HH layer
                 layer_config['styles'] = ''
@@ -433,7 +437,9 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
     for group in groups:
         if group not in json.dumps(config['map']['groups']):
             config['map']['groups'].append({"expanded":"true", "group":group})
-    print json.dumps(config)
+
+    # TODO change intro text
+    config['about']['introtext'] = 'Placeholder for intro text'
 
 
 @login_required
@@ -473,4 +479,3 @@ def official_site(request, site):
     """
     map_obj = get_object_or_404(Map,urlsuffix=site)
     return map_view_wm(request, str(map_obj.id))
-
