@@ -9,12 +9,25 @@ Create a virtual environment and activate it::
     $ virtualenv --no-site-packages env
     $ . env/bin/activate
 
-Clone Worldmap:
+Create a directory for your env:
 
+    $ mkdir worldmap
+    $ cd worldmap
+
+Clone GeoNode:
+
+    $ git clone https://github.com/cga-harvard/cga-worldmap.git
+    $ cd cga-worldmap.git
+    $ git checkout wm-master
+    $ pip install -r requirements.txt
+    $ pip install -e .
+    $ pip install pinax-theme-bootstrap-account==1.0b2
+    $ pip install pygdal==1.10.1
+
+Clone Worldmap and build it:
+
+    $ cd ..
     $ git clone https://github.com/cga-harvard/worldmap.git
-
-Build it:
-
     $ cd worldmap
     $ paver setup
     $ paver sync
