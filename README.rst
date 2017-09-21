@@ -62,6 +62,10 @@ JavaScript Developers can switch to using unminified scripts and CSS:
 Note that this requires ant (http://ant.apache.org/) in addition to the
 build requirements.
 
+To build the javascript files::
+
+    $ ant buildjs
+
 How to add a new gxp tool/plugin
 ................................
 
