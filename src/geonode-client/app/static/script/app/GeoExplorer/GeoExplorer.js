@@ -1970,22 +1970,14 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         });
     },
 
-
     initUploadPanel: function() {
         this.uploadPanel = new Ext.Panel({
             id: 'worldmap_update_panel',
             title: this.uploadLayerText,
             header: false,
-            autoLoad: {url: '/data/upload/?tab=true', scripts: true},
-            listeners:{
-                activate : function(panel) {
-                    panel.getUpdater().refresh();
-                }
-            },
-            renderTo: 'uploadDiv',
+            contentEl: 'uploadDiv',
             autoScroll: true
         });
-
     },
 
     initCreatePanel: function() {
@@ -1993,16 +1985,9 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             id: 'worldmap_create_panel',
             title: this.createLayerText,
             header: false,
-            autoLoad: {url: '/data/create_pg_layer/?tab=true', scripts: true},
-            listeners:{
-                activate : function(panel) {
-                    panel.getUpdater().refresh();
-                }
-            },
-            renderTo: 'createDiv',
+            contentEl: 'createDiv',
             autoScroll: true
         });
-
     },
 
     initWarperPanel: function() {
