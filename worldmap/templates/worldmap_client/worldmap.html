@@ -285,6 +285,7 @@ gxp.WMSLayerPanel.prototype.createStylesPanel = function(url) {
             hypermapRegistryUrl: "{{ HYPERMAP_REGISTRY_URL }}",
             mapProxyUrl: "{{ HYPERMAP_REGISTRY_URL }}",
             solrUrl: "{{ SOLR_URL }}",
+            username: "{{ user.username }}",
             csrfToken: "{{ csrf_token }}",
             {% if user.is_authenticated %}
             db_datastore: true,
