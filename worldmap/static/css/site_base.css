@@ -96,11 +96,11 @@
   width: 80%;
 }
 
-.container .row .col-md-8 p {
+.container.landing-footer .row .col-md-8 p {
   font-size: 1.65em;
 }
 
-.container .row .col-md-8 p:nth-child(2){
+.container.landing-footer .row .col-md-8 p:nth-child(2){
   margin-top: 3.3em;
   font-size: 1em;
 }
@@ -109,7 +109,7 @@
   text-align: center;
 }
 
-.container .row .col-md-4 img{
+.container.landing-footer .row .col-md-4 img{
   width: 90%;
 }
 
