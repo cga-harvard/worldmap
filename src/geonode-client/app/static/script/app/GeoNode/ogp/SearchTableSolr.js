@@ -412,6 +412,18 @@ GeoNode.SearchTable = Ext.extend(Ext.util.Observable, {
             }
         }, this);
 
+        layers_data = [
+            ['', 'All Layers'],
+            ['service_type:"Hypermap:WorldMap"', 'WorldMap Layers'],
+            ['service_type:"OGC:WMS"', 'WMS'],
+            ['service_type:"ESRI:ArcGIS:ImageServer"', 'ESRI Image'],
+            ['service_type:"ESRI:ArcGIS:MapServer"', 'ESRI Map']
+        ]
+
+        if(app.username.length>0){
+            layers_data.splice(1, 0, ['layer_username:"' + app.username + '"', 'My Layers'])
+        }
+
         this.dataTypeInput = new Ext.form.ComboBox({
             id: 'dataTypes',
             mode: 'local',
@@ -424,12 +436,7 @@ GeoNode.SearchTable = Ext.extend(Ext.util.Observable, {
                     'value',
                     'Label'
                 ],
-                data: [['', 'All Layers'],
-                    ['service_type:"Hypermap:WorldMap"', 'WorldMap Layers'],
-                    ['service_type:"OGC:WMS"', 'WMS'],
-                    ['service_type:"ESRI:ArcGIS:ImageServer"', 'ESRI Image'],
-                    ['service_type:"ESRI:ArcGIS:MapServer"', 'ESRI Map']
-                ]
+                data: layers_data
             }),
             valueField: 'value',
             displayField: 'Label',

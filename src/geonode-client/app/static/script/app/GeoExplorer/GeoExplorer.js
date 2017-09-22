@@ -51,6 +51,12 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
 
     /**
      * api: config[localGeoServerBaseUrl]
+     * ``String`` username of current authenticated GeoNode user
+     */
+    username: "",
+
+    /**
+     * api: config[localGeoServerBaseUrl]
      * ``String`` url of the local GeoServer instance
      */
     localGeoServerBaseUrl: "",
