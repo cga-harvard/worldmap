@@ -268,6 +268,7 @@ MAX_DOCUMENT_SIZE = int(os.getenv('MAX_DOCUMENT_SIZE ', '2'))  # MB
 WORLDMAP_APPS = (
     # WorldMap applications
     'wm_extra',
+    'worldmap.certification',
 )
 
 GEONODE_APPS = (
@@ -284,7 +285,6 @@ GEONODE_APPS = (
     'geonode.api',
     'geonode.groups',
     'geonode.services',
-    'geonode.certification',
 
     # GeoServer Apps
     # Geoserver needs to come last because
