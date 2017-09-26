@@ -285,7 +285,6 @@ GEONODE_APPS = (
     'geonode.api',
     'geonode.groups',
     'geonode.services',
-    #'geonode.certification',
 
     # GeoServer Apps
     # Geoserver needs to come last because
@@ -365,7 +364,7 @@ _DEFAULT_INSTALLED_APPS = (
     'avatar',
     'dialogos',
     'agon_ratings',
-    'notification',
+    #'notification',
     'announcements',
     'actstream',
     'user_messages',
