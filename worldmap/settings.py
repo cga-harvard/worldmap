@@ -881,41 +881,41 @@ _DEFAULT_MAP_BASELAYERS = [
         "tiled" : False,
         "title": "ESRI Dark Gray Reference"
     },
-    # {
-    #     "source": {
-    #         "ptype": "gxp_googlesource"
-    #     },
-    #     "group": "background",
-    #     "name": "SATELLITE",
-    #     "visibility": False,
-    #     "fixed": True,
-    # },
-    # {
-    #     "source": {
-    #         "ptype": "gxp_googlesource",
-    #     },
-    #     "group": "background",
-    #     "name": "TERRAIN",
-    #     "visibility": True,
-    #     "fixed": True,
-    # }, {
-    #     "source": {
-    #         "ptype": "gxp_googlesource"
-    #     },
-    #     "group": "background",
-    #     "name": "HYBRID",
-    #     "visibility": False,
-    #     "fixed": True,
-    # }, {
-    #     "source": {
-    #         "ptype": "gxp_googlesource"
-    #     },
-    #     "group": "background",
-    #     "name": "ROADMAP",
-    #     "visibility": False,
-    #     "fixed": True,
-    #     "group": "background"
-    # }
+    {
+        "source": {
+            "ptype": "gxp_googlesource"
+        },
+        "group": "background",
+        "name": "SATELLITE",
+        "visibility": False,
+        "fixed": True,
+    },
+    {
+        "source": {
+            "ptype": "gxp_googlesource",
+        },
+        "group": "background",
+        "name": "TERRAIN",
+        "visibility": True,
+        "fixed": True,
+    }, {
+        "source": {
+            "ptype": "gxp_googlesource"
+        },
+        "group": "background",
+        "name": "HYBRID",
+        "visibility": False,
+        "fixed": True,
+    }, {
+        "source": {
+            "ptype": "gxp_googlesource"
+        },
+        "group": "background",
+        "name": "ROADMAP",
+        "visibility": False,
+        "fixed": True,
+        "group": "background"
+    }
 ]
 
 MAP_BASELAYERS = os.getenv('MAP_BASELAYERS',_DEFAULT_MAP_BASELAYERS)
