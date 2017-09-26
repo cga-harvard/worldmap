@@ -157,7 +157,7 @@ urlpatterns += patterns('',
                        url(r'^api/adminRole', admin_role, name='adminRole'),
                        url(r'^api/users', users, name='users'),
                        url(r'', include(api.urls)),
-		       url(r'^certification/', include('geonode.certification.urls')),
+		                   url(r'^certification/', include('worldmap.certification.urls')),
 
                        )
 
