@@ -81,13 +81,6 @@ DATABASE_URL = os.getenv(
 GEOSERVER_BASE_URL = os.getenv('GEOSERVER_BASE_URL',
                                "http://localhost:8080/geoserver/")
 
-GEOSERVER_LOCATION = os.getenv(
-    'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
-)
-GEOSERVER_PUBLIC_LOCATION = os.getenv(
-    'GEOSERVER_PUBLIC_LOCATION', 'http://localhost:8080/geoserver/'
-)
-
 
 DATASTORE_URL = os.getenv('DATASTORE_URL',
                           'postgis://worldmap:worldmap@localhost:5432/data')
@@ -622,35 +615,54 @@ MISSING_THUMBNAIL = os.getenv('MISSING_THUMBNAIL','geonode/img/missing_thumb.png
 # Search Snippet Cache Time in Seconds
 CACHE_TIME = int(os.getenv('CACHE_TIME','0'))
 
+GEOSERVER_LOCATION = os.getenv(
+    'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
+)
+
+GEOSERVER_PUBLIC_LOCATION = os.getenv(
+    'GEOSERVER_PUBLIC_LOCATION', 'http://localhost:8080/geoserver/'
+)
+
+OGC_SERVER_DEFAULT_USER = os.getenv(
+    'GEOSERVER_ADMIN_USER', 'admin'
+)
+
+OGC_SERVER_DEFAULT_PASSWORD = os.getenv(
+    'GEOSERVER_ADMIN_PASSWORD', 'geoserver'
+)
+
+GEOFENCE_SECURITY_ENABLED = True
+
 # OGC (WMS/WFS/WCS) Server Settings
 # OGC (WMS/WFS/WCS) Server Settings
-_DEFAULT_OGC_SERVER = {
+OGC_SERVER = {
     'default': {
         'BACKEND': 'geonode.geoserver',
-        'LOCATION':  GEOSERVER_LOCATION,
+        'LOCATION': GEOSERVER_LOCATION,
         'LOGIN_ENDPOINT': 'j_spring_oauth2_geonode_login',
         'LOGOUT_ENDPOINT': 'j_spring_oauth2_geonode_logout',
         # PUBLIC_LOCATION needs to be kept like this because in dev mode
         # the proxy won't work and the integration tests will fail
         # the entire block has to be overridden in the local_settings
         'PUBLIC_LOCATION': GEOSERVER_PUBLIC_LOCATION,
-        'USER': 'admin',
-        'PASSWORD': 'geoserver',
+        'USER': OGC_SERVER_DEFAULT_USER,
+        'PASSWORD': OGC_SERVER_DEFAULT_PASSWORD,
         'MAPFISH_PRINT_ENABLED': True,
         'PRINT_NG_ENABLED': True,
         'GEONODE_SECURITY_ENABLED': True,
+        'GEOFENCE_SECURITY_ENABLED': GEOFENCE_SECURITY_ENABLED,
         'GEOGIG_ENABLED': False,
         'WMST_ENABLED': False,
         'BACKEND_WRITE_ENABLED': True,
         'WPS_ENABLED': False,
-        'LOG_FILE': '%s/geoserver/data/logs/geoserver.log' % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
+        'LOG_FILE': '%s/geoserver/data/logs/geoserver.log'
+        % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
         # Set to name of database in DATABASES dictionary to enable
-        'DATASTORE': 'datastore',  # 'datastore',
+        'DATASTORE': 'datastore',
         'PG_GEOGIG': False,
         'TIMEOUT': 10  # number of seconds to allow for HTTP requests
     }
 }
-OGC_SERVER = os.getenv('OGC_SERVER',_DEFAULT_OGC_SERVER)
 
 # Uploader Settings
 _DEFAULT_UPLOADER = {
@@ -748,12 +760,6 @@ DEFAULT_MAP_CRS = os.getenv('DEFAULT_MAP_CRS',"EPSG:900913")
 GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
                                      '/static/worldmap_client/')
 #GEONODE_CLIENT_LOCATION = "http://localhost:9090/"
-
-# The username and password for a user that can add and edit layer details on GeoServer
-
-_DEFAULT_GEOSERVER_CREDENTIALS = "geoserver_admin", SECRET_KEY
-GEOSERVER_CREDENTIALS = os.getenv('GEOSERVER_CREDENTIALS', ("geoserver_admin", SECRET_KEY))
-
 
 # Where should newly created maps be focused?
 DEFAULT_MAP_CENTER = (0, 0)
