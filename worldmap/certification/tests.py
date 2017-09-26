@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.test import TestCase
 from django.contrib.auth.models import User
 from geonode.maps.models import Map, Layer
-from geonode.certification.models import Certification
+from worldmap.certification.models import Certification
 
 
 class CertificationTest(TestCase):
