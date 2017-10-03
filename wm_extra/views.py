@@ -310,14 +310,11 @@ def add_layers_to_map_config(request, map_obj, layer_names, add_base_layers=True
         config = layer.attribute_config()
 
         # Add required parameters for a WM layer
-
-        #config["local"] = True
-        #config["name"] = layer.alternate
-        #config["group"] = layer.category.identifier
-        config["title"] = layer.title
+        title = 'No title'
+        if layer.title:
+            title = layer.title
+        config["title"] = title
         config["queryable"] = True
-        #config['tiled'] = True
-        #config['url'] = layer.ows_url
 
         config["srs"] = getattr(
             settings, 'DEFAULT_MAP_CRS', 'EPSG:900913')
