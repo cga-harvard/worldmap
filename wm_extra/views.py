@@ -470,11 +470,11 @@ def gxp2wm(config):
             if 'registry/hypermap' in source_url:
                 is_hh = True
         group = 'General'
+        layer_config['tiled'] = True
         if is_wm:
             layer_config['local'] = True
             alternate = layer_config['name']
             layer = Layer.objects.get(alternate=alternate)
-            layer_config['tiled'] = True
             layer_config['url'] = layer.ows_url
             if 'styles' not in layer_config:
                 #layer_config['styles'] = [str(unicode(style.name)) for style in layer.styles.all()]
@@ -492,6 +492,8 @@ def gxp2wm(config):
         if is_hh:
             layer_config['local'] = False
             layer_config['styles'] = ''
+            hh_url = '%smap/wmts/%s/default_grid/${z}/${x}/${y}.png' % (layer_config['detail_url'], layer_config['name'])
+            layer_config['url'] = hh_url
         if is_wm or is_hh:
             if 'group' not in layer_config:
                 layer_config['group'] = group
