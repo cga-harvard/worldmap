@@ -24,6 +24,8 @@ from geonode.utils import llbbox_to_mercator
 from geonode.layers.views import _resolve_layer
 from geonode.maps.views import _resolve_map, _PERMISSION_MSG_VIEW
 from geonode.maps.views import snapshot_config
+from geonode.utils import DEFAULT_TITLE
+from geonode.utils import DEFAULT_ABSTRACT
 
 from .models import LayerStats
 from .forms import EndpointForm
@@ -155,12 +157,33 @@ def ajax_increment_layer_stats(request):
     )
 
 
-def map_view_wm(request, mapid, snapshot=None, template='maps/map_view.html'):
+def add_layer_wm(request):
+    """
+    The view that returns the map composer opened to
+    a given map and adds a layer on top of it.
+    """
+    map_id = request.GET.get('map_id')
+    layer_name = request.GET.get('layer_name')
+
+    map_obj = _resolve_map(
+        request,
+        map_id,
+        'base.view_resourcebase',
+        _PERMISSION_MSG_VIEW)
+
+    return map_view_wm(request, str(map_obj.id), layer_name=layer_name)
+
+
+def map_view_wm(request, mapid, snapshot=None, layer_name=None, template='maps/map_view.html'):
     """
     The view that returns the map composer opened to
     the map with the given map ID.
     """
-    map_obj = _resolve_map(request, mapid, 'base.view_resourcebase', _PERMISSION_MSG_VIEW)
+    map_obj = _resolve_map(
+        request,
+        mapid,
+        'base.view_resourcebase',
+        _PERMISSION_MSG_VIEW)
 
     if 'access_token' in request.session:
         access_token = request.session['access_token']
@@ -172,7 +195,10 @@ def map_view_wm(request, mapid, snapshot=None, template='maps/map_view.html'):
     else:
         config = snapshot_config(snapshot, map_obj, request.user, access_token)
 
-    geoexplorer2worldmap(config, map_obj)
+    if layer_name:
+        config = add_layers_to_map_config(request, map_obj, (layer_name, ), False)
+
+    config = gxp2wm(config)
 
     return render_to_response(template, RequestContext(request, {
         'config': json.dumps(config),
@@ -186,6 +212,7 @@ def map_view_wm(request, mapid, snapshot=None, template='maps/map_view.html'):
 
 def new_map_wm(request, template='maps/map_new.html'):
     config = new_map_config(request)
+    config = gxp2wm(config)
     context_dict = {
         'config': config,
         'USE_GAZETTEER': settings.USE_GAZETTEER
@@ -197,7 +224,9 @@ def new_map_wm(request, template='maps/map_new.html'):
     if isinstance(config, HttpResponse):
         return config
     else:
-        return render_to_response(template, RequestContext(request, context_dict))
+        return render_to_response(
+            template, RequestContext(
+                request, context_dict))
 
 
 def new_map_config(request):
@@ -209,12 +238,6 @@ def new_map_config(request):
     default map configuration is used.  If copy is specified
     and the map specified does not exist a 404 is returned.
     '''
-
-    # 3 cases in this function
-    # 1. copy a map
-    # 2. a new map with one or more layers
-    # 3. a new map with no layers
-
     DEFAULT_MAP_CONFIG, DEFAULT_BASE_LAYERS = default_map_config(request)
 
     if 'access_token' in request.session:
@@ -222,7 +245,6 @@ def new_map_config(request):
     else:
         access_token = None
 
-    # TODO support map copy
     if request.method == 'GET' and 'copy' in request.GET:
         mapid = request.GET['copy']
         map_obj = _resolve_map(request, mapid, 'base.view_resourcebase')
@@ -242,146 +264,176 @@ def new_map_config(request):
         else:
             return HttpResponse(status=405)
 
-        # a new map with a layer
         if 'layer' in params:
             bbox = None
             map_obj = Map(projection=getattr(settings, 'DEFAULT_MAP_CRS',
                           'EPSG:900913'))
-
-            layers = []
-            for layer_name in params.getlist('layer'):
-                try:
-                    layer = _resolve_layer(request, layer_name)
-                except ObjectDoesNotExist:
-                    # bad layer, skip
-                    continue
-
-                if not request.user.has_perm(
-                        'view_resourcebase',
-                        obj=layer.get_self_resource()):
-                    # invisible layer, skip inclusion
-                    continue
-
-                layer_bbox = layer.bbox
-                # assert False, str(layer_bbox)
-                if bbox is None:
-                    bbox = list(layer_bbox[0:4])
-                else:
-                    bbox[0] = min(bbox[0], layer_bbox[0])
-                    bbox[1] = max(bbox[1], layer_bbox[1])
-                    bbox[2] = min(bbox[2], layer_bbox[2])
-                    bbox[3] = max(bbox[3], layer_bbox[3])
-
-                config = layer.attribute_config()
-
-                # Add required parameters for a WM layer
-                config["local"] = True
-                config["name"] = layer.alternate
-                config["group"] = layer.category.identifier
-                config["title"] = layer.title
-                config["queryable"] = True
-                config['tiled'] = True
-                config['url'] = layer.ows_url
-                config["srs"] = getattr(settings, 'DEFAULT_MAP_CRS', 'EPSG:900913')
-                config["bbox"] = bbox if config["srs"] != 'EPSG:900913' \
-                    else llbbox_to_mercator([float(coord) for coord in bbox])
-
-                if layer.storeType == "remoteStore":
-                    service = layer.service
-                    # Probably not a good idea to send the access token to every remote service.
-                    # This should never match, so no access token should be sent to remote services.
-                    ogc_server_url = urlparse.urlsplit(ogc_server_settings.PUBLIC_LOCATION).netloc
-                    service_url = urlparse.urlsplit(service.base_url).netloc
-
-                    if access_token and ogc_server_url == service_url and 'access_token' not in service.base_url:
-                        url = service.base_url+'?access_token='+access_token
-                    else:
-                        url = service.base_url
-                    maplayer = MapLayer(map=map_obj,
-                                        name=layer.typename,
-                                        ows_url=layer.ows_url,
-                                        layer_params=json.dumps(config),
-                                        visibility=True,
-                                        source_params=json.dumps({
-                                            "ptype": service.ptype,
-                                            "remote": True,
-                                            "url": url,
-                                            "name": service.name}))
-                else:
-                    ogc_server_url = urlparse.urlsplit(ogc_server_settings.PUBLIC_LOCATION).netloc
-                    layer_url = urlparse.urlsplit(layer.ows_url).netloc
-
-                    if access_token and ogc_server_url == layer_url and 'access_token' not in layer.ows_url:
-                        url = layer.ows_url+'?access_token='+access_token
-                    else:
-                        url = layer.ows_url
-                    maplayer = MapLayer(
-                        map=map_obj,
-                        name=layer.typename,
-                        ows_url=url,
-                        # use DjangoJSONEncoder to handle Decimal values
-                        layer_params=json.dumps(config, cls=DjangoJSONEncoder),
-                        visibility=True
-                    )
-                layers.append(maplayer)
-
-            if bbox is not None:
-                minx, miny, maxx, maxy = [float(coord) for coord in bbox]
-                x = (minx + maxx) / 2
-                y = (miny + maxy) / 2
-
-                if getattr(settings, 'DEFAULT_MAP_CRS', 'EPSG:900913') == "EPSG:4326":
-                    center = list((x, y))
-                else:
-                    center = list(forward_mercator((x, y)))
-
-                if center[1] == float('-inf'):
-                    center[1] = 0
-
-                BBOX_DIFFERENCE_THRESHOLD = 1e-5
-
-                # Check if the bbox is invalid
-                valid_x = (maxx - minx) ** 2 > BBOX_DIFFERENCE_THRESHOLD
-                valid_y = (maxy - miny) ** 2 > BBOX_DIFFERENCE_THRESHOLD
-
-                if valid_x:
-                    width_zoom = math.log(360 / abs(maxx - minx), 2)
-                else:
-                    width_zoom = 15
-
-                if valid_y:
-                    height_zoom = math.log(360 / abs(maxy - miny), 2)
-                else:
-                    height_zoom = 15
-
-                map_obj.center_x = center[0]
-                map_obj.center_y = center[1]
-                map_obj.zoom = math.ceil(min(width_zoom, height_zoom))
-
-            config = map_obj.viewer_json(
-                request.user, access_token, *(DEFAULT_BASE_LAYERS + layers))
-
-            config['fromLayer'] = True
-            geoexplorer2worldmap(config, map_obj, layers)
+            config = add_layers_to_map_config(request, map_obj, params.getlist('layer'))
         else:
-            # a new map with no layer
-            map_obj = Map(projection=getattr(settings, 'DEFAULT_MAP_CRS',
-                          'EPSG:900913'))
             config = DEFAULT_MAP_CONFIG
-            geoexplorer2worldmap(config, map_obj)
-
     return json.dumps(config)
 
 
-def geoexplorer2worldmap(config, map_obj, layers=None):
+def add_layers_to_map_config(request, map_obj, layer_names, add_base_layers=True):
+    DEFAULT_MAP_CONFIG, DEFAULT_BASE_LAYERS = default_map_config(request)
+    if 'access_token' in request.session:
+        access_token = request.session['access_token']
+    else:
+        access_token = None
+
+    bbox = None
+
+    layers = []
+    for layer_name in layer_names:
+        try:
+            layer = _resolve_layer(request, layer_name)
+        except ObjectDoesNotExist:
+            # bad layer, skip
+            continue
+
+        if not request.user.has_perm(
+                'view_resourcebase',
+                obj=layer.get_self_resource()):
+            # invisible layer, skip inclusion
+            continue
+
+        layer_bbox = layer.bbox
+        # assert False, str(layer_bbox)
+        if bbox is None:
+            bbox = list(layer_bbox[0:4])
+        else:
+            bbox[0] = min(bbox[0], layer_bbox[0])
+            bbox[1] = max(bbox[1], layer_bbox[1])
+            bbox[2] = min(bbox[2], layer_bbox[2])
+            bbox[3] = max(bbox[3], layer_bbox[3])
+
+        config = layer.attribute_config()
+
+        # Add required parameters for a WM layer
+
+        #config["local"] = True
+        #config["name"] = layer.alternate
+        #config["group"] = layer.category.identifier
+        config["title"] = layer.title
+        config["queryable"] = True
+        #config['tiled'] = True
+        #config['url'] = layer.ows_url
+
+        config["srs"] = getattr(
+            settings, 'DEFAULT_MAP_CRS', 'EPSG:900913')
+        config["bbox"] = bbox if config["srs"] != 'EPSG:900913' \
+            else llbbox_to_mercator([float(coord) for coord in bbox])
+
+        if layer.storeType == "remoteStore":
+            service = layer.service
+            # Probably not a good idea to send the access token to every remote service.
+            # This should never match, so no access token should be
+            # sent to remote services.
+            ogc_server_url = urlparse.urlsplit(
+                ogc_server_settings.PUBLIC_LOCATION).netloc
+            service_url = urlparse.urlsplit(service.base_url).netloc
+
+            if access_token and ogc_server_url == service_url and 'access_token' not in service.base_url:
+                url = service.base_url+'?access_token='+access_token
+            else:
+                url = service.base_url
+            maplayer = MapLayer(map=map_obj,
+                                name=layer.alternate,
+                                ows_url=layer.ows_url,
+                                layer_params=json.dumps(config),
+                                visibility=True,
+                                source_params=json.dumps({
+                                    "ptype": service.ptype,
+                                    "remote": True,
+                                    "url": url,
+                                    "name": service.name}))
+        else:
+            ogc_server_url = urlparse.urlsplit(
+                ogc_server_settings.PUBLIC_LOCATION).netloc
+            layer_url = urlparse.urlsplit(layer.ows_url).netloc
+
+            if access_token and ogc_server_url == layer_url and 'access_token' not in layer.ows_url:
+                url = layer.ows_url+'?access_token='+access_token
+            else:
+                url = layer.ows_url
+            maplayer = MapLayer(
+                map=map_obj,
+                name=layer.alternate,
+                ows_url=url,
+                # use DjangoJSONEncoder to handle Decimal values
+                layer_params=json.dumps(config, cls=DjangoJSONEncoder),
+                visibility=True
+            )
+        layers.append(maplayer)
+
+    if bbox is not None:
+        minx, miny, maxx, maxy = [float(coord) for coord in bbox]
+        x = (minx + maxx) / 2
+        y = (miny + maxy) / 2
+
+        if getattr(
+            settings,
+            'DEFAULT_MAP_CRS',
+                'EPSG:900913') == "EPSG:4326":
+            center = list((x, y))
+        else:
+            center = list(forward_mercator((x, y)))
+
+        if center[1] == float('-inf'):
+            center[1] = 0
+
+        BBOX_DIFFERENCE_THRESHOLD = 1e-5
+
+        # Check if the bbox is invalid
+        valid_x = (maxx - minx) ** 2 > BBOX_DIFFERENCE_THRESHOLD
+        valid_y = (maxy - miny) ** 2 > BBOX_DIFFERENCE_THRESHOLD
+
+        if valid_x:
+            width_zoom = math.log(360 / abs(maxx - minx), 2)
+        else:
+            width_zoom = 15
+
+        if valid_y:
+            height_zoom = math.log(360 / abs(maxy - miny), 2)
+        else:
+            height_zoom = 15
+
+        map_obj.center_x = center[0]
+        map_obj.center_y = center[1]
+        map_obj.zoom = math.ceil(min(width_zoom, height_zoom))
+
+    map_obj.handle_moderated_uploads()
+
+    if add_base_layers:
+        layers_to_add = DEFAULT_BASE_LAYERS + layers
+    else:
+        layers_to_add = layers
+    config = map_obj.viewer_json(
+        request.user, access_token, *layers_to_add)
+
+    config['fromLayer'] = True
+
+    return config
+
+
+
+def gxp2wm(config):
     """
-    Convert a GeoNode map config to the WorldMap client format.
+    Convert a GeoNode map json or string config to the WorldMap client format.
     """
+
+    config_is_string = False
+    # let's first see if it is a string, in which case must be converted to json
+    if isinstance(config, basestring):
+        config = json.loads(config)
+        config_is_string = True
+
     topics = TopicCategory.objects.all()
     topicArray = []
     for topic in topics:
         topicArray.append([topic.identifier, topic.gn_description])
     topicArray.append(['General', 'General'])
+    groups = set()
 
     config['topic_categories'] = topicArray
 
@@ -389,12 +441,6 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
 
     # TODO check permissions here
     config['edit_map'] = True
-    groups = set()
-
-    # 2 cases: with new map (map_obj not saved) we use the layers parameter, otherwise
-    # we get it from the map_obj
-    if layers is None:
-        layers = map_obj.layer_set.all()
 
     # 3 different layer types
     #
@@ -410,36 +456,62 @@ def geoexplorer2worldmap(config, map_obj, layers=None):
     #    ows_url: http://192.168.33.15:8002/registry/hypermap/layer/13ff2fea-d479-4fc7-87a6-3eab7d349def/map/wmts/market/default_grid/$%7Bz%7D/$%7Bx%7D/$%7By%7D.png
     #    layer_params = {"title": "market", "selected": true, "detail_url": "http://192.168.33.15:8002/registry/hypermap/layer/13ff2fea-d479-4fc7-87a6-3eab7d349def/", "local": false}
 
+    # let's detect WM or HH layers and alter configuration as needed
     for layer_config in config['map']['layers']:
-        # detect if it is a WM or HH layer
-        if 'local' in layer_config:
-            # set the group
-            group = layer_config['group']
+        is_wm = False
+        is_hh = False
+        source_id = layer_config['source']
+        source = config['sources'][source_id]
+        if 'url' in source:
+            source_url = source['url']
+            if settings.GEOSERVER_PUBLIC_LOCATION in source_url:
+                if 'name' in layer_config:
+                    is_wm = True
+            if 'registry/hypermap' in source_url:
+                is_hh = True
+        group = 'General'
+        if is_wm:
+            layer_config['local'] = True
+            alternate = layer_config['name']
+            layer = Layer.objects.get(alternate=alternate)
+            layer_config['tiled'] = True
+            layer_config['url'] = layer.ows_url
+            if 'styles' not in layer_config:
+                #layer_config['styles'] = [str(unicode(style.name)) for style in layer.styles.all()]
+                if layer.default_style:
+                    layer_config['styles'] = layer.default_style.name
+                else:
+                    layer_config['styles'] = layer.styles.all()[0].name
+            if layer.category:
+                group = layer.category.gn_description
+            layer_config["srs"] = getattr(
+                settings, 'DEFAULT_MAP_CRS', 'EPSG:900913')
+            bbox = layer.bbox[:-1]
+            layer_config["bbox"] = bbox if layer_config["srs"] != 'EPSG:900913' \
+                else llbbox_to_mercator([float(coord) for coord in bbox])
+        if is_hh:
+            layer_config['local'] = False
+            layer_config['styles'] = ''
+        if is_wm or is_hh:
+            if 'group' not in layer_config:
+                layer_config['group'] = group
             if group not in groups:
                 groups.add(group)
             # TODO fix this accordingly to layer extent
             layer_config['llbbox'] = [-180,-90,180,90]
-            # detect if it is a WM layer
-            if layer_config['local'] == True:
-                # WM local layer to process
-                if 'styles' not in layer_config and Layer.objects.filter(alternate=layer_config['name']).exists():
-                    layer = Layer.objects.get(alternate=layer_config['name'])
-                    layer_config['styles'] = [style.name for style in layer.styles.all()]
-                    #layer_config['styles'] = layer.default_style.name
-            else:
-                # detect if it is a HH layer
-                layer_config['styles'] = ''
-                # need to access to maplayer to read the url
-	        ml = layers.filter(name=layer_config['name'])
-                layer_config['url'] = ml[0].ows_url
+
+	        # ml = layers.filter(name=layer_config['name'])
+            #     layer_config['url'] = ml[0].ows_url
 
     config['map']['groups'] = []
     for group in groups:
         if group not in json.dumps(config['map']['groups']):
             config['map']['groups'].append({"expanded":"true", "group":group})
 
-    # TODO change intro text
-    config['about']['introtext'] = 'Placeholder for intro text'
+    print json.dumps(config)
+    if config_is_string:
+        config = json.dumps(config)
+    return config
 
 
 @login_required
