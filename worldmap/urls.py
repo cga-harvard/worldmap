@@ -35,7 +35,8 @@ from geonode.api.views import verify_token, roles, users, admin_role
 import autocomplete_light
 
 from wm_extra.views import (proxy, ajax_layer_update, ajax_layer_edit_check, upload_layer,
-    create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm, add_endpoint)
+    create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm,
+    add_layer_wm, add_endpoint)
 from tastypie.api import Api
 from wm_extra.api.resources import LayerResource, TagResource, TopicCategoryResource
 from wm_extra.accounts.views import SignupView
@@ -82,6 +83,7 @@ if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
                             (r'^api/', include(wm_api.urls)),
                             # maps
                             url(r'^maps/new$', new_map_wm, name="new_map_wm"),
+                            url(r'^maps/add_layer$', add_layer_wm, name='add_layer_wm'),
                             url(r'^maps/(?P<mapid>[^/]+)/view$', map_view_wm, name='map_view_wm'),
                             url(r'^maps/add_endpoint?$', add_endpoint, name='add_endpoint'),
 			    url(r'^snapshot/create/?$', snapshot_create, name='snapshot_create'),
