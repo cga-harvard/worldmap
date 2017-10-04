@@ -807,16 +807,16 @@ _DEFAULT_MAP_BASELAYERS = [
         "fixed": True,
         "group": "background"
     },
-    # {
-    #     "source": {
-    #         "ptype": "gxp_bingsource",
-    #         "apiKey": BING_API_KEY
-    #     },
-    #     "name": "AerialWithLabels",
-    #     "fixed": True,
-    #     "visibility": False,
-    #     "group": "background"
-    # },
+    {
+        "source": {
+            "ptype": "gxp_bingsource",
+            "apiKey": BING_API_KEY
+        },
+        "name": "AerialWithLabels",
+        "fixed": True,
+        "visibility": False,
+        "group": "background"
+    },
     {
         "source": {"ptype": "gxp_mapboxsource"},
     },
@@ -1294,6 +1294,8 @@ GROUP_PRIVATE_RESOURCES = False
 
 # If this option is enabled, Groups will become strictly Mandatory on Metadata Wizard
 GROUP_MANDATORY_RESOURCES = False
+
+ASYNC_SIGNALS_BROKER_URL = 'memory://'
 
 # There are 3 ways to override GeoNode settings:
 # 1. Using environment variables, if your changes to GeoNode are minimal.
