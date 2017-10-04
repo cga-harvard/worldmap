@@ -7,7 +7,7 @@ from geonode.people.models import Profile
 
 
 class MapStats(models.Model):
-    map = models.ForeignKey(Map, unique=True)
+    map = models.OneToOneField(Map)
     visits = models.IntegerField(_("Visits"), default= 0)
     uniques = models.IntegerField(_("Unique Visitors"), default = 0)
     last_modified = models.DateTimeField(auto_now=True,null=True)
@@ -17,7 +17,7 @@ class MapStats(models.Model):
 
 
 class LayerStats(models.Model):
-    layer = models.ForeignKey(Layer, unique=True)
+    layer = models.OneToOneField(Layer)
     visits = models.IntegerField(_("Visits"), default = 0)
     uniques = models.IntegerField(_("Unique Visitors"), default = 0)
     downloads = models.IntegerField(_("Downloads"), default = 0)
