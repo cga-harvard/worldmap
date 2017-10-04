@@ -34,8 +34,12 @@
         {% csrf_token %}
         {{ form|as_bootstrap }}
 
-        <div class="input-attrs-wrap">
+        <div class="input-attrs-wrap form-group">
           <button id="add-attr-button" class="add-attr-button btn btn-primary">{% trans "Add Attribute" %}</button>
+        </div>
+
+        <div id="div_id_terms" class="form-group  ">
+          <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">I Agree to the <a href="{% url "upload_terms" %}">Terms and Coditions</a>
         </div>
 
         <button type="submit" id="layer-create-button" class="btn btn-danger" style="margin-top:20px">{% trans "Create" %}</button>
@@ -105,6 +109,18 @@
       });
       $('#attributes').val(JSON.stringify(attrs));
     });
+
+    // TOS checkbox
+    $("#layer-create-button").addClass("disabled");
+
+    function activateButton(element) {
+      if(element.checked) {
+        $("#layer-create-button").removeClass("disabled").addClass("enabled");
+       }
+       else  {
+        $("#layer-create-button").removeClass("enabled").addClass("disabled");
+      }
+    }
 
 </script>
 
