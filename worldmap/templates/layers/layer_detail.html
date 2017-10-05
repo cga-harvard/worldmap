@@ -541,7 +541,7 @@
 
         {% endif %}
 
-        {% if request.user.is_authenticated and request.user.is_certifier %}
+        {% if request.user.is_authenticated %}
 
           {% if certified %}
           <p><a href="{% url "uncertify" 'layers.Layer' resource.id %}">
