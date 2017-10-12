@@ -126,34 +126,26 @@ footer a:hover {
   color: #fff;
 }
 
-.panel-heading {
+#permissions-body .panel .radio{
+    text-align: left;
+}
+#permissions-body .panel .radio label {
+    padding-left: 0px;
+}
+
+.list-group-item {
+  position: relative;
+  display: block;
+  padding: 10px 15px;
+  margin-bottom: -1px;
   background-color: #fff;
-
+  border: 1px solid #ddd;
+  white-space: normal;
 }
 
-.panel-default >.panel-heading {
-
- background-color: #fff;
- border: 0;
-}
-.panel-default {
- border-color:transparent;
-}
-
-.panel {
-
-    border-bottom: solid;
-    border-bottom-color: #ddd;
-    border-bottom-width: 1px;
-  }
-
-.panel .panel-body {
-    border: none !important;
-}
-
-.panel.panel-default {
-    box-shadow: none !important;
-    border-radius: 0 !important;
+.list-group-item .btn{
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .list-group.map-items {
