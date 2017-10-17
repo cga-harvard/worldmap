@@ -106,11 +106,31 @@
   {% block footer %}
   <footer>
     <div class="container">
-        <a href="{{site}}{{ STATIC_URL }}docs/WorldMap_Help_{{LANGUAGE_CODE}}.pdf">{% trans "Need Help?" %}</a>&nbsp;&nbsp;
-         <a href="mailto:worldmap@harvard.edu">{%  trans "Contact Us" %}</a>&nbsp;&nbsp;
-         <a href="https://github.com/cga-harvard/worldmap">{% trans "Source Code" %}</a>&nbsp;&nbsp;
-         <a href="http://www.harvard.edu/copyright-issue">{% trans "Report Copyright Infringement" %}</a>&nbsp;&nbsp; <br>
+      <div class="row">
+        <div class="col-md-8">
+          <a href="{{site}}{{ STATIC_URL }}docs/WorldMap_Help_{{LANGUAGE_CODE}}.pdf">{% trans "Need Help?" %}</a>&nbsp;&nbsp;
+          <a href="mailto:worldmap@harvard.edu">{%  trans "Contact Us" %}</a>&nbsp;&nbsp;
+          <a href="https://github.com/cga-harvard/worldmap">{% trans "Source Code" %}</a>&nbsp;&nbsp;
+          <a href="http://www.harvard.edu/copyright-issue">{% trans "Report Copyright Infringement" %}</a>&nbsp;&nbsp; <br>
         {% trans "Copyright 2017 &copy; The President and Fellows of Harvard College" %}
+        </div>
+        <div class="col-md-4">
+        <label class="hidden">{% trans "Language" %}</label>
+        {% if csrf_token != "NOTPROVIDED" %}
+        {% get_current_language as LANGUAGE %}
+        <form class="form-inline" action="/i18n/setlang/" method="post">
+        {% csrf_token %}
+          <select class="col-md-6" name="language" onchange="javascript:form.submit()">
+            {% for lang in LANGUAGES %}
+            <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %} selected="selected"{% endifequal %}>
+              {{ lang.1 }}
+            </option>
+            {% endfor %}
+          </select>
+        </form>
+        {% endif %}
+        </div>
+      </div>
     </div>
   </footer>
   {% endblock footer %}
