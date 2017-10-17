@@ -534,14 +534,14 @@
 
         {% if certifications %}
           {% for certification in certifications %}
-            <p><a href="/profiles/{{certification.certifier.username}}">{{ certification.certifier.get_profile.username }}</a></p>
+            <p><a href="/people/profile/{{certification.certifier.username}}">{{ certification.certifier.get_username }}</a></p>
           {% endfor %}
         {% else %}
           <p>{% trans "This layer has not been certified by any users." %}</p>
 
         {% endif %}
 
-        {% if request.user.is_authenticated and request.user.is_certifier %}
+        {% if request.user.is_authenticated %}
 
           {% if certified %}
           <p><a href="{% url "uncertify" 'layers.Layer' resource.id %}">

@@ -27,8 +27,6 @@ def uncertify(request, modelid, modeltype):
     elif request.method == 'POST':
         certification = Certification.objects.uncertify(request.user,model_obj)
         redirecturl = model_obj.get_absolute_url()
-        if modeltype == "maps.Map":
-            redirecturl = model_obj.get_absolute_url() + "/info"
         return HttpResponseRedirect(redirecturl)
     
 @login_required
@@ -36,7 +34,6 @@ def certify(request, modeltype, modelid):
     ''' Certify a map or layer'''
     model = get_model(*modeltype.split('.',1))
     model_obj = model.objects.get(pk=modelid)
-    
     model_title = modelid
     
     if hasattr(model_obj, 'title'):
@@ -51,8 +48,4 @@ def certify(request, modeltype, modelid):
     elif request.method == 'POST':
         certification = Certification.objects.certify(request.user,model_obj)
         redirecturl = model_obj.get_absolute_url()
-        if modeltype == "maps.Map":
-            redirecturl = model_obj.get_absolute_url() + "/info"
         return HttpResponseRedirect(redirecturl)
-        
-    
