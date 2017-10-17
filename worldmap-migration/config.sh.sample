@@ -1,0 +1,11 @@
+export USER=jorge
+export DB_USER=worldmap
+export DB_PW=worldmap
+export DB_HOST=localhost
+export NEW_DB=worldmap_new
+export GEONODE_PATH=/code/worldmap
+export GEOSERVER_URL=http://worldmap/geoserver/
+export ENV_PATH=/venvs/worldmap
+export GEOSERVER_STYLES_PATH=/Users/jorge/Desktop
+export DATABASE_URL=postgis://$DB_USER:$DB_PW@$DB_HOST:5432/$NEW_DB
+export STYLES_PATH=/Users/jorge/Documents/worldmap_migrations/styles.csv

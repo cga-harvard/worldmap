@@ -1,0 +1,1 @@
+3355,60,97e0770e-41ec-11e1-86ea-12313d192257,owner_id,Route to Gerra,2012-01-18 10:53:41-05,publication,route,eng,"",EPSG:4326,csw_typename,csw_schema,csw_mdsource,csw_type,csw_wkt_geometry,f,0,0,f,t,32.5497202820716,31.0371460437706,32.6658492035648,31.0477355869555,geonode:route_59s,f
