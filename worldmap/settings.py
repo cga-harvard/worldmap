@@ -542,6 +542,18 @@ _DEFAULT_ACTSTREAM_SETTINGS = {
 
 ACTSTREAM_SETTINGS = os.getenv('ACTSTREAM_SETTINGS',_DEFAULT_ACTSTREAM_SETTINGS)
 
+# Email settings
+EMAIL_ENABLE = False
+
+if EMAIL_ENABLE:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'localhost'
+    EMAIL_PORT = 25
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    EMAIL_USE_TLS = False
+    DEFAULT_FROM_EMAIL = 'GeoNode <no-reply@geonode.org>'
+
 # Settings for Social Apps
 REGISTRATION_OPEN =  str2bool(os.getenv('REGISTRATION_OPEN', 'False'))
 ACCOUNT_EMAIL_CONFIRMATION_EMAIL = str2bool(os.getenv('ACCOUNT_EMAIL_CONFIRMATION_EMAIL', 'False'))
