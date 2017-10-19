@@ -1309,6 +1309,9 @@ GROUP_MANDATORY_RESOURCES = False
 
 ASYNC_SIGNALS_BROKER_URL = 'memory://'
 
+# A boolean which specifies wether to display the email in user's profile
+SHOW_PROFILE_EMAIL = False
+
 # There are 3 ways to override GeoNode settings:
 # 1. Using environment variables, if your changes to GeoNode are minimal.
 # 2. Creating a downstream project, if you are doing a lot of customization.
