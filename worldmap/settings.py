@@ -18,6 +18,30 @@
 #
 #########################################################################
 
+####################### DATAVERSE_INFO_REPOSITORY_PATH
+#
+# For Dataverse/Worldmap communication, the following repository is required:
+#
+#   https://github.com/IQSS/shared-dataverse-information
+#
+# It may be accessed in 1 of 2 ways
+# -----------------------------------------------
+#
+#   (1) Add to the sys.path.  In the local_settings.py:
+#       (a) Add/Uncomment the code below (lines 28-31),
+#           ending with the "sys.path.append" line
+#       (b) Set the appropriate path for "DATAVERSE_INFO_REPOSITORY_PATH"
+#   (2) or run "pip install shared_dataverse_information"
+# -----------------------------------------------
+"""
+DATAVERSE_INFO_REPOSITORY_PATH = '/home/ubuntu/code/shared-dataverse-information'
+if not os.path.isdir(DATAVERSE_INFO_REPOSITORY_PATH):
+    raise Exception('Directory not found for repository "shared-dataverse-information" (https://github.com/IQSS/shared-dataverse-information)\ndirectory in settings: %s' % DATAVERSE_INFO_REPOSITORY_PATH)
+sys.path.append(DATAVERSE_INFO_REPOSITORY_PATH)
+"""
+####################### END: DATAVERSE_INFO_REPOSITORY_PATH
+
+
 # Django settings for the GeoNode project.
 import os
 from kombu import Queue
@@ -292,7 +316,7 @@ GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
     'geonode.contrib.api_basemaps',
     'geonode.contrib.metadataxsl',
-    #'geonode.contrib.datatables',
+    'geonode.contrib.datatables',
     #'geonode.contrib.dynamic',
     #'geonode.contrib.exif',
     #'geonode.contrib.favorite',
@@ -302,6 +326,12 @@ GEONODE_CONTRIB_APPS = (
     #'geonode.contrib.slack',
     'geonode.contrib.createlayer',
     'geonode.contrib.datastore_shards',
+    'shared_dataverse_information.dataverse_info',           # external repository: https://github.com/IQSS/shared-dataverse-information
+    'shared_dataverse_information.layer_classification',     # external repository: https://github.com/IQSS/shared-dataverse-information
+    'geonode.contrib.dataverse_permission_links',
+    'geonode.contrib.dataverse_layer_metadata', # uses the dataverse_info repository models
+    'geonode.contrib.dataverse_connect',
+    'geonode.contrib.dataverse_styles',
 )
 
 
@@ -1296,6 +1326,10 @@ GROUP_PRIVATE_RESOURCES = False
 GROUP_MANDATORY_RESOURCES = False
 
 ASYNC_SIGNALS_BROKER_URL = 'memory://'
+
+
+DB_DATAVERSE_NAME = 'dataverse'
+DATAVERSE_GROUP_NAME = 'dataverse'
 
 # There are 3 ways to override GeoNode settings:
 # 1. Using environment variables, if your changes to GeoNode are minimal.

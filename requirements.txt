@@ -1,5 +1,5 @@
 five==0.4.0
-geonode==2.6a1
+#geonode==2.6a1
 django-floppyforms==1.7.0
 django-oauth-toolkit==0.12.0
 csvkit==0.9.1
@@ -9,3 +9,10 @@ csvkit==0.9.1
 geojson
 dicttoxml==1.6.6
 datautil
+
+# --------------------------------------------------
+# For the Dataverse/Geoconnect/WorldMap connection
+# --------------------------------------------------
+xmltodict
+shared_dataverse_information>=0.5.7
+
