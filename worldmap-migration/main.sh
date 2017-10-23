@@ -162,3 +162,10 @@ if [ $STYLES ]; then
     scp wm-geoserver:/home/ubuntu/scripts/styles.csv .
     source scripts/styles.sh
 fi
+#############################################################################
+do_hr
+echo "Dataverse and datatables migration"
+do_hr
+#############################################################################
+
+source scripts/dataverse.sh
