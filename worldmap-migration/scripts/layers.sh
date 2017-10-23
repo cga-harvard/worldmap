@@ -252,3 +252,13 @@ sudo -u $USER PGPASSWORD=$DB_PW psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST 
         WHERE certification_certification.object_id = augmented_maps_layer.id) to stdout with csv;" | \
 sudo -u $USER psql $NEW_DB -c \
     "copy certification_certification(certifier_id, object_ct_id, object_id) from stdin csv"
+
+#############################################################################
+
+echo "\nCopy attributes for layers"; do_dash
+
+sudo -u $USER PGPASSWORD=$DB_PW \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
+    "copy (SELECT maps_layerattribute.id,maps_layerattribute.layer_id, maps_layerattribute.attribute, maps_layerattribute.attribute_label, maps_layerattribute.searchable, maps_layerattribute.attribute_type, maps_layerattribute.created_dttm, maps_layerattribute.last_modified, maps_layerattribute.display_order, maps_layerattribute.visible, maps_layerattribute.in_gazetteer, maps_layerattribute.is_gaz_start_date,maps_layerattribute.is_gaz_end_date,maps_layerattribute.date_format,0,now() FROM maps_layerattribute,augmented_maps_layer WHERE augmented_maps_layer.id=maps_layerattribute.layer_id ) to stdout with csv;" | \
+sudo -u $USER PGPASSWORD=$DB_PW \
+psql $NEW_DB -c "copy layers_attribute(id,layer_id,attribute,attribute_label,searchable,attribute_type,created_dttm,last_modified,display_order,visible,in_gazetteer,is_gaz_start_date,is_gaz_end_date,date_format,count,last_stats_updated) from stdin csv"
