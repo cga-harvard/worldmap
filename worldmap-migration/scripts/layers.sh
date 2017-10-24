@@ -40,16 +40,6 @@ LAYER_CT_ID=$(sudo -u $USER psql $NEW_DB -c \
     TO STDOUT WITH CSV")
 
 #############################################################################
-
-echo "\nCopy items to base_topiccategory table"; do_dash
-sudo -u $USER PGPASSWORD=$DB_PW \
-psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
-    "COPY (SELECT id, title, name, description, true, 'fa-times' FROM maps_layercategory) TO STDOUT WITH CSV" | \
-sudo -u $USER \
-psql $NEW_DB -c "COPY base_topiccategory(id, identifier, description, gn_description, is_choice, fa_class) FROM stdin csv"
-
-#############################################################################
-
 echo "\nCopy items to resourcebase. Removing temporal extent fields
 from previous database works"; do_dash
 # ERROD: invalid input syntax for type timestamp with time zone: "0840"
