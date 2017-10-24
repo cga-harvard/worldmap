@@ -32,6 +32,3 @@ script:
 
 after_script:
   - paver reset_hard
-
-after_success:
-  - coveralls
