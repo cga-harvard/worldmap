@@ -48,7 +48,7 @@ from kombu import Queue
 from geonode import __file__ as geonode_path
 from worldmap import get_version
 from worldmap.celeryapp import app  # flake8: noqa
-import djcelery
+#import djcelery
 import dj_database_url
 
 def str2bool(v):
@@ -373,7 +373,7 @@ _DEFAULT_INSTALLED_APPS = (
     'autocomplete_light',
     'mptt',
     # 'modeltranslation',
-    'djcelery',
+    #'djcelery',
     'storages',
     'floppyforms',
 
@@ -1243,7 +1243,7 @@ if S3_MEDIA_ENABLED:
     DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     MEDIA_URL = "https://%s/%s/" % (AWS_S3_BUCKET_DOMAIN, MEDIAFILES_LOCATION)
 
-djcelery.setup_loader()
+#djcelery.setup_loader()
 
 # Load additonal basemaps, see geonode/contrib/api_basemap/README.md
 # TODO: Before the 2.5 release, let's change the line below. Apparently it is
