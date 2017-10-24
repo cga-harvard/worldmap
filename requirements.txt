@@ -14,5 +14,5 @@ datautil
 # For the Dataverse/Geoconnect/WorldMap connection
 # --------------------------------------------------
 xmltodict
-shared_dataverse_information>=0.5.7
+-e git://github.com/cga-harvard/shared-dataverse-information.git#egg=shared_dataverse_information
 
