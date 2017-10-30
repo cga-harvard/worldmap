@@ -1,0 +1,17 @@
+[
+    { "model": "auth.group",
+        "pk": 2,
+        "fields": {
+            "name": "Registered users"
+        }
+    },
+
+    { "model": "auth.group",
+        "pk": 3,
+        "fields": {
+            "name": "Harvard"
+        }
+    }
+
+
+]
