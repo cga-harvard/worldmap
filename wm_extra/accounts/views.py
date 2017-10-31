@@ -19,7 +19,7 @@ from account.models import SignupCode, EmailAddress, \
 
 from account import signals
 from account.utils import default_redirect
-from notification import models as notification
+from pinax.notifications import models as notification
 
 
 class SignupView(FormView):
