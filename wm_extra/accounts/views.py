@@ -6,16 +6,17 @@ from django.utils.http import base36_to_int, int_to_base36
 from django.views.generic.base import TemplateResponseMixin, View
 from django.views.generic.edit import FormView, CreateView
 from django.core.urlresolvers import reverse
-
 from django.db import transaction
 from forms import SignupForm
 from django.views.generic.edit import FormView
 from django.contrib import auth, messages
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
-from account.compat import get_user_model
-from account.models import SignupCode, SignupCodeExtended, EmailAddress, \
+
+from django.contrib.auth import get_user_model
+from account.models import SignupCode, EmailAddress, \
     EmailConfirmation, Account, AccountDeletion
+
 from account import signals
 from account.utils import default_redirect
 from notification import models as notification
@@ -68,8 +69,6 @@ class SignupView(FormView):
             initial["code"] = self.signup_code.code
             if self.signup_code.email:
                 initial["email"] = self.signup_code.email
-            if hasattr(self.signup_code, 'signupcodeextended'):
-                initial["username"] = self.signup_code.signupcodeextended.username
         return initial
 
     def get_template_names(self):
@@ -173,12 +172,7 @@ class SignupView(FormView):
     def create_user(self, form, commit=True, **kwargs):
         user = get_user_model()(**kwargs)
         code = form.cleaned_data['code']
-        if SignupCodeExtended.objects.filter(signupcode__code = code).exists():
-            username = SignupCodeExtended.objects.get(signupcode__code = code).username
-        else:
-            username = form.cleaned_data["username"].strip()
- 
-        user.username = username
+        user.username = form.cleaned_data["username"].strip()
         user.email = form.cleaned_data["email"].strip()
         password = form.cleaned_data.get("password")
         if password:

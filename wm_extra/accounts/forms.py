@@ -12,14 +12,19 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.contrib import auth
 from django.conf import settings
-from account.compat import get_user_model, get_user_lookup_kwargs
+from django.contrib.auth import get_user_model
 from account.conf import settings
 from account.hooks import hookset
-from account.models import EmailAddress, SignupCode, SignupCodeExtended
-
+from account.models import EmailAddress, SignupCode
 
 alnum_re = re.compile(r"^\w+$")
 
+def get_user_lookup_kwargs(kwargs):
+    result = {}
+    username_field = getattr(get_user_model(), "USERNAME_FIELD", "username")
+    for key, value in kwargs.items():
+        result[key.format(username=username_field)] = value
+    return result
 
 class SignupForm(forms.Form):
     
@@ -57,15 +62,6 @@ class SignupForm(forms.Form):
 	label=mark_safe("I agree to the <a href='/upload_terms'>Terms and Conditions</a>")		
      )
     
-    def __init__(self, *args, **kwargs):
-        super(SignupForm, self).__init__(*args, **kwargs)
-        if 'code' in self.initial:
-            code = self.initial['code']
-            sc = SignupCode.objects.get(code=code)
-            if SignupCodeExtended.objects.filter(signupcode = sc).exists():
-                field = self.fields['username']
-                field.widget.attrs['readonly'] = True
-
     def clean_username(self):
         if not alnum_re.search(self.cleaned_data["username"].replace('.', '')):
             raise forms.ValidationError(_("Usernames can only contain letters, numbers, dots and underscores."))
