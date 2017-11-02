@@ -1,37 +1,60 @@
-up:
-	# bring up the services
-	docker-compose up -d
 
-build:
-	docker-compose build django
-	docker-compose build celery
+#Local Variables
+## You can customize these variables to modify username, 
+##password  database's names.
+USERNAME=worldmap
+PASSWORD=worldmap
+WORLDMAP_DB=worldmap
+WMDATA=wmdata
+OWNER=$(USERNAME)
 
-sync: up 
-	# set up the database tablea
-	#it shouldn't be done, but it works 
-	docker-compose exec django django-admin.py makemigrations --noinput
-	docker-compose exec django django-admin.py migrate account --noinput
-	#New GeoNode release should be worked with only one migrate command
-	docker-compose exec django django-admin.py migrate --noinput
-	docker-compose exec django django-admin.py loaddata sample_admin
-	docker-compose exec django django-admin.py loaddata fixtures/default_oauth_apps_docker.json
-	docker-compose exec django django-admin.py loaddata fixtures/initial_data.json
+django:  
+	python manage.py runserver 0.0.0.0:8000
+
+
+create_user_db:
+	#creating username for postgres
+	sudo -u postgres psql -c "CREATE USER $(USERNAME) WITH SUPERUSER PASSWORD '$(PASSWORD)';" ; 
+
+drop_user_db:
+	#deleting username for postgres
+	sudo -u postgres psql -c "DROP ROLE $(USERNAME);"
+
+
+create_db:
+	#Creating Databases
+	sudo -u postgres psql -c "CREATE DATABASE $(WORLDMAP_DB) WITH OWNER $(OWNER);"
+	sudo -u postgres psql -d worldmap -c "CREATE EXTENSION postgis;"
+	sudo -u postgres psql -c "CREATE DATABASE $(WMDATA) WITH OWNER $(OWNER);"
+	sudo -u postgres psql -d wmdata -c "CREATE EXTENSION postgis;"
+
+drop_db:
+	#Deleting Databases
+	sudo -u postgres psql -c "DROP DATABASE $(WORLDMAP_DB);"
+	sudo -u postgres psql -c "DROP DATABASE $(WMDATA);"
+
+clean: drop_db drop_user_db
+
+default_db: create_user_db create_db sync
+
+sync:
+	#Starting Django migrations
+	python manage.py makemigrations --noinput
+	python manage.py migrate --noinput
+	python manage.py loaddata fixtures/sample_admin.json
+	python manage.py loaddata fixtures/default_oauth_apps.json
+	python manage.py loaddata fixtures/initial_data.json
+	python manage.py loaddata fixtures/default_auth_groups.json
 
 pull:
-	docker-compose pull
+	git pull origin master
 
-wait:
-	sleep 5
+smoketest:
 
-logs:
-	docker-compose logs --follow
+	python manage.py test geonode.tests.smoke --noinput --nocapture --detailed-errors --verbosity=1 --failfast
 
-down:
-	docker-compose down
+unittest: 
+	python manage.py test geonode.people.tests geonode.base.tests geonode.layers.tests geonode.maps.tests geonode.proxy.tests geonode.security.tests geonode.social.tests geonode.catalogue.tests geonode.documents.tests geonode.api.tests geonode.groups.tests geonode.services.tests geonode.geoserver.tests geonode.upload.tests geonode.tasks.tests --noinput --failfast	
 
 test:
-	docker-compose exec django django-admin.py test --failfast
-
-reset: down up wait sync
-
-hardreset: pull build reset
+	python manage.py test --failfast
