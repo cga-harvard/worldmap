@@ -50,26 +50,8 @@ $ source env_vars
 ## Create the PostGIS role and databases
 
 ```
-$ sudo su postgres
-$ psql
-
-postgres=# CREATE USER worldmap WITH SUPERUSER PASSWORD 'worldmap';;
-CREATE ROLE
-postgres=# CREATE DATABASE worldmap WITH OWNER worldmap;
-CREATE DATABASE
-postgres=# \c worldmap
-You are now connected to database "worldmap" as user "postgres".
-worldmap=# CREATE EXTENSION postgis;
-CREATE EXTENSION
-worldmap=# CREATE DATABASE wmdata WITH OWNER worldmap;
-CREATE DATABASE
-worldmap=# \c wmdata
-You are now connected to database "wmdata" as user "postgres".
-worldmap=# CREATE EXTENSION postgis;
-CREATE EXTENSION
-wmdata=# \q
-
-$ exit
+make create_user_db
+make create_db
 ```
 
 ## Install GeoNode
@@ -91,14 +73,17 @@ cd ..
 git clone https://github.com/cga-harvard/worldmap.git
 cd worldmap
 pip install -r requirements.txt
-python manage.py migrate
+make sync
 ```
 
 ## Start Django
 
 ```
-cd ../worldmap
 python manage.py runserver 0.0.0.0:8000
+
+or
+
+make start_django
 ```
 
 ## Start GeoServer
