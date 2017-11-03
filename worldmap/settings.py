@@ -316,7 +316,7 @@ GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
     'geonode.contrib.api_basemaps',
     'geonode.contrib.metadataxsl',
-    'geonode.contrib.datatables',
+    #'geonode.contrib.datatables',
     #'geonode.contrib.dynamic',
     #'geonode.contrib.exif',
     #'geonode.contrib.favorite',
@@ -395,7 +395,7 @@ _DEFAULT_INSTALLED_APPS = (
     'polymorphic',
     'guardian',
     'oauth2_provider',
-
+    'corsheaders',
 ) +  GEONODE_APPS + WORLDMAP_APPS
 
 INSTALLED_APPS = os.getenv('INSTALLED_APPS',_DEFAULT_INSTALLED_APPS)
@@ -1341,6 +1341,8 @@ ASYNC_SIGNALS_BROKER_URL = 'memory://'
 
 # A boolean which specifies wether to display the email in user's profile
 SHOW_PROFILE_EMAIL = False
+
+MONITORING_ENABLED = False
 
 DB_DATAVERSE_NAME = 'dataverse'
 DATAVERSE_GROUP_NAME = 'dataverse'
