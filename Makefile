@@ -1,6 +1,5 @@
-
 #Local Variables
-## You can customize these variables to modify username, 
+## You can customize these variables to modify username,
 ##password  database's names.
 USERNAME=worldmap
 PASSWORD=worldmap
@@ -8,18 +7,16 @@ WORLDMAP_DB=worldmap
 WMDATA=wmdata
 OWNER=$(USERNAME)
 
-django:  
+start_django:
 	python manage.py runserver 0.0.0.0:8000
-
 
 create_user_db:
 	#creating username for postgres
-	sudo -u postgres psql -c "CREATE USER $(USERNAME) WITH SUPERUSER PASSWORD '$(PASSWORD)';" ; 
+	sudo -u postgres psql -c "CREATE USER $(USERNAME) WITH SUPERUSER PASSWORD '$(PASSWORD)';" ;
 
 drop_user_db:
 	#deleting username for postgres
 	sudo -u postgres psql -c "DROP ROLE $(USERNAME);"
-
 
 create_db:
 	#Creating Databases
@@ -38,7 +35,6 @@ clean: drop_db drop_user_db
 default_db: create_user_db create_db sync
 
 sync:
-	#Starting Django migrations
 	python manage.py makemigrations --noinput
 	python manage.py migrate --noinput
 	python manage.py loaddata fixtures/sample_admin.json
@@ -53,8 +49,8 @@ smoketest:
 
 	python manage.py test geonode.tests.smoke --noinput --nocapture --detailed-errors --verbosity=1 --failfast
 
-unittest: 
-	python manage.py test geonode.people.tests geonode.base.tests geonode.layers.tests geonode.maps.tests geonode.proxy.tests geonode.security.tests geonode.social.tests geonode.catalogue.tests geonode.documents.tests geonode.api.tests geonode.groups.tests geonode.services.tests geonode.geoserver.tests geonode.upload.tests geonode.tasks.tests --noinput --failfast	
+unittest:
+	python manage.py test geonode.people.tests geonode.base.tests geonode.layers.tests geonode.maps.tests geonode.proxy.tests geonode.security.tests geonode.social.tests geonode.catalogue.tests geonode.documents.tests geonode.api.tests geonode.groups.tests geonode.services.tests geonode.geoserver.tests geonode.upload.tests geonode.tasks.tests --noinput --failfast
 
 test:
 	python manage.py test --failfast
