@@ -1,6 +1,6 @@
 # How to build and run WorldMap
 
-Follow this instructions to build and run WorldMap in Ubuntu 16.04 LTS.
+Follow these instructions to build and run WorldMap in Ubuntu 16.04 LTS.
 
 ## Install Ubuntu dependencies
 
@@ -99,19 +99,19 @@ paver start_geoserver
 
 # For WorldMap translators
 
-WorldMap is mainly based on GeoNode, therefore there are two steps involved in having it translated to your language: one is related to GeoNode, the other to WorldMap itself.
+WorldMap is mainly based on GeoNode, therefore there are two steps involved in having it translated into your language: one is related to GeoNode, the other to WorldMap itself.
 
 ## GeoNode translation
 
-First, make sure that GeoNode translation is 100% completed for your language. This can be done using the `Transifex` platform (or with `Git` for experienced translators) at: https://www.transifex.com/geonode/geonode
+First, make sure that the GeoNode translation part is 100% completed for your language. This can be done using the `Transifex` platform (or with `Git` for experienced translators) at: https://www.transifex.com/geonode/geonode
 
-A complete guide about how to contribute to GeoNode's translation can be founde here: http://docs.geonode.org/en/master/organizational/contribute/contribute_to_translation.html
+A complete guide about how to contribute to GeoNode translation can be founde here: http://docs.geonode.org/en/master/organizational/contribute/contribute_to_translation.html
 
 ## WorldMap translation
 
-Second step is to translate strings which are not part of GeoNode, but exclusive to WorldMap. This can be done using `Git` and a couple of Django commands.
+Second step is to translate those additional strings which are not part of GeoNode, but exclusive to WorldMap. This can be done using `Git` and a couple of Django commands.
 
-As a first step, make sure your language files is included in WorldMap. Languages file are in the worldmap/locale directory.
+As a first step, make sure your language files are included in WorldMap. Languages file are in the worldmap/locale directory.
 
 If your locale file is not there, you can generate it with the Django `makemessages` command. For example for Italian:
 
