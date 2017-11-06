@@ -95,6 +95,54 @@ cd ../cga-worldmap
 paver start_geoserver
 ```
 
+# For WorldMap translators
+
+WorldMap is mainly based on GeoNode, therefore there are two steps involved in having it translated to your language: one is related to GeoNode, the other to WorldMap itself.
+
+## GeoNode translation
+
+First, make sure that GeoNode translation is 100% completed for your language. This can be done using the `Transifex` platform (or with `Git` for experienced translators) at: https://www.transifex.com/geonode/geonode
+
+A complete guide about how to contribute to GeoNode's translation can be founde here: http://docs.geonode.org/en/master/organizational/contribute/contribute_to_translation.html
+
+## WorldMap translation
+
+Second step is to translate strings which are not part of GeoNode, but exclusive to WorldMap. This can be done using `Git` and a couple of Django commands.
+
+As a first step, make sure your language files is included in WorldMap. Languages file are in the worldmap/locale directory.
+
+If your locale file is not there, you can generate it with the Django `makemessages` command. For example for Italian:
+
+```
+cd ~/worldmap.git
+python manage.py makemessages -l it
+```
+
+Open the locale file you want to translate, in this case worldmap/locale/it/LC_MESSAGES, and edit the translation strings as needed, for example:
+
+```
+#: worldmap/templates/site_index.html:68
+msgid ""
+"Build your own mapping portal and publish it to the world or to just a few "
+"collaborators. WorldMap is open source software."
+msgstr "Sviluppa il tuo geoportale e condividi l'informazione geografica "
+"con tutti o con specifici collaboratori. WorldMap e' open source"
+```
+
+Once you have translated the strings you want, you need to compile them before you see them in the site. For this purpose you can use the Django `compilemessages` command:
+
+```
+python manage.py compilemessages
+```
+
+Now if you browse the site you should see your translations correctly in place.
+
+The `makemessages` and `compilemessages` needs the `GNU gettext` toolset to be installed on your computer. For Ubuntu 16.04 LTS this can be done in this way:
+
+```
+sudo apt-get install gettext
+```
+
 # For JavaScript Developers
 
 ## Minified Scripts

@@ -1,0 +1,1012 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-06 08:53-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: wm_extra/accounts/forms.py:32 worldmap/templates/base.html:155
+#: worldmap/templates/base.html.py:156
+msgid "Username"
+msgstr ""
+
+#: wm_extra/accounts/forms.py:38 worldmap/templates/base.html:159
+#: worldmap/templates/base.html.py:160
+msgid "Password"
+msgstr ""
+
+#: wm_extra/accounts/forms.py:42
+msgid "Password (again)"
+msgstr ""
+
+#: wm_extra/accounts/forms.py:46
+#: worldmap/templates/people/profile_detail.html:73
+msgid "Email"
+msgstr ""
+
+#: wm_extra/accounts/forms.py:57
+msgid "Yes"
+msgstr ""
+
+#: wm_extra/accounts/forms.py:57
+msgid "No"
+msgstr ""
+
+#: wm_extra/accounts/forms.py:67
+msgid "Usernames can only contain letters, numbers, dots and underscores."
+msgstr ""
+
+#: wm_extra/accounts/forms.py:75
+msgid "This username is already taken. Please choose another."
+msgstr ""
+
+#: wm_extra/accounts/forms.py:82
+msgid "A user is registered with this email address."
+msgstr ""
+
+#: wm_extra/accounts/forms.py:87
+msgid "You must type the same password each time."
+msgstr ""
+
+#: wm_extra/accounts/views.py:42
+#, python-brace-format
+msgid "Confirmation email sent to {email}."
+msgstr ""
+
+#: wm_extra/accounts/views.py:46
+#, python-brace-format
+msgid "The code {code} is invalid."
+msgstr ""
+
+#: wm_extra/models.py:11 wm_extra/models.py:21
+msgid "Visits"
+msgstr ""
+
+#: wm_extra/models.py:12 wm_extra/models.py:22
+msgid "Unique Visitors"
+msgstr ""
+
+#: wm_extra/models.py:23
+msgid "Downloads"
+msgstr ""
+
+#: wm_extra/models.py:34
+msgid "Describe Map Service"
+msgstr ""
+
+#: wm_extra/models.py:35
+msgid "Map service URL"
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:6
+msgid "Suggests an Endpoint"
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:13
+msgid "Submit Map Service URL"
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:16
+msgid ""
+"Please describe the type of mapping within the map service (i.e. roads, "
+"water features, historic maps, satellite imagery, etc.), the name of the "
+"organization hosting the map service, the source of the data, and the year "
+"or year range the data represents."
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:17
+msgid ""
+"Service harvesting and loading to WorldMap is currently a manual process so "
+"it may take some time for your map service layers to appear in search."
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:18
+msgid ""
+"The system currently supports OGC WMS and CSW, as well as Esri Image and Map "
+"service endpoint types. If you are not sure what you have, feel free to "
+"submit it and we will attempt to load it."
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:19
+msgid ""
+"Write us at worldmap@harvard.edu if you have any questions.  Thank you for "
+"your contribution."
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_add.html:23
+msgid "Submit map service URL"
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_added.html:6
+#: wm_extra/templates/wm_extra/endpoint_added.html:13
+msgid "Endpoint Suggested"
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_added.html:16
+msgid "Thanks"
+msgstr ""
+
+#: wm_extra/templates/wm_extra/endpoint_added.html:16
+msgid "for suggesting the endpoint"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_add.html:13
+msgid "Are you sure you want to certify"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_add.html:16
+msgid "Yes, certify"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_add.html:19
+#: worldmap/certification/templates/certification/certification_remove.html:22
+msgid "No, cancel"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_add.html:30
+msgid "Certify"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_remove.html:16
+msgid "Are you sure you want to uncertify"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_remove.html:19
+msgid "Yes, uncertify"
+msgstr ""
+
+#: worldmap/certification/templates/certification/certification_remove.html:33
+msgid "Uncertify"
+msgstr ""
+
+#: worldmap/templates/base.html:53 worldmap/templates/site_index.html:54
+msgid "Create Map"
+msgstr ""
+
+#: worldmap/templates/base.html:54 worldmap/templates/maps/map_detail.html:163
+#: worldmap/templates/site_index.html:55
+msgid "View Map"
+msgstr ""
+
+#: worldmap/templates/base.html:58
+msgid "Profile"
+msgstr ""
+
+#: worldmap/templates/base.html:59
+msgid "Recent Activity"
+msgstr ""
+
+#: worldmap/templates/base.html:60
+msgid "Inbox"
+msgstr ""
+
+#: worldmap/templates/base.html:65
+msgid "Help"
+msgstr ""
+
+#: worldmap/templates/base.html:71 worldmap/templates/base.html.py:146
+#: worldmap/templates/base.html:167
+msgid "Sign in"
+msgstr ""
+
+#: worldmap/templates/base.html:111
+msgid "Need Help?"
+msgstr ""
+
+#: worldmap/templates/base.html:112
+msgid "Contact Us"
+msgstr ""
+
+#: worldmap/templates/base.html:113
+msgid "Source Code"
+msgstr "Codice sorgente"
+
+#: worldmap/templates/base.html:114
+msgid "Report Copyright Infringement"
+msgstr ""
+
+#: worldmap/templates/base.html:115
+msgid "Copyright 2017 &copy; The President and Fellows of Harvard College"
+msgstr ""
+
+#: worldmap/templates/base.html:118
+msgid "Language"
+msgstr ""
+
+#: worldmap/templates/base.html:151
+msgid "Register"
+msgstr ""
+
+#: worldmap/templates/base.html:163
+msgid "Remember Me"
+msgstr ""
+
+#: worldmap/templates/base.html:204
+msgid "Type your search here ..."
+msgstr ""
+
+#: worldmap/templates/base/_resourcebase_snippet.html:44
+#: worldmap/templates/layers/layer_detail.html:453
+msgid "Create a Map"
+msgstr ""
+
+#: worldmap/templates/createlayer/layer_create.html:7
+#: worldmap/templates/site_index.html:58
+msgid "Create Layer"
+msgstr ""
+
+#: worldmap/templates/createlayer/layer_create.html:20
+msgid "Create an empty layer"
+msgstr ""
+
+#: worldmap/templates/createlayer/layer_create.html:38
+msgid "Add Attribute"
+msgstr ""
+
+#: worldmap/templates/createlayer/layer_create.html:45
+msgid "Create"
+msgstr ""
+
+#: worldmap/templates/createlayer/layer_create.html:54
+#: worldmap/templates/layers/layer_detail.html:511
+#: worldmap/templates/maps/map_detail.html:202
+#: worldmap/templates/upload/layer_upload.html:118
+msgid "Permissions"
+msgstr ""
+
+#: worldmap/templates/fullscreen.html:5
+msgid "WorldMap"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:67
+msgid "Filter Granules"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:70
+msgid "Active Filter:"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:76
+msgid "Granule ID"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:77
+msgid "Bounding Box"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:78
+msgid "Time"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:79
+msgid "Elevation"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:80
+msgid "Actions"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:142
+msgid "Dimension"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:143
+msgid "Enabled"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:144
+msgid "Regex"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:149
+msgid "TIME"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:150
+#: worldmap/templates/layers/layer_detail.html:155
+msgid "True"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:150
+#: worldmap/templates/layers/layer_detail.html:155
+msgid "False"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:154
+msgid "ELEVATION"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:165
+msgid "Attribute Name"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:166
+#: worldmap/templates/layers/layer_metadata_advanced.html:105
+msgid "Label"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:167
+#: worldmap/templates/layers/layer_metadata_advanced.html:106
+#: worldmap/templates/people/profile_detail.html:107
+msgid "Description"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:169
+msgid "Range"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:170
+msgid "Average"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:171
+msgid "Median"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:172
+msgid "Standard Deviation"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:233
+msgid "Rate this layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:237
+#: worldmap/templates/maps/map_detail.html:74
+msgid "Average Rating"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:254
+#: worldmap/templates/layers/layer_detail.html:267
+msgid "Download Layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:257
+msgid "Request Download"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:306
+#: worldmap/templates/layers/layer_detail.html:370
+#: worldmap/templates/layers/layer_detail.html:416
+#: worldmap/templates/maps/map_detail.html:112
+#: worldmap/templates/maps/map_detail.html:156
+msgid "Close"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:318
+#: worldmap/templates/maps/map_detail.html:94
+msgid "Metadata Detail"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:324
+#: worldmap/templates/layers/layer_detail.html:331
+msgid "Edit Layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:338
+#: worldmap/templates/maps/map_detail.html:133
+msgid "Metadata"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:339
+#: worldmap/templates/maps/map_detail.html:134
+msgid "Wizard"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:340
+#: worldmap/templates/maps/map_detail.html:135
+msgid "Advanced Edit"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:341
+msgid "Upload Metadata"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:348
+#: worldmap/templates/maps/map_detail.html:141
+msgid "Thumbnail"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:349
+#: worldmap/templates/maps/map_detail.html:142
+msgid "Set"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:355
+msgid "Layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:357
+msgid "Replace"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:360
+msgid "Edit data"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:363
+#: worldmap/templates/maps/map_detail.html:150
+msgid "Remove"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:378
+#: worldmap/templates/layers/layer_detail.html:386
+msgid "Download Metadata"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:424
+msgid "Legend"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:438
+msgid "Maps using this layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:440
+msgid "List of maps using this layer:"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:446
+msgid "This layer is not currently used in any maps."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:451
+msgid "Create a map using this layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:452
+msgid "Click the button below to generate a new map based on this layer."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:457
+msgid "Add the layer to an existing map"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:465
+msgid "Click the button below to add the layer to the selected map."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:467
+msgid "Add to Map"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:474
+msgid "Documents related to this layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:475
+msgid "List of documents related to this layer:"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:488
+msgid "Styles"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:489
+msgid ""
+"The following styles are associated with this layer. Choose a style to view "
+"it in the preview map."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:502
+msgid "No styles associated with this layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:512
+msgid "Click the button below to change the permissions of this layer."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:513
+msgid "Change Layer Permissions"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:522
+#: worldmap/templates/maps/map_detail.html:232
+msgid "Certifications"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:529
+msgid "This layer has not been certified by any users."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:537
+msgid "Uncertify this layer."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:541
+msgid "Certify this layer."
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:551
+msgid "External service layer"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:552
+msgid "Source"
+msgstr ""
+
+#: worldmap/templates/layers/layer_detail.html:553
+msgid "Type"
+msgstr ""
+
+#: worldmap/templates/layers/layer_list.html:6
+#: worldmap/templates/layers/layer_list.html:13
+msgid "Explore Layers"
+msgstr ""
+
+#: worldmap/templates/layers/layer_list.html:12
+#: worldmap/templates/upload/layer_upload.html:17
+msgid "Upload Layers"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:16
+msgid "Edit Metadata"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:21
+#, python-format
+msgid ""
+"\n"
+"        Editing details for %(layer_title)s\n"
+"      "
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:27
+msgid ""
+"Note: this layer's orginal metadata was populated and preserved by importing "
+"a metadata XML file.\n"
+"          This metadata cannot be edited."
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:30
+msgid ""
+"Note: this layer's orginal metadata was populated by importing a metadata "
+"XML file.\n"
+"          GeoNode's metadata import supports a subset of ISO, FGDC, and "
+"Dublin Core metadata elements.\n"
+"          Some of your original metadata may have been lost."
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:36
+msgid "Error updating metadata.  Please check the following fields: "
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:39
+msgid "Metadata Author"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:43
+#: worldmap/templates/layers/layer_metadata_advanced.html:122
+msgid "Point of Contact"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:52
+#: worldmap/templates/layers/layer_metadata_advanced.html:100
+msgid "Attributes"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:67
+#: worldmap/templates/layers/layer_metadata_advanced.html:134
+msgid "Update"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:77
+msgid "Category"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:104
+msgid "Attribute"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:107
+msgid "Display Order"
+msgstr ""
+
+#: worldmap/templates/layers/layer_metadata_advanced.html:127
+msgid "Metadata Provider"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:70
+msgid "Rate this Map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:88
+#: worldmap/templates/maps/map_detail.html:103
+msgid "Download Map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:107
+msgid "Download Data Layers"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:108
+msgid "Download Web Map Context"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:119
+#: worldmap/templates/maps/map_detail.html:126
+msgid "Edit Map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:148
+#: worldmap/templates/maps/map_view.html:6
+msgid "Map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:149
+msgid "Edit"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:173
+msgid "Map Layers"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:174
+msgid "This map uses the following layers:"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:190
+msgid "Documents related to this map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:191
+msgid "List of documents related to this map:"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:203
+msgid "Specify which users can view or modify this map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:204
+msgid "Change Permissions of this Map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:210
+msgid "Copy this map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:211
+msgid "Duplicate this map and modify it for your own purposes"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:212
+#: worldmap/templates/maps/map_list.html:16
+msgid "Create a New Map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:217
+msgid "Map WMS"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:219
+msgid "WMS layer group for local map layers"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:220
+msgid "on"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:220
+msgid "local OWS"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:223
+msgid "Publish local map layers as WMS layer group"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:224
+msgid "Publish Map WMS"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:239
+msgid "This map has not been certified by any users"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:247
+msgid "Uncertify this map"
+msgstr ""
+
+#: worldmap/templates/maps/map_detail.html:251
+msgid "Certify this map"
+msgstr ""
+
+#: worldmap/templates/maps/map_list.html:13
+msgid "Search for maps"
+msgstr ""
+
+#: worldmap/templates/maps/map_list.html:22
+msgid "Search by text"
+msgstr ""
+
+#: worldmap/templates/maps/map_new.html:6
+msgid "New Map"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:12
+msgid "Profile of "
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:77
+#: worldmap/templates/people/profile_detail.html:83
+#: worldmap/templates/people/profile_detail.html:87
+#: worldmap/templates/people/profile_detail.html:92
+#: worldmap/templates/people/profile_detail.html:104
+#: worldmap/templates/people/profile_detail.html:108
+msgid "Not provided."
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:82
+msgid "Position"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:86
+msgid "Organization"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:91
+msgid "Location"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:95
+msgid "Voice"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:103
+msgid "Fax"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:112
+msgid "Keywords"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:119
+msgid "Not provided"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:129
+msgid "Message User"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:133
+#: worldmap/templates/people/profile_detail.html:167
+msgid "Edit profile"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:134
+msgid "Change password"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:137
+msgid "Upload new layers"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:139
+msgid "Create a new layer"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:141
+msgid "Create a new map"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:142
+msgid "My Activities"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:146
+msgid "Notifications"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:149
+msgid "Announcements"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:154
+msgid "Remote Services"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:155
+msgid "GeoServer"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:158
+msgid "Admin"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:171
+msgid "User Activities"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:184
+msgid "Resources"
+msgstr ""
+
+#: worldmap/templates/people/profile_detail.html:200
+msgid "Certified Resources"
+msgstr ""
+
+#: worldmap/templates/site_index.html:56
+msgid "My Layers"
+msgstr ""
+
+#: worldmap/templates/site_index.html:57
+#: worldmap/templates/upload/layer_upload.html:5
+msgid "Upload Layer"
+msgstr ""
+
+#: worldmap/templates/site_index.html:59
+msgid "About"
+msgstr ""
+
+#: worldmap/templates/site_index.html:68
+msgid ""
+"Build your own mapping portal and publish it to the world or to just a few "
+"collaborators. WorldMap is open source software."
+msgstr "Sviluppa il tuo geoportale e condividi l'informazione geografica "
+"con tutti o con specifici collaboratori. WorldMap e' open source"
+
+#: worldmap/templates/site_index.html:70
+msgid "WorldMap is being developed by the"
+msgstr ""
+
+#: worldmap/templates/site_index.html:70
+msgid "Center for Geographic Analysis"
+msgstr ""
+
+#: worldmap/templates/site_index.html:70
+msgid "at"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:39
+msgid "Incomplete Uploads"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:40
+msgid "You have the following incomplete uploads"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:43
+msgid "last updated on"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:45
+msgid "Resume"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:46
+#: worldmap/templates/upload/layer_upload.html:53
+msgid "Delete"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:52
+msgid "Are you sure you want to delete this upload?"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:54
+msgid "Cancel"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:55
+msgid "Delete, and don't ask me again."
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:72
+msgid "Drop files here"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:75
+msgid " or select them one by one:"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:85
+msgid "Files to be uploaded"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:93
+msgid "Select the charset or leave default"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:111
+msgid "Clear"
+msgstr ""
+
+#: worldmap/templates/upload/layer_upload.html:112
+msgid "Upload files"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:53
+msgid "Identify"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:62
+msgid "Map Coordinates - longitude, latitude"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:69
+msgid "Print"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:81
+msgid "Google Earth"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:93
+msgid "Measure"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:100
+msgid "Share Map"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:107
+msgid "Find Place"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:134
+msgid "Create Feature"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:135
+msgid "Edit Feature"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:220
+msgid "Upload a Layer"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:222
+msgid "Click here to upload a layer."
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:223
+#: worldmap/templates/worldmap_client/worldmap.html:235
+msgid "Remember to save the map before."
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:232
+msgid "Create a new Layer"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:234
+msgid "Click here to create a new layer."
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:247
+msgid "Rectify Images"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:248
+msgid ""
+"Use <a target='_blank' href='http://warp.worldmap.harvard.edu'>WorldMap "
+"WARP</a> to upload and rectify scanned maps for use in WorldMap."
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:248
+msgid ""
+"Maps rectified using this tool can be brought into WorldMap by following the "
+"instructions under Section 4.5 in <a href='{{ STATIC_URL }}docs/"
+"WorldMap_Help.pdf'>WorldMap Help</a>."
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:261
+#: worldmap/templates/worldmap_client/worldmap.html:277
+msgid "Submit a Map Service URL"
+msgstr ""
+
+#: worldmap/templates/worldmap_client/worldmap.html:264
+#: worldmap/templates/worldmap_client/worldmap.html:280
+msgid ""
+"<a target='_blank' href='/maps/add_endpoint'>Submit a Map Service URL</a>"
+msgstr ""
