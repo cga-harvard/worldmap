@@ -47,13 +47,6 @@ $ vi env_vars # copy the content there
 $ source env_vars
 ```
 
-## Create the PostGIS role and databases
-
-```
-make create_user_db
-make create_db
-```
-
 ## Install GeoNode
 
 ```
@@ -69,11 +62,20 @@ paver sync
 ## Install WorldMap
 
 ```
+# clone worldmap
 cd ..
 git clone https://github.com/cga-harvard/worldmap.git
 cd worldmap
 pip install -r requirements.txt
+
+# create the PostGIS role and databases
+make create_user_db
+make create_db
 make sync
+
+# build JavaScript
+$ cd src/geonode-client
+$ ant buildjs
 ```
 
 ## Start Django
