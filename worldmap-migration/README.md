@@ -15,9 +15,11 @@ Usage
 2. Run migration scripts
 
 	chmod +x main.sh
-	source main.sh --database $OLD_DB
-	# If you wanna migrate geoserver styles
+	source main.sh -d $OLD_DB
+
+If you wanna migrate geoserver styles
 	source main.sh --database $OLD_DB  --styles
+
 
 **Notes**
 

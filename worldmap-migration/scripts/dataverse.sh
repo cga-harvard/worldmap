@@ -17,6 +17,8 @@ psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql $NEW_DB -c "copy datatables_geocodetype(id, name, description, sort_order, slug, created, modified) from stdin csv"
 
+
+
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
     "copy (SELECT id, name, is_zero_padded, expected_zero_padded_length, description, regex_match_string, created, modified FROM datatables_jointargetformattype) to stdout with csv;" | \
@@ -28,6 +30,7 @@ psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
     "copy (SELECT datatables_jointarget.id, datatables_jointarget.name, datatables_jointarget.layer_id, datatables_jointarget.attribute_id, datatables_jointarget.geocode_type_id, datatables_jointarget.expected_format_id, datatables_jointarget.year, datatables_jointarget.created, datatables_jointarget.modified FROM datatables_jointarget,augmented_maps_layer,datatables_jointargetformattype WHERE augmented_maps_layer.id=datatables_jointarget.layer_id AND datatables_jointargetformattype.id=datatables_jointarget.expected_format_id  ) to stdout with csv;" | \
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql $NEW_DB -c "copy datatables_jointarget(id, name, layer_id, attribute_id, geocode_type_id, expected_format_id, year, created, modified) from stdin csv"
+
 
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \

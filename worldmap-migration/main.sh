@@ -74,9 +74,7 @@ echo "Generating tables locally"
 do_hr
 
 source $ENV_PATH/bin/activate
-python $GEONODE_PATH/manage.py makemigrations
 python $GEONODE_PATH/manage.py migrate
-python $GEONODE_PATH/manage.py loaddata fixtures/worldmap_category.json
 # python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/fixtures/default_oauth_apps.json
 else
 do_hr
@@ -84,8 +82,8 @@ echo "Generating tables from django server"
 do_hr
 
 ssh wm-django-01 /bin/bash << EOF
+
 source /home/ubuntu/wm.sh
-python manage.py makemigrations
 python manage.py migrate
 python manage.py loaddata fixtures/worldmap_category.json
 # python manage.py loaddata fixtures/default_oauth_apps.json
