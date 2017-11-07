@@ -69,8 +69,6 @@ do_hr
 echo "Migration for registered users"
 do_hr
 #############################################################################
-sudo -u $USER PGPASSWORD=$DB_PW \
-    psql -U $USER $NEW_DB -c "UPDATE auth_group SET id=4 WHERE name='Registered users';"
 
 REGISTER_GP=$(sudo -u $USER  PGPASSWORD=$DB_PW  psql $NEW_DB -c \
     "COPY (
