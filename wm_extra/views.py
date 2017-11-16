@@ -200,6 +200,9 @@ def map_view_wm(request, mapid, snapshot=None, layer_name=None, template='maps/m
 
     config = gxp2wm(config)
 
+    if map_obj.template_page:
+        template = map_obj.template_page
+
     return render_to_response(template, RequestContext(request, {
         'config': json.dumps(config),
         'map': map_obj,
