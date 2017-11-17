@@ -52,11 +52,11 @@ $ source env_vars
 ```
 git clone -b wm-develop https://github.com/cga-harvard/cga-worldmap.git
 cd cga-worldmap
+pip install --upgrade pip
 pip install -r requirements.txt
 pip install -e .
 pip install pygdal==1.11.3.3
 paver setup
-paver sync
 ```
 
 ## Install WorldMap
@@ -76,6 +76,7 @@ make sync
 # build JavaScript
 $ cd src/geonode-client
 $ ant buildjs
+$ cd ../..
 ```
 
 ## Start Django
