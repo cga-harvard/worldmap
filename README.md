@@ -98,6 +98,12 @@ cd ../cga-worldmap
 paver start_geoserver
 ```
 
+# Installing WorldMap in production
+
+When running WorldMap in production it is highly recommended to use a proper web sever (nginx or Apache httpd) in place of the Django server.
+
+You can find a sample configuration for nginx and uwsgi in the scripts directory (nginx_sample and uwsgi_sample files).
+
 # For WorldMap translators
 
 WorldMap is mainly based on GeoNode, therefore there are two steps involved in having it translated into your language: one is related to GeoNode, the other to WorldMap itself.
