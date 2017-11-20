@@ -72,6 +72,7 @@ pip install -r requirements.txt
 make create_user_db
 make create_db
 make sync
+make static
 
 # build JavaScript
 $ cd src/geonode-client
