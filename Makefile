@@ -55,6 +55,7 @@ unittest:
 test:
 	python manage.py test --failfast
 static:
+	python manage.py collectstatic --noinput
 	@cd src/geonode-client && ant init dist
 	@echo "Copy Static files to WorldmapClient Root...."
 	@mkdir -p ~/worldmap/worldmap/static_root/worldmap_client/  
