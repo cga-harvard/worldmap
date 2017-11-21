@@ -316,7 +316,7 @@ GEONODE_CONTRIB_APPS = (
     # GeoNode Contrib Apps
     'geonode.contrib.api_basemaps',
     'geonode.contrib.metadataxsl',
-    #'geonode.contrib.datatables',
+    'geonode.contrib.datatables',
     #'geonode.contrib.dynamic',
     #'geonode.contrib.exif',
     #'geonode.contrib.favorite',

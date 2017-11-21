@@ -52,11 +52,11 @@ $ source env_vars
 ```
 git clone -b wm-develop https://github.com/cga-harvard/cga-worldmap.git
 cd cga-worldmap
+pip install --upgrade pip
 pip install -r requirements.txt
 pip install -e .
 pip install pygdal==1.11.3.3
 paver setup
-paver sync
 ```
 
 ## Install WorldMap
@@ -72,10 +72,12 @@ pip install -r requirements.txt
 make create_user_db
 make create_db
 make sync
+make static
 
 # build JavaScript
 $ cd src/geonode-client
 $ ant buildjs
+$ cd ../..
 ```
 
 ## Start Django
@@ -96,6 +98,12 @@ Open another shell terminal and start GeoServer:
 cd ../cga-worldmap
 paver start_geoserver
 ```
+
+# Installing WorldMap in production
+
+When running WorldMap in production it is highly recommended to use a proper web sever (nginx or Apache httpd) in place of the Django server.
+
+You can find a sample configuration for nginx and uwsgi in the scripts directory (nginx_sample and uwsgi_sample files).
 
 # For WorldMap translators
 
