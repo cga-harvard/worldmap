@@ -1102,18 +1102,21 @@ _DEFAULT_LEAFLET_CONFIG = {
         ('Watercolor',
          'http://{s}.tile.stamen.com/watercolor/{z}/{x}/{y}.png',
          'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
-         <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; \
+         <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> \
+         &mdash; Map data &copy; \
          <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-         <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'),
+         <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
+         CC-BY-SA</a>'),
         ('Toner Lite',
          'http://{s}.tile.stamen.com/toner-lite/{z}/{x}/{y}.png',
          'Map tiles by <a href="http://stamen.com">Stamen Design</a>, \
-         <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; \
+         <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> \
+         &mdash; Map data &copy; \
          <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, \
-         <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>'),
+         <a href="http://creativecommons.org/licenses/by-sa/2.0/"> \
+         CC-BY-SA</a>'),
     ],
     'PLUGINS': {
-        # TODO: Include versions for development as ?v=%s % VERSION
         'esri-leaflet': {
             'js': 'lib/js/esri-leaflet.js',
             'auto-include': True,
@@ -1123,11 +1126,37 @@ _DEFAULT_LEAFLET_CONFIG = {
             'js': 'lib/js/Leaflet.fullscreen.min.js',
             'auto-include': True,
         },
+        'leaflet-opacity': {
+            'css': 'lib/css/Control.Opacity.css',
+            'js': 'lib/js/Control.Opacity.js',
+            'auto-include': True,
+        },
+        'leaflet-navbar': {
+            'css': 'lib/css/Leaflet.NavBar.css',
+            'js': 'lib/js/Leaflet.NavBar.js',
+            'auto-include': True,
+        },
+        'leaflet-measure': {
+            'css': 'lib/css/leaflet-measure.css',
+            'js': 'lib/js/leaflet-measure.js',
+            'auto-include': True,
+        },
     },
     'SRID': 3857,
     'RESET_VIEW': False
 }
+
 LEAFLET_CONFIG = os.getenv('LEAFLET_CONFIG',_DEFAULT_LEAFLET_CONFIG)
+
+if not DEBUG_STATIC:
+    # if not DEBUG_STATIC, use minified css and js
+    LEAFLET_CONFIG['PLUGINS'] = {
+        'leaflet-plugins': {
+            'js': 'lib/js/leaflet-plugins.min.js',
+            'css': 'lib/css/leaflet-plugins.min.css',
+            'auto-include': True,
+        }
+    }
 
 # option to enable/disable resource unpublishing for administrators
 RESOURCE_PUBLISHING = False
@@ -1272,7 +1301,8 @@ if os.name == 'nt':
 
 
 # define the urls after the settings are overridden
-if 'geonode.geoserver' in INSTALLED_APPS:
+USE_GEOSERVER = 'geonode.geoserver' in INSTALLED_APPS
+if USE_GEOSERVER:
     LOCAL_GEOSERVER = {
         "source": {
             "ptype": "gxp_wmscsource",
