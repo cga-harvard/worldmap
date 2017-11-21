@@ -50,6 +50,7 @@ from worldmap import get_version
 from worldmap.celeryapp import app  # flake8: noqa
 #import djcelery
 import dj_database_url
+from distutils.util import strtobool
 
 def str2bool(v):
         return v.lower() in ("yes", "true", "t", "1")
@@ -962,7 +963,10 @@ _DEFAULT_MAP_BASELAYERS = [
 
 MAP_BASELAYERS = os.getenv('MAP_BASELAYERS',_DEFAULT_MAP_BASELAYERS)
 
-SOCIAL_BUTTONS = str2bool(os.getenv('SOCIAL_BUTTONS', 'True'))
+DISPLAY_SOCIAL = strtobool(os.getenv('DISPLAY_SOCIAL', 'True'))
+DISPLAY_COMMENTS = strtobool(os.getenv('DISPLAY_COMMENTS', 'True'))
+DISPLAY_RATINGS = strtobool(os.getenv('DISPLAY_RATINGS', 'True'))
+DISPLAY_WMS_LINKS = strtobool(os.getenv('DISPLAY_WMS_LINKS', 'True'))
 
 _DEFAULT_SOCIAL_ORIGINS = [{
     "label":"Email",

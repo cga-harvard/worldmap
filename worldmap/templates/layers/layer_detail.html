@@ -29,7 +29,7 @@
   {% elif preview == 'react' %}
 		{% include 'geonode-client/layer_map.html' %}
   {% else %}
-    {% include "layers/layer_leaflet_map.html" %}
+    {% include "layers/layer_ol3_map.html" %}
   {% endif %}
 {{ block.super }}
 {% endblock %}
@@ -56,6 +56,16 @@
     <div class="tab-content">
       <article id="info" class="tab-pane{% if tab == 'info' or not tab %} active{% endif %}">
         {% include "base/resourcebase_info_panel.html" %}
+
+        {% if USE_GEOSERVER and DISPLAY_WMS_LINKS %}
+        <p>
+          {% if request.user.is_authenticated and 'access_token' in request.session %}
+            <a href="{% url 'capabilities_layer' resource.id %}?access_token={{ request.session.access_token }}">
+          {% else %}
+            <a href="{% url 'capabilities_layer' resource.id %}">
+          {% endif %}
+          <i class="fa fa-map"></i> {% trans 'Layer WMS GetCapabilities document' %}</a></p>
+        {% endif %}
       </article>
 
       {% if resource.is_mosaic %}

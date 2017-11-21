@@ -175,10 +175,21 @@ if "geonode.contrib.metadataxsl" in settings.INSTALLED_APPS:
                             )
 
 if 'geonode.geoserver' in settings.INSTALLED_APPS:
+    from geonode.geoserver.views import get_capabilities
     # GeoServer Helper Views
     urlpatterns += patterns('',
                             # Upload views
                             (r'^upload/', include('geonode.upload.urls')),
+                            (r'^gs/', include('geonode.geoserver.urls')),
+                            # capabilities
+                            url(r'^capabilities/layer/(?P<layerid>\d+)/$',
+                                get_capabilities, name='capabilities_layer'),
+                            url(r'^capabilities/map/(?P<mapid>\d+)/$',
+                                get_capabilities, name='capabilities_map'),
+                            url(r'^capabilities/user/(?P<user>[\w.]+)/$',
+                                get_capabilities, name='capabilities_user'),
+                            url(r'^capabilities/category/(?P<category>\w+)/$',
+                                get_capabilities, name='capabilities_category'),
                             (r'^gs/', include('geonode.geoserver.urls')),
                             )
 
