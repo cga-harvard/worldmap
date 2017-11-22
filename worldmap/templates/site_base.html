@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 {% block extra_head %}
       <link href="{{ STATIC_URL }}css/site_base.css" rel="stylesheet"/>
+      {% if urlsuffix %}
+		<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}{{urlsuffix}}/boilerplate-min.css" media="screen" />
+    	<link rel="stylesheet" type="text/css" href="{{ MEDIA_URL }}{{urlsuffix}}/site.css" media="screen" />
+      {% endif %}
 {% endblock %}
 {% block extra_tab %}
 {% comment %}
