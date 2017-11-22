@@ -210,7 +210,7 @@ def map_view_wm(request, mapid, snapshot=None, layer_name=None, template='maps/m
         'preview': getattr(
             settings,
             'LAYER_PREVIEW_LIBRARY',
-            '')
+            ''),
         'urlsuffix': get_suffix_if_custom(map_obj),
     }))
 
