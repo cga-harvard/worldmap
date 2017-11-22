@@ -26,6 +26,7 @@ from geonode.maps.views import _resolve_map, _PERMISSION_MSG_VIEW
 from geonode.maps.views import snapshot_config
 from geonode.utils import DEFAULT_TITLE
 from geonode.utils import DEFAULT_ABSTRACT
+from geonode.maps.views import get_suffix_if_custom
 
 from .models import LayerStats
 from .forms import EndpointForm
@@ -210,6 +211,7 @@ def map_view_wm(request, mapid, snapshot=None, layer_name=None, template='maps/m
             settings,
             'LAYER_PREVIEW_LIBRARY',
             '')
+        'urlsuffix': get_suffix_if_custom(map_obj),
     }))
 
 
@@ -553,3 +555,4 @@ def official_site(request, site):
     """
     map_obj = get_object_or_404(Map,urlsuffix=site)
     return map_view_wm(request, str(map_obj.id))
+
