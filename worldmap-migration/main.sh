@@ -74,6 +74,7 @@ echo "Generating tables locally"
 do_hr
 
 source $ENV_PATH/bin/activate
+#python $GEONODE_PATH/manage.py makemigrations --noinput
 python $GEONODE_PATH/manage.py migrate
 # python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/fixtures/default_oauth_apps.json
 else
