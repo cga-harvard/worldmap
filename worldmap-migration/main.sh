@@ -65,7 +65,16 @@ sudo -u $USER PGPASSWORD=$DB_PW psql -c "CREATE DATABASE $NEW_DB;"
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST -d $NEW_DB -c \
 	"CREATE EXTENSION postgis;"
+do_hr
+echo "CREATE EXTENSION FOR UUID"
+sudo -u $USER PGPASSWORD=$DB_PW \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST -d $OLD_DB -c \
+        'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
+sudo -u $USER PGPASSWORD=$DB_PW \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST -d $NEW_DB -c \
+        'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
+do_hr
 #############################################################################
 
 if [ $LOCAL ]; then
