@@ -50,6 +50,8 @@ The code is made in bash for the migration of an old version of worldmap to the 
 		chmod +x main.sh
 		chmod -R +x scripts/
 		source main.sh -d $OLD_DB
+		For example:
+		source main.sh --database worldmaplegacy
 
    If you wanna migrate geoserver styles
    		
