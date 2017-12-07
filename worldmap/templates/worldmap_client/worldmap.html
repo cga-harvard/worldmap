@@ -43,6 +43,14 @@
         }
     };
 
+    function parseLocalGeoserverUrl(geoserverUrl){
+        var localurl = window.location.origin;
+        if( geoserverUrl.indexOf(localurl) === 0 ){
+            return geoserverUrl.split(localurl)[1];
+        }
+        return geoserverUrl;
+    }
+
     var app;
     var init = function() {
     {% autoescape off %}
@@ -152,7 +160,7 @@
             rest: "{% url "maps_browse" %}",
             ajaxLoginUrl: "{% url "account_ajax_login" %}",
             homeUrl: "{% url "home" %}",
-            localGeoServerBaseUrl: "{{ GEOSERVER_BASE_URL }}",
+            localGeoServerBaseUrl: parseLocalGeoserverUrl("{{ GEOSERVER_BASE_URL }}"),
             localCSWBaseUrl: "{{ CATALOGUE_BASE_URL }}",
             hypermapRegistryUrl: "{{ HYPERMAP_REGISTRY_URL }}",
             mapProxyUrl: "{{ HYPERMAP_REGISTRY_URL }}",
