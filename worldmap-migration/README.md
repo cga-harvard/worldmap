@@ -49,13 +49,22 @@ The code is made in bash for the migration of an old version of worldmap to the 
 
 		chmod +x main.sh
 		chmod -R +x scripts/
+   4.1  If you want to run  django migration using the django server. Dont forget to edit `/home/ubuntu/wm.sh` file in your djando server and add new `DATABASE_URL`.
+   
 		source main.sh --database $OLD_DB
 		For example:
-		source main.sh --database worldmaplegacy
-
-   If you wanna migrate geoserver styles
+		source main.sh --database worldmaplegacy 
+   4.2 If you wan to run django migration locally. Remind to set correctly `GEONODE_PATH` and `ENV_PATH`.
+   
+ 		source main.sh --database worldmaplegacy --local
+		
+   4.3 Migration with geoserver styles: 
    		
+		- Remote mode
 		source main.sh --database $OLD_DB  --styles
+		
+		-Locally mode 
+		source main.sh --database $OLD_DB  --styles --local
 
 **Notes**
 
