@@ -21,7 +21,7 @@ The code is made in bash for the migration of an old version of worldmap to the 
      2.2. Edit GEOSERVER_URL and STYLES_FOLDER. Make sure `GEOSERVER_URL` corresponds to public location and `STYLES_FOLDER` is the directory where geoserver saves the styles.
 		
 		 vim styles_migration.sh
-     2.3. Generate `styles.sh`. 
+     2.3. Generate `styles.csv`. 
      
    	         ./styles_migration.sh
 
