@@ -285,6 +285,7 @@ MAX_DOCUMENT_SIZE = int(os.getenv('MAX_DOCUMENT_SIZE ', '2'))  # MB
 
 WORLDMAP_APPS = (
     # WorldMap applications
+    'worldmap',
     'wm_extra',
     'worldmap.certification',
 )
