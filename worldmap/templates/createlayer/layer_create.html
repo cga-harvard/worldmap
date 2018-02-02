@@ -39,7 +39,7 @@
         </div>
 
         <div id="div_id_terms" class="form-group  ">
-          <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">I Agree to the <a href="{% url "upload_terms" %}">Terms and Coditions</a>
+          <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">{% trans "I agree to the <a href='/aboutus/#disclaimer'>Terms and Conditions</a>" %}
         </div>
 
         <button type="submit" id="layer-create-button" class="btn btn-danger" style="margin-top:20px">{% trans "Create" %}</button>

@@ -1,0 +1,34 @@
+{% extends "geonode_base.html" %}
+
+{% load i18n %}
+{% block title %} {% trans "About Us" %} — {{ block.super }} {% endblock %}
+
+{% block body_outer %}
+<div class="page-header">
+  <h2>{% trans "About Us" %}</h2>
+</div>
+<p class="lead">{% trans "About Us" %}.</p>
+<p>　　{% trans "A large amount of geographical information which is closely related to human activities exists in the brilliant human civilization, numerous documents since ancient times, as well as the vast land and ocean. For example, the geographical distribution of individuals, the traces and the social relations for a single person, the migration of a group, as well as the existence, distribution and change of a region and trajectory for non-living things; as for a place, it also contains the people, events, things and other geographical information in previous time." %}</p>
+ <p>　　{% trans "The Academic Map Publishing Platform, established by Zhejiang University and Harvard University together, is not only an integrated database providing multi-functional query services, but also a display platform ready for users to present their research productions about geographic information and visualize analysis and select. The big data formed by the platform, will greatly contribute to future scientific research, government decision-making and social services." %}</p>
+<p style="text-align: right">{% trans "The big data and Chinese academic map innovation team of Zhejiang University" %}</p>
+<p style="text-align: right">{% trans "The Center for Geographic Analysis of Harvard University" %}</p>
+<p style="text-align: right">{% trans "Dec 18, 2017" %}</p>
+<br>
+<div class="page-header" id="copyright">
+  <h2>{% trans "Copyright Notice" %}</h2>
+</div>
+<p class="lead">{% trans "Copyright Notice" %}.</p>
+<p>　　{% trans "The copyright of the Academic Map Publishing Platform belongs to both the big data and Chinese academic map innovation team of Zhejiang University and the Center for Geographic Analysis of Harvard University. All copyrights of data and maps uploaded by users are held by their respective owners and the Platform." %}</p>
+<br>
+<div class="page-header" id="disclaimer">
+  <h2>{% trans "Disclaimer" %}</h2>
+</div>
+<p class="lead">{% trans "Disclaimer" %}.</p>
+<p>　　{% trans "The data and information (including texts, pictures, audio and video files) must comply with national laws, regulations and academic norms. The legal liability caused by the content should be undertaken by the author, and this site has no joint liability." %}</p>
+<p>　　{% trans "The authors have to back up files by themselves. This site does not assume responsibility for data loss due to hacker attacks, viruses or any other reasons. " %}</p>
+<p>　　{% trans "This site and its employees are not required to take responsibility for any errors, inaccuracies or faults during information transmission or delivery in any way. " %}</p>
+<p>　　{% trans "If the information provided on this site that is used by any person or distributed to any person in any jurisdiction violates the laws or regulations of that jurisdiction, or makes this website or its third-party agents subject to any regulatory requirement in that jurisdiction, such information should not be used or distributed to any person in such jurisdiction. Users have to make sure that their materials will not be subject to any local restrictions that restrict or prohibit users from using or distributing such kind of information provided on this site." %}</p>
+ <p>　　{% trans "Because this site is open to any registered user to upload pictures or text, and the site cannot identify the copyright of the uploaded pictures or text. Please inform us immediately once you find any possible infringement of yours, and we will delete it promptly." %}</p>
+<p>　　{% trans "We accept no liability for any loss or damage arising by force majeure that influences the normal operation of this website, such as hacker attacks, computer virus invasion or attack, the temporary closure caused by government regulation and so on. If other websites linked to this site cause the disclosure of personal information and relevant legal disputes or consequences, this site needn't undertake responsibility for this situation." %}</p>
+<p>　　{% trans "We regard that those who get access to this site or use the data of this site in any way have accepted the constraints of this disclaimer voluntarily." %}</p>
+{% endblock %}

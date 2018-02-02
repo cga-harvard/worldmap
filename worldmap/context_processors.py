@@ -11,7 +11,5 @@ def worldmap(request):
         'HYPERMAP_REGISTRY_URL': settings.HYPERMAP_REGISTRY_URL,
         'MAPPROXY_URL': settings.MAPPROXY_URL,
         'SOLR_URL': settings.SOLR_URL,
-        'USE_GAZETTEER': settings.USE_GAZETTEER,
-        'GOOGLE_API_KEY': settings.GOOGLE_API_KEY,
-        'GOOGLE_MAPS_API_KEY': settings.GOOGLE_MAPS_API_KEY
+        'USE_GAZETTEER': settings.USE_GAZETTEER
     }

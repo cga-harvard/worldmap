@@ -1,0 +1,18 @@
+html, body{background-color: #000000}
+footer{
+    background-color: #000000;  
+    text-align: center;
+    color: #EEEEEE;
+}
+.navbar{
+    background-color: rgba(0, 0, 0, 0.7);
+}
+.navbar-inverse .navbar-nav>li>a {
+    color: #EEEEEE;
+}
+.navbar-inverse .navbar-nav>li>ul>li>a {
+    color: #000000;
+}
+#usermenu{
+    background-color: rgba(255,255, 255, 0.7);
+}

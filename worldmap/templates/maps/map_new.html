@@ -9,10 +9,10 @@
 		{% include 'maps/map_geoexplorer.js' %}
 	{% elif preview == 'react' %}
 		{% include 'geonode-client/map_new.html' %}
-  {% elif preview == 'worldmap' %}
-    {% include 'worldmap_client/worldmap.html' %}
-	{% else %}
-		{% include 'maps/map_geoexplorer.js' %}
+    {% elif preview == 'worldmap' %}
+        {% include 'worldmap_client/worldmap.html' %}
+    {% else %}
+        {% include 'maps/map_geoexplorer.js' %}
 	{% endif %}
 
 	{{ block.super }}

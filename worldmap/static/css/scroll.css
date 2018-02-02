@@ -1,0 +1,45 @@
+/*chrome滚动条样式*/
+.custom-scrollbar::-webkit-scrollbar {
+  /*滚动条整体部分，其中的属性有width,height,background,border（就和一个块级元素一样）等。*/
+  width: 10px;
+  height: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-button {
+  /*滚动条两端的按钮。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+  display: none;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  /*外层轨道。可以用display:none让其不显示，也可以添加背景图片，颜色改变显示效果。*/
+  display: none;
+}
+.custom-scrollbar::-webkit-scrollbar-track-piece {
+  /*内层轨道，滚动条中间部分（除去）。*/
+  background: #ccc;
+}
+.custom-scrollbar::-webkit-scrollbar-track-piece:increment {
+  /*内层轨道，滚动条中间部分（除去）。*/
+}
+.custom-scrollbar::-webkit-scrollbar-track-piece:decrement {
+  /*内层轨道，滚动条中间部分（除去）。*/
+}
+.custom-scrollbar::-webkit-scrollbar-track-piece:start {
+  /*内层轨道，滚动条中间部分（除去）。*/
+}
+.custom-scrollbar::-webkit-scrollbar-track-piece:end {
+  /*内层轨道，滚动条中间部分（除去）。*/
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  /*滚动条里面可以拖动的那部分*/
+  background: #dcedef;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  /*滚动条里面可以拖动的那部分*/
+}
+.custom-scrollbar::-webkit-scrollbar-corner {
+  /*边角*/
+}
+.custom-scrollbar::-webkit-scrollbar-resizer {
+  /*定义右下角拖动块的样式*/
+}

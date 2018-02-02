@@ -15,7 +15,7 @@
         <div class="col-lg-8 item-details">
           <div class="row">
             <div class="col-xs-10">
-                <p class="item-meta"><span class="item-category">{{item.category__gn_description ? item.category__gn_description : 'No category' }}</span></p>
+              <p class="item-meta"><span class="item-category">{{item.category__gn_description ? item.category__gn_description : 'No category' }}</span></p>
               <h4><a href="{{ item.detail_url }}">{{ item.title }}</a></h4>
             </div>
             <div class="col-xs-2">
@@ -44,7 +44,11 @@
                   <i class="fa fa-map-marker"></i>{% trans "Create a Map" %}</a>
                   {% verbatim %}
                 </li>
-                <li><a ng-if="item.detail_url.indexOf('/maps/') > -1" href="/maps/{{item.id}}/view"><i class="fa fa-map-marker"></i>View Map</a></li>
+                <li><a ng-if="item.detail_url.indexOf('/maps/') > -1" href="/maps/{{item.id}}/view">
+                  {% endverbatim %}
+                  <i class="fa fa-map-marker"></i>{% trans "View Map" %}</a>
+                  {% verbatim %}
+                </li>
               </ul>
             </div>
           </div>

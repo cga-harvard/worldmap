@@ -36,9 +36,9 @@ import autocomplete_light
 
 from wm_extra.views import (proxy, ajax_layer_update, ajax_layer_edit_check, upload_layer,
     create_pg_layer, ajax_increment_layer_stats, new_map_wm, map_view_wm,
-    add_layer_wm, add_endpoint)
+    add_layer_wm, add_endpoint, get_categorys, get_most_maps)
 from tastypie.api import Api
-from wm_extra.api.resources import LayerResource, TagResource, TopicCategoryResource
+from wm_extra.api.resources import LayerResource, TagResource, TopicCategoryResource, ActionLayerDeleteResource
 from wm_extra.accounts.views import SignupView
 from geonode.maps.views import snapshot_create
 
@@ -62,6 +62,7 @@ wm_api = Api(api_name='2.6')
 wm_api.register(LayerResource())
 wm_api.register(TagResource())
 wm_api.register(TopicCategoryResource())
+wm_api.register(ActionLayerDeleteResource())
 
 # main urlpatterns for GeoNode
 urlpatterns = patterns('',
@@ -71,7 +72,12 @@ urlpatterns = patterns('',
                        url(r'^help/$', TemplateView.as_view(template_name='help.html'), name='help'),
                        url(r'^developer/$', TemplateView.as_view(template_name='developer.html'), name='developer'),
                        url(r'^about/$', TemplateView.as_view(template_name='about.html'), name='about'),
+                       url(r'^aboutus/$', TemplateView.as_view(template_name='aboutus.html'), name='aboutus'),
+                       url(r'^aboutgeonode/$', TemplateView.as_view(template_name='about.html'), name='aboutgeonode'),
                        url(r'^upload_terms/$', TemplateView.as_view(template_name='upload_terms.html'), name='upload_terms'),
+                        # TODO add urls to get the category_list and hottest/latest maps
+                       url(r'^getCategory/', get_categorys, name='getCategory'),
+                       url(r'^getMostMaps/', get_most_maps, name='getMostMaps'),
                        # Layer views
                        (r'^layers/', include('geonode.layers.urls')),
 )
@@ -81,6 +87,7 @@ if settings.LAYER_PREVIEW_LIBRARY == 'worldmap':
     urlpatterns += patterns('',
                             # api
                             (r'^api/', include(wm_api.urls)),
+
                             # maps
                             url(r'^maps/new$', new_map_wm, name="new_map_wm"),
                             url(r'^maps/add_layer$', add_layer_wm, name='add_layer_wm'),
@@ -131,8 +138,8 @@ urlpatterns += patterns('',
                        (r'^security/', include('geonode.security.urls')),
 
                        # Accounts
-                       url(r'^account/ajax_login$', 'geonode.views.ajax_login', name='account_ajax_login'),
-                       url(r'^account/ajax_lookup$', 'geonode.views.ajax_lookup', name='account_ajax_lookup'),
+                       url(r'^accounts/ajax_login$', 'geonode.views.ajax_login', name='account_ajax_login'),
+                       url(r'^accounts/ajax_lookup$', 'geonode.views.ajax_lookup', name='account_ajax_lookup'),
 
                        # Meta
                        url(r'^lang\.js$', TemplateView.as_view(template_name='lang.js', content_type='text/javascript'),

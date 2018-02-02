@@ -3,8 +3,9 @@ from tastypie import fields
 from taggit.models import Tag
 
 from geonode.maps.models import Layer
-from geonode.base.models import TopicCategory
+from geonode.base.models import TopicCategory, ResourceBase
 
+from actstream.models import Action
 
 class TopicCategoryResource(ModelResource):
     """
@@ -67,3 +68,15 @@ class LayerResource(ModelResource):
             'name', 'owner_username', 'srs', 'temporal_extent_end',
             'temporal_extent_start', 'title', 'topic_category', 'typename', 'uuid',
         ]
+
+
+class ActionLayerDeleteResource(ModelResource):
+
+    class Meta:
+        queryidarr = Action.objects.filter(data__contains={'raw_action': 'created'}, action_object_content_type_id=53).order_by('-timestamp').values_list('action_object_object_id', flat=True)
+        queryidarrint = []
+        for queryid in queryidarr:
+            queryidarrint.append(int(queryid))
+        queryset = ResourceBase.objects.filter(id__in=queryidarrint)
+        allowed_methods = ['get', ]
+        fields = ['uuid',]
