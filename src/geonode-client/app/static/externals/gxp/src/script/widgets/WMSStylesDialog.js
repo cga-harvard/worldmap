@@ -917,7 +917,7 @@ gxp.WMSStylesDialog = Ext.extend(Ext.Container, {
                 // set the default style if no STYLES param is set on the layer
 
                 if (!this.selectedStyle && (initialStyle === userStyle.name ||
-                    userStyle.isDefault === true )) {
+                     !initialStyle && userStyle.isDefault === true )) {
                     this.selectedStyle = record;
                 }
             }

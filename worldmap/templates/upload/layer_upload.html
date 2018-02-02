@@ -77,7 +77,7 @@
     <form id="file-uploader" method="post" enctype="multipart/form-data">
       <!-- UI change to hide the list of previously uploaded files from the user -->
       <input type="file" id="file-input" style="display: none;" multiple>
-      <input class="btn btn-default" type="button" value="Choose Files" onclick="document.getElementById('file-input').click();">
+      <input class="btn btn-default" type="button" value={% trans "Choose Files" %} onclick="document.getElementById('file-input').click();">
     </form>
 
     <section class="widget">
@@ -104,7 +104,7 @@
 
     <section class="terms-of-service">
       <br />
-      <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">I Agree to the <a href="{% url "upload_terms" %}">Terms and Coditions</a>
+      <input type="checkbox" name="terms" id="terms" onchange="activateButton(this)">{% trans "I agree to the <a href='/aboutus/#disclaimer'>Terms and Conditions</a>" %}
     </section>
 
     <section>

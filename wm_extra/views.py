@@ -15,7 +15,7 @@ from django.shortcuts import render_to_response, get_object_or_404, redirect
 from django.template import RequestContext
 from django.views.decorators.csrf import csrf_exempt
 
-from geonode.base.models import TopicCategory
+from geonode.base.models import TopicCategory, ResourceBase
 from geonode.geoserver.helpers import ogc_server_settings
 from geonode.layers.models import Layer
 from geonode.maps.models import Map, MapLayer
@@ -27,7 +27,7 @@ from geonode.maps.views import snapshot_config
 from geonode.utils import DEFAULT_TITLE
 from geonode.utils import DEFAULT_ABSTRACT
 
-from .models import LayerStats
+from .models import LayerStats, MapStats
 from .forms import EndpointForm
 
 
@@ -550,3 +550,90 @@ def official_site(request, site):
     """
     map_obj = get_object_or_404(Map,urlsuffix=site)
     return map_view_wm(request, str(map_obj.id))
+
+
+
+# TODO get the category list
+def get_categorys(request):
+    """
+    return the category
+    :param request: language
+    :return:
+    """
+    if request.POST.has_key('language'):
+        language = request.POST['language']
+        key = 'gn_description'
+    categorys = TopicCategory.objects.all().values('id',key)
+    category_dict ={}
+    for category in categorys:
+        category_dict[category['id']] = [category[key]]
+    categoryjson = json.dumps(category_dict)
+    # from django.utils import simplejson
+    # return HttpResponse(simplejson.dumps(category, ensure_ascii=False))
+    return HttpResponse(categoryjson)
+
+
+# TODO get the major maps created by admin, or get the hotest and latest layer/map
+def get_most_maps(request):
+    """
+    return the six admin's/hottest/latest maps
+    :param request: category[0:all the category 1-20: appointed category], type['hottest','latest']
+    :return: json of resourcebase
+    """
+    resourcebase_dict = {}
+    count = 0
+    if request.POST.has_key('type'):
+        type = request.POST['type']
+    # if type==admin key='owner_id' elseif type==hottest key=popular_count else type==latest key =date
+    # order_by('-key'): the same with order by(key) asce
+    if type == 'admin':
+        key = 'owner_id'
+    else:
+        key = '-popular_count' if type == 'hottest' else '-date'
+    if request.POST['category'] != '0':
+        categoryid = int(request.POST['category'])
+        resourcebase_queryset = ResourceBase.objects.instance_of(Map).filter(category_id=categoryid).order_by(key)[0:5]
+    else:
+        resourcebase_queryset = ResourceBase.objects.instance_of(Map).all().order_by(key,'-date')[0:5]
+    count = 0
+    for resourcebase in resourcebase_queryset:
+        resourcebase_dict[count] = [resourcebase.title, resourcebase.thumbnail_url, resourcebase.detail_url]
+        count = count + 1
+    resourcebase_json = json.dumps(resourcebase_dict)
+    return HttpResponse(resourcebase_json)
+
+# def get_hottest_maps(request):
+#     """
+#     return the six hottest maps of the appointed cateory
+#     :param request:
+#     :return:
+#     """
+#     hottestmapstats = MapStats.objects.order_by('-visits').values('map_id')
+#     resourcebase_dict = {}
+#     count = 0
+#     if request.POST.has_key('category'):
+#         categoryid = int(request.POST['category'])
+#         for mapstats in hottestmapstats:
+#             if(count > 5):
+#                 break
+#             try:
+#                 resourcebase = ResourceBase.objects.get(id=mapstats['map_id'], category_id=categoryid)
+#             except:
+#                 count =count
+#             else:
+#                 resourcebase_dict[count] = [resourcebase.title, resourcebase.thumbnail_url, resourcebase.detail_url]
+#                 count = count +1
+#     else:
+#         for mapstats in hottestmapstats:
+#             if(count > 5):
+#                 break
+#             try:
+#                 resourcebase = ResourceBase.objects.get(id=mapstats['map_id'])
+#             except:
+#                 count = count
+#             else:
+#                 resourcebase_dict[count] = [resourcebase.title, resourcebase.thumbnail_url, resourcebase.detail_url]
+#                 count = count + 1
+#     # return HttpResponse(simplejson.dumps(hottestresourcebase, ensure_ascii=False))
+#     resourcebasejson = json.dumps(resourcebase_dict)
+#     return HttpResponse(resourcebasejson)

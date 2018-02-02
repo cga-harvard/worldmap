@@ -61,6 +61,7 @@
         "plugins/WMSCSource.js",
         "plugins/OSMSource.js",
         "plugins/GoogleSource.js",
+        "plugins/TiandituSource.js",
         "plugins/OLSource.js",
         "plugins/MapBoxSource.js",
         "plugins/MapQuestSource.js",
@@ -105,8 +106,17 @@
         "plugins/Print.js",
         "plugins/LoadingIndicator.js",
         "plugins/Playback.js",
+        "locale/ca.js",
+        "locale/de.js",
+        "locale/el.js",
+        "locale/en.js",
         "locale/es.js",
-        "locale/ca.js"
+        "locale/fr.js",
+        "locale/id.js",
+        "locale/nl.js",
+        "locale/pl.js",
+        "locale/zh.js",
+        "locale/zh-cn.js"
     );
     
     var scripts = document.getElementsByTagName("script");

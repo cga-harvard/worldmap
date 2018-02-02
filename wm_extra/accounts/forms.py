@@ -56,10 +56,13 @@ class SignupForm(forms.Form):
 	is_org_member = forms.TypedChoiceField(coerce=lambda x: bool(int(x)),
         choices=((1, _(u'Yes')), (0, _(u'No'))),
         widget=forms.RadioSelect,
-        initial=0, label=settings.CUSTOM_ORG_AUTH_TEXT
+        #initial=0, label=_("Are you affiliated with Zhejiang University?")
+        initial=0, 
+        label=_("Are you affiliated with Zhejiang University?")
         )
     agree_tos = forms.BooleanField(
-	label=mark_safe("I agree to the <a href='/upload_terms'>Terms and Conditions</a>")		
+	    #label=mark_safe(_("I agree to the <a href='/upload_terms'>Terms and Conditions</a>"))	
+        label=_("I agree to the <a href='/aboutus/#disclaimer'>Terms and Conditions</a>")	
      )
     
     def clean_username(self):

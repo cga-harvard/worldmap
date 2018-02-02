@@ -38,9 +38,10 @@ Ext.namespace("gxp");
 gxp.LinkEmbedMapDialog = Ext.extend(gxp.EmbedMapDialog, {
     
 
-	linkMessage: 'Paste link in email or IM',
-	linkUrl : '',
-	linkBox : null,
+        linkUrl : '',
+        linkBox : null,
+        linkMessage: '<span style="font-size:10pt;">Paste link in email or IM:</span>',
+        publishMessage: '<span style="font-size:10pt;">Paste HTML to embed in website:</span>',
     
     /** private: method[initComponent]
      */
@@ -57,16 +58,16 @@ gxp.LinkEmbedMapDialog = Ext.extend(gxp.EmbedMapDialog, {
             '" width="' + this.widthField.getValue() +'" src="' + 
             gxp.util.getAbsoluteUrl(this.url) + '"></iframe>'
         );
-		this.linkBox.focus(true, 100);
-		
+        this.linkBox.focus(true, 100);
+        
     },
 
     /** private: method[getConfig]
      */
     getConfig: function() {
-    	
-    	var absoluteUrl = gxp.util.getAbsoluteUrl(this.linkUrl);
-    	        
+        
+        var absoluteUrl = gxp.util.getAbsoluteUrl(this.linkUrl);
+                
         this.snippetArea = new Ext.form.TextArea({
             height: 70,
             selectOnFocus: true,
@@ -93,12 +94,12 @@ gxp.LinkEmbedMapDialog = Ext.extend(gxp.EmbedMapDialog, {
         });        
 
         this.linkBox = new Ext.form.TextField({
-        	value: absoluteUrl,
-        	listeners: {
-        		"focus": function() {
-        			this.selectText();
-        		}
-        	}
+            value: absoluteUrl,
+            listeners: {
+                "focus": function() {
+                    this.selectText();
+                }
+            }
         });
         
         var adjustments = new Ext.Container({
@@ -158,7 +159,7 @@ gxp.LinkEmbedMapDialog = Ext.extend(gxp.EmbedMapDialog, {
                     html: this.linkMessage
                 }
             },{
-            	items: [this.linkBox]
+                items: [this.linkBox]
             }, {
                 xtype: "box",
                 autoEl: {

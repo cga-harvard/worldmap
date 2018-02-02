@@ -10,21 +10,22 @@
       {% if DEBUG_STATIC %}
       <link href="{{ STATIC_URL }}lib/css/jquery.dataTables.css?v={{ VERSION }}" rel="stylesheet" />
       <link href="{{ STATIC_URL }}lib/css/select2.css?v={{ VERSION }}" rel="stylesheet"/>
-      <link href="{{ STATIC_URL }}lib/css/bootstrap.min.css?v={{ VERSION }}" rel="stylesheet"/>
+      <link href="{{ STATIC_URL }}plugin/bootstrap-3.3.7/css/bootstrap.min.css?v={{ VERSION }}" rel="stylesheet"/>
+      <link href="{{ STATIC_URL }}lib/css/bootstrap-select.min.css?v={{ VERSION }}" rel="stylesheet"/>
       <link href="{{ STATIC_URL }}lib/css/jquery-ui.css?v={{ VERSION }}" rel="stylesheet"/>
-      <link href="{{ STATIC_URL }}lib/css/bootstrap-datetimepicker.css?v={{ VERSION }}" rel="stylesheet"/>
-      <link href="{{ STATIC_URL }}lib/css/bootstrap-tokenfield.css?v={{ VERSION }}" rel="stylesheet"/>
+      <link href="{{ STATIC_URL }}lib/css/bootstrap-datetimepicker.min.css?v={{ VERSION }}" rel="stylesheet"/>
+      <link href="{{ STATIC_URL }}lib/css/bootstrap-tokenfield.min.css?v={{ VERSION }}" rel="stylesheet"/>
       {% else %}
       <link href="{{ STATIC_URL }}lib/css/assets.min.css?v={{ VERSION }}" rel="stylesheet"/>
       {% endif %}
       <link href="{{ STATIC_URL }}geonode/css/ext-compatibility.css?v={{ VERSION }}" rel="stylesheet" />
       <link href="{{ STATIC_URL }}geonode/css/base.css?v={{ VERSION }}" rel="stylesheet" />
       <link href="{{ STATIC_URL }}css/site_base.css?v={{ VERSION }}" rel="stylesheet" />
+        <script src="{{ STATIC_URL }}plugin/jquery-3.2.1.min.js?v={{ VERSION }}"></script>
       <style type="text/css">[ng\:cloak],[ng-cloak],[data-ng-cloak],[x-ng-cloak],.ng-cloak,.x-ng-cloak,.ng-hide:not(.ng-hide-animate){display:none !important;}</style>
+      {% block extra_head %}
       {% endblock %}
-    {% block extra_head %}
-      {% endblock %}
-
+    {% endblock %}
     <!--[if IE]>
       <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
       <style>
@@ -36,55 +37,68 @@
       </style>
     <![endif]-->
     <link rel="search" type="application/opensearchdescription+xml" href="/catalogue/opensearch" title="GeoNode Search"/>
-  </head>
-
-  <body class="{% block body_class %}{% endblock %}">
-    <!-- Navbar -->
-    {% block header %}
-  <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-    <div class="container-fluid">
-        <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <i class="fa fa-navicon fa-lg"></i>
-        </button>
-        <a class="navbar-brand" href="{% url "home" %}">GeoNode</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav navbar-right">
-            <li> <a href="{% url "new_map" %}">{% trans "Create Map" %}</a></li>
-            <li><a href="{% url "maps_browse" %}">{% trans "View Map" %}</a></li>
-            {% if user.is_authenticated %}
-            <li><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% avatar user 42 %} {{ user.username }}<i class="fa fa-angle-down fa-lg"></i></a>
-              <ul class="dropdown-menu">
-                <li><a href="{{ user.get_absolute_url }}">{% trans "Profile" %}</a></li>
-                <li><a href="{% url "recent-activity" %}">{% trans "Recent Activity" %}</a></li>
-                <li><a href="{% url "messages_inbox" %}">{% trans "Inbox" %}</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="{% url "admin:index" %}">Admin</a></li>
-                <li><a href="{{ GEOSERVER_BASE_URL }}">GeoServer</a></li>
-                <li role="separator" class="divider"></li>
-                <li><a href="{% url "help" %}">{% trans "Help" %}</li>
-                <li role="separator" class="divider"></li>
-                <li><a href="/account/logout/">Logout</a></li>
-                </ul>
-              </li>
-          {% else %}
-          <li><a href="#" data-toggle="modal" data-target="#SigninModal" role="button" >{% trans "Sign in" %} </a></li>
-              {% endif %}
-            </ul>
-          </div> <!--/.nav-collapse -->
-        </div>
-      </nav>
-      {% endblock header %}
-      <!-- End of Navbar -->
-
-    <div class="alert alert-danger alert-dismissible" role="alert" id="ieflag" style="display:none">
+    <link rel="icon" href="{{ STATIC_URL }}img/icon.ico" type="image/x-icon"/>
+    <link href="{{ STATIC_URL }}plugin/jquery-easyui-1.5.2/themes/icon.css" rel="stylesheet" >
+    <link href="{{ STATIC_URL }}css/index.css" rel="stylesheet">
+    <link href="{{ STATIC_URL }}css/scroll.css" rel="stylesheet">
+</head>
+<body>
+<body class="{% block body_class %}{% endblock %}">
+  <!-- Navbar -->
+  {% block header %}
+  <nav class="navbar navbar-default navbar-fixed-top">
+    <div id="nav" class="container opacity50">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse topnavi" role="navigation" id="navbar">
+      <ul class="nav navbar-nav navbar-left" id="nav">
+        <li><a href="{% url "home" %}">{% trans "Academic Map Publishing Platform" %}</a> </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="{% url "new_map" %}">{% trans "Create Map" %}</a></li>
+        <li><a href="{% url "maps_browse" %}">{% trans "View Map" %}</a></li>
+        
+        {% if user.is_authenticated %}
+        <li><a href="#" class="dropdown-toggle avatar" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% avatar user 42 %} {{ user.username }}<i class="fa fa-angle-down fa-lg"></i></a>
+          <ul class="dropdown-menu">
+            <li><a href="{{ user.get_absolute_url }}">{% trans "Profile" %}</a></li>
+            <li><a href="{% url "recent-activity" %}">{% trans "Recent Activity" %}</a></li>
+            <li><a href="{% url "messages_inbox" %}">{% trans "Inbox" %}</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="{% url "admin:index" %}">{% trans "Admin" %}</a></li>
+            <li><a href="{{ GEOSERVER_BASE_URL }}">GeoServer</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a href="/account/logout/">{% trans "Log out" %}</a></li>
+          </ul>
+        </li>
+        
+        {% else %}
+        <li><a href="#" data-toggle="modal" data-target="#SigninModal" role="button" >{% trans "Sign in" %} </a></li>
+        
+        {% endif %}
+      </ul>   
+    </div>
+  </nav>
+  <div id="headInterval"></div>
+  {% endblock header %}
+  <!-- End of Navbar -->
+<!--   <div class="alert alert-danger alert-dismissible" role="alert" id="ieflag" style="display:none">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <h1>You are using an outdated browser that is not supported by GeoNode.</h1>
       <p>Please use a <strong>modern browser</strong> like Mozilla Firefox, Google Chrome or Safari.</p>
-    </div>
+  </div> -->
+  <div class="headBackgroud">
+    <img class="headTitle" src="{{ STATIC_URL }}img/title.png"/>
+  </div>
+  
 
-  <div id="wrap">
+<div id="wrap">
     {% block middle %}
     <div class="container">
       {% include "_status_message.html" %}
@@ -99,37 +113,61 @@
         {% block sidebar %}{% endblock %}
         </div>
       </div>
+      
       {% endblock %}
     </div>
     {% endblock middle %}
   </div>
 
   {% block footer %}
+  <hr/>
   <footer>
-    <div class="container">
-      <div class="row">
-        <div class="col-md-8">
-          <a href="{{site}}{{ STATIC_URL }}docs/WorldMap_Help_{{LANGUAGE_CODE}}.pdf">{% trans "Need Help?" %}</a>&nbsp;&nbsp;
-          <a href="mailto:worldmap@harvard.edu">{%  trans "Contact Us" %}</a>&nbsp;&nbsp;
-          <a href="https://github.com/cga-harvard/worldmap">{% trans "Source Code" %}</a>&nbsp;&nbsp;
-          <a href="http://www.harvard.edu/copyright-issue">{% trans "Report Copyright Infringement" %}</a>&nbsp;&nbsp; <br>
-        {% trans "Copyright 2017 &copy; The President and Fellows of Harvard College" %}
+    <div class="container-fluid footerDiv">
+      <img src="{{ STATIC_URL }}img/title_small.png"/>
+      <hr/>
+      <div class="row footerContent">
+        <div class="col-md-3 col-sm-3">
+          <h4 class="footerTitle">{% trans "Contact Us" %}</h4>
+          <span class="footerFont">
+              <a href='http://www.zju.edu.cn'>{%  trans "Zhejiang University" %}</a>
+              <br>
+              <a href='http://gis.harvard.edu/'>{%  trans "CGA Harvard" %}</a>
+          </span>
         </div>
-        <div class="col-md-4">
-        <label class="hidden">{% trans "Language" %}</label>
-        {% if csrf_token != "NOTPROVIDED" %}
-        {% get_current_language as LANGUAGE %}
-        <form class="form-inline" action="/i18n/setlang/" method="post">
-        {% csrf_token %}
-          <select class="col-md-6" name="language" onchange="javascript:form.submit()">
-            {% for lang in LANGUAGES %}
-            <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %} selected="selected"{% endifequal %}>
-              {{ lang.1 }}
-            </option>
-            {% endfor %}
-          </select>
-        </form>
-        {% endif %}
+        <div class="col-md-3 col-sm-3">
+          <h4 class="footerTitle">{% trans "Need Help?" %}</h4>
+          <span>
+              {% trans "<a href='/static/docs/WorldMap_Help_en.pdf'>Worldmap Help</a>" %}
+              <br>
+              <a href="{% url "help" %}">{% trans "GeoNode Help" %}</a>
+          </span>
+        </div>
+        <div class="col-md-3 col-sm-3">
+          <h4 class="footerTitle">{% trans "Copyright Notice" %}</h4>
+          <span>
+              <a href="/aboutus/#copyright">{% trans "All rights reserved" %}</a>
+              <br>
+              <a href="/aboutus/#disclaimer">{% trans "Disclaimer" %}</a>
+          </span>
+        </div>
+        <div class="col-md-3 col-sm-3">
+            <h4 class="footerTitle">{% trans "Choose Language" %}</h4>
+            <label class="hidden">{% trans "Language" %}</label>
+            {% if csrf_token != "NOTPROVIDED" %}
+            {% get_current_language as LANGUAGE %}
+            <div style="position: absolute;left: 17%">
+            <form class="form-inline" action="/i18n/setlang/" method="post">
+            {% csrf_token %}
+              <select class="selectpicker" data-style="btn-primary" style = "width:66%;"name="language" onchange="javascript:form.submit()">
+                {% for lang in LANGUAGES %}
+                <option value="{{ lang.0 }}" {% ifequal LANGUAGE_CODE lang.0 %} selected="selected"{% endifequal %}>
+                  {{ lang.1 }}
+                </option>
+                {% endfor %}
+              </select>
+            </form>
+            </div>
+            {% endif %}
         </div>
       </div>
     </div>
@@ -140,16 +178,17 @@
     <!-- Modal must stay outside the navbar -->
     {% if not user.is_authenticated %}
     <div class="modal fade" id="SigninModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-sm">
+      <div class="modal-dialog modal-sm" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title" id="myModalLabel">{% trans "Sign in" %}</h4>
           </div>
           <form class="form-signin" role="form" action="{% url "account_login" %}?next={{ request.path }}" method="post">
             <div class="modal-body">
               <div class="alert alert-info">
-                  Don't have an account yet? <a href="{% url "account_signup" %}">{% trans "Register" %}</a>
+                  {% trans "Don't have an account yet?" %} <a href="{% url "account_signup" %}">{% trans "Register" %}</a>
               </div>
               {% csrf_token %}
               <div class="form-group">
@@ -175,14 +214,15 @@
     <!-- End of Modal -->
 
     {% if DEBUG_STATIC %}
-    <script src="{{ STATIC_URL }}lib/js/jquery.min.js?v={{ VERSION }}"></script>
+    <script src="{{ STATIC_URL }}plugin/jquery-3.2.1.min.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/jquery.dataTables.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/jquery.timeago.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/jquery.ajaxprogress.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/jquery.ajaxQueue.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/jquery-ui.custom.js?v={{ VERSION }}"></script>
-    <script src="{{ STATIC_URL }}lib/js/jquery.raty.js?v={{ VERSION }}"></script>
-    <script src="{{ STATIC_URL }}lib/js/bootstrap.min.js?v={{ VERSION }}"></script>
+    <script src="{{ STATIC_URL }}lib/js/jquery.raty.min.js?v={{ VERSION }}"></script>
+    <script src="{{ STATIC_URL }}plugin/bootstrap-3.3.7/js/bootstrap.min.js?v={{ VERSION }}"></script>
+    <script src="{{ STATIC_URL }}lib/js/bootstrap-select.min.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/moment-with-locales.min.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/bootstrap-datetimepicker.min.js?v={{ VERSION }}"></script>
     <script src="{{ STATIC_URL }}lib/js/json2.js?v={{ VERSION }}"></script>

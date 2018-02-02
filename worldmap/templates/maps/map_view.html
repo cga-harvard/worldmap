@@ -3,10 +3,9 @@
 {% load i18n %}
 {% load base_tags %}
 
-{% block title %} {{ map.title }} {% endblock %}
+{% block title %} Rendering map with {{ preview }} {% trans "Map" %} - {{ block.super }} {% endblock %}
 
 {% block head %}
-
 	{% if preview == 'geoext' %}
 		{% include 'maps/map_geoexplorer.js' %}
 	{% elif preview == 'react' %}
@@ -16,15 +15,6 @@
 	{% else %}
 		{% include 'maps/map_geoexplorer.js' %}
 	{% endif %}
-
-        {{ block.super }}
-
+	{{ block.super }}
 {% endblock %}
-
-{% block extra_head %}
-{{ block.super }}
-
-{{ map.custom_template|safe}}
-{% endblock %}
-
 {% block footer %}{% endblock %}

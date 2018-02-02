@@ -79,7 +79,7 @@ DEBUG_STATIC = str2bool(os.getenv('DEBUG_STATIC', 'False'))
 
 # This is needed for integration tests, they require
 # geonode to be listening for GeoServer auth requests.
-os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'localhost:8000'
+os.environ['DJANGO_LIVE_TEST_SERVER_ADDRESS'] = 'amap.zju.edu.cn:8000'
 
 ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
@@ -129,14 +129,14 @@ DATABASES = {
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
 
 USE_CUSTOM_ORG_AUTHORIZATION = True
-CUSTOM_ORG_AUTH_TEXT = 'Are you affiliated with Harvard University?'
+#CUSTOM_ORG_AUTH_TEXT = 'Are you affiliated with Harvard University?'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = os.getenv('TIME_ZONE', "America/Chicago")
+TIME_ZONE = os.getenv('TIME_ZONE', "Asia/Shanghai")
 
 SITE_ID = int(os.getenv('SITE_ID', '1'))
 
@@ -145,7 +145,7 @@ USE_L10N = str2bool(os.getenv('USE_I18N', 'True'))
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "en-us")
+LANGUAGE_CODE = os.getenv('LANGUAGE_CODE', "zh-cn")
 # Underscore at the beginning added to represent a private variable.
 # should not be used in the application.
 _DEFAULT_LANGUAGES = (
@@ -212,9 +212,9 @@ EXTRA_LANG_INFO = {
 
 AUTH_USER_MODEL = os.getenv('AUTH_USER_MODEL', 'people.Profile')
 
-MODELTRANSLATION_LANGUAGES = ['en', ]
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_FALLBACK_LANGUAGES = ('en',)
+MODELTRANSLATION_LANGUAGES = ['zh-cn',]
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'zh-cn'
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('zh-cn',)
 
 
 # Absolute path to the directory that holds media.
@@ -285,7 +285,6 @@ MAX_DOCUMENT_SIZE = int(os.getenv('MAX_DOCUMENT_SIZE ', '2'))  # MB
 
 WORLDMAP_APPS = (
     # WorldMap applications
-    'worldmap',
     'wm_extra',
     'worldmap.certification',
 )
@@ -575,16 +574,16 @@ _DEFAULT_ACTSTREAM_SETTINGS = {
 ACTSTREAM_SETTINGS = os.getenv('ACTSTREAM_SETTINGS',_DEFAULT_ACTSTREAM_SETTINGS)
 
 # Email settings
-EMAIL_ENABLE = False
+EMAIL_ENABLE = True
 
 if EMAIL_ENABLE:
     EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = 'localhost'
+    DEFAULT_FROM_EMAIL = 'camp2018@zju.edu.cn'
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.zju.edu.cn'
+    EMAIL_HOST_USER = DEFAULT_FROM_EMAIL
+    EMAIL_HOST_PASSWORD = 'zjuworldmap120!'
     EMAIL_PORT = 25
-    EMAIL_HOST_USER = ''
-    EMAIL_HOST_PASSWORD = ''
-    EMAIL_USE_TLS = False
-    DEFAULT_FROM_EMAIL = 'GeoNode <no-reply@geonode.org>'
 
 # Settings for Social Apps
 REGISTRATION_OPEN =  str2bool(os.getenv('REGISTRATION_OPEN', 'False'))
@@ -627,13 +626,6 @@ _DEFAULT_NOSE_ARGS = [
 #      '--pdb',
       ]
 NOSE_ARGS = os.getenv('NOSE_ARGS',_DEFAULT_NOSE_ARGS)
-
-# this is for the gazetteer
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY',"gme-harvarduniversity1")
-# this is for the basemaps
-GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', None)
-
-# GOOGLE_SECRET_KEY = None
 
 GEONAMES_USER = ''
 #
@@ -700,7 +692,7 @@ OGC_SERVER = {
         'BACKEND_WRITE_ENABLED': True,
         'WPS_ENABLED': False,
         'LOG_FILE': '%s/geoserver/data/logs/geoserver.log'
-        % os.path.abspath(os.path.join(PROJECT_ROOT, os.pardir)),
+        % os.path.abspath(os.path.join(GEONODE_ROOT, os.pardir)),
         # Set to name of database in DATABASES dictionary to enable
         'DATASTORE': 'datastore',
         'PG_GEOGIG': False,
@@ -733,7 +725,7 @@ _DEFAULT_CATALOGUE = {
         # 'ENGINE': 'geonode.catalogue.backends.generic',
 
         # The FULLY QUALIFIED base url to the CSW instance for this GeoNode
-        'URL': '%scatalogue/csw' % SITEURL,
+        'URL': '%s/catalogue/csw' % SITEURL,
         # 'URL': 'http://localhost:8080/geonetwork/srv/en/csw',
         # 'URL': 'http://localhost:8080/deegree-csw-demo-3.0.4/services',
 
@@ -801,9 +793,10 @@ PYCSW = os.getenv('PYCSW',_DEFAULT_PYSCSW)
 DEFAULT_MAP_CRS = os.getenv('DEFAULT_MAP_CRS',"EPSG:900913")
 
 #GeoNode Client
-GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
-                                     '/static/worldmap_client/')
-#GEONODE_CLIENT_LOCATION = "http://localhost:9090/"
+#GEONODE_CLIENT_LOCATION = os.getenv('GEONODE_CLIENT_LOCATION',
+#                                     '/static/worldmap_client/')
+GEONODE_CLIENT_LOCATION = "http://amap.zju.edu.cn:9090/"
+
 
 # Where should newly created maps be focused?
 DEFAULT_MAP_CENTER = (0, 0)
@@ -927,38 +920,37 @@ _DEFAULT_MAP_BASELAYERS = [
     },
     {
         "source": {
-            "ptype": "gxp_googlesource"
+            "ptype": "gxp_tianditusource"
         },
         "group": "background",
-        "name": "SATELLITE",
-        "visibility": False,
+        "name": "TIANDITUROAD",
+        "visibility": True,
         "fixed": True,
     },
     {
         "source": {
-            "ptype": "gxp_googlesource",
+            "ptype": "gxp_tianditusource",
         },
         "group": "background",
-        "name": "TERRAIN",
+        "name": "TIANDITUIMAGE",
+        "visibility": False,
+        "fixed": True,
+    }, {
+        "source": {
+            "ptype": "gxp_tianditusource"
+        },
+        "group": "background",
+        "name": "TIANDITUTERRAIN",
+        "visibility": False,
+        "fixed": True,
+    }, {
+        "source": {
+            "ptype": "gxp_tianditusource"
+        },
+        "group": "background",
+        "name": "TIANDITUANNOTATION",
         "visibility": True,
         "fixed": True,
-    }, {
-        "source": {
-            "ptype": "gxp_googlesource"
-        },
-        "group": "background",
-        "name": "HYBRID",
-        "visibility": False,
-        "fixed": True,
-    }, {
-        "source": {
-            "ptype": "gxp_googlesource"
-        },
-        "group": "background",
-        "name": "ROADMAP",
-        "visibility": False,
-        "fixed": True,
-        "group": "background"
     }
 ]
 
@@ -1064,7 +1056,7 @@ DOWNLOAD_FORMATS_METADATA = [
 ]
 DOWNLOAD_FORMATS_VECTOR = [
     'JPEG', 'PDF', 'PNG', 'Zipped Shapefile', 'GML 2.0', 'GML 3.1.1', 'CSV',
-    'Excel', 'GeoJSON', 'KML', 'View in Google Earth', 'Tiles',
+    'Excel', 'GeoJSON', 'KML', 'Tiles',
 ]
 DOWNLOAD_FORMATS_RASTER = [
     'JPEG',
@@ -1075,7 +1067,6 @@ DOWNLOAD_FORMATS_RASTER = [
     'Gtopo30',
     'ImageMosaic',
     'KML',
-    'View in Google Earth',
     'Tiles',
     'GML',
     'GZIP'

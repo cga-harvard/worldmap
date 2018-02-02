@@ -532,7 +532,8 @@ GeoExt.Lang.add("zh", {
         startDateText: 'Start Date',
         endDateText: 'End Date',  	
         placenameText: 'Place name',
-        coordinatesText: 'Coordinates'  	
+        coordinatesText: 'Coordinates',
+        searchText: 'Search'	
     },
     
     "gxp.plugins.StreetViewTool.js" : {

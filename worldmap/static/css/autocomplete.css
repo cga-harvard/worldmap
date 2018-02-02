@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+.auto_hidden{
+	display:none
+}
+.auto_onmouseover{
+	background-color:#e7e2fc
+}
+.auto_onmouseout{
+	background-color:#d7cde4
+}
+.auto_show{
+	display:inline
+}

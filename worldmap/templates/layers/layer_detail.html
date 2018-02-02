@@ -502,7 +502,7 @@
         <li>
           {% if resource.default_style == style %}
           <input type="radio" checked name="style" id="{{ style.name }}" value="{{ style.title }}"/>
-          (default style)
+          {% trans "(default style)" %}
           {% else %}
           <input type="radio" name="style" id="{{ style.name }}" value="{{ style.title }}"/>
           {% endif %}

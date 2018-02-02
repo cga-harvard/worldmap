@@ -198,6 +198,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     premiumSizeLabel: 'UT: Premium',
     printTipText: "UT:Print Map",
     printBtnText: "UT:Print",
+    infoActionText: "UT:About",
+    infoBtnText: "UT:About us",
     printWindowTitleText: "UT:Print Preview",
     propertiesText: "UT:Properties",
     publishActionText: 'UT:Link To Map',
@@ -237,7 +239,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
     worldmapDataText: 'Search',
     externalDataText: 'External Data',
     leavePageWarningText: 'If you leave this page, unsaved changes will be lost.',
-
+    cgaharvardText: 'Center for Geographic Analysis',
+    bdandcampText: 'Bigdata and CAMAP Innovation Team',
     constructor: function(config) {
         this.config = config;
         this.popupCache = {};
@@ -265,6 +268,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         Ext.preg("gx_wmssource", gxp.plugins.WMSSource);
         Ext.preg("gx_olsource", gxp.plugins.OLSource);
         Ext.preg("gx_googlesource", gxp.plugins.GoogleSource);
+        Ext.preg("gx_tianditusource", gxp.plugins.TiandituSource);
         Ext.preg("gx_gnsource", gxp.plugins.GeoNodeSource);
 
         // global request proxy and error handling
@@ -1091,7 +1095,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                 var record = records[i];
                 // add an existing layers
                 if ('uuid' in record.data){
-                    if (record.data['service_type'] == 'Hypermap:WorldMap'){
+                    if (record.data['service_type'] == 'Hypermap:WorldMap2'){
                         this.addLayerAjax(wmSource, this.worldMapSourceKey, record);
                     } else {
                         url = this.hypermapRegistryUrl + '/registry/hypermap/layer/' + record.data['uuid'] + '/map/wmts/' + record.data['name'] + '/default_grid/${z}/${x}/${y}.png';
@@ -1153,11 +1157,13 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             "source": key,
             "buffer": 0,
             "tiled": true,
-            "local": thisRecord.get('service_type') === 'Hypermap:WorldMap'
+            "local": thisRecord.get('service_type') === 'Hypermap:WorldMap2'
         };
-
         if (thisRecord.get('service_type') === 'Hypermap:WorldMap'){
             layer_detail_url = 'http://worldmap.harvard.edu/data/' + thisRecord.get('name');
+        };
+        if (thisRecord.get('service_type') === 'Hypermap:WorldMap2'){
+            layer_detail_url = 'http://amap.zju.edu.cn:8000/data/' + thisRecord.get('name');
         };
 
         if(layer.local){
@@ -1404,7 +1410,11 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
      */
     createMapOverlay: function() {
         var cgaLink = new Ext.BoxComponent({
-            html:'<div class="cga-link" onclick="javascript:window.open(\'http://gis.harvard.edu\', \'_blank\');"><a href="http://gis.harvard.edu">Center for Geographic Analysis</a></div>'
+            html:'<div class="cga-link" onclick="javascript:window.open(\'http://gis.harvard.edu\', \'_blank\');"><a href="http://gis.harvard.edu">' + this.cgaharvardText + '</a></div>'
+        });
+
+        var bdamapLink = new Ext.BoxComponent({
+            html:'<div class="cga-link" onclick="javascript:window.open(\'http://www.zju.edu.cn\', \'_blank\');"><a href="http://www.zju.edu.cn">' + this.bdandcampText + '</a></div>'
         });
 
         var scaleLinePanel = new Ext.BoxComponent({
@@ -1491,6 +1501,7 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             items: [
                 scaleLinePanel,
                 zoomSelectorWrapper,
+                bdamapLink,
                 cgaLink
             ]
         });
@@ -1522,8 +1533,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
         // create an info control to show introductory text window
         var infoButton = new Ext.Button({
             id: 'infoButtonId',
-            tooltip: 'About',
-            text: '<span class="x-btn-text">About</span>',
+            tooltip: this.infoActionText,
+            text: '<span class="x-btn-text">' + this.infoBtnText + '</span>',
             handler: this.showInfoWindow,
             scope:this
         });
@@ -1659,8 +1670,6 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
                             {
                                 xtype: "gx_linkembedmapdialog",
                                 linkUrl: this.rest + (this.about["urlsuffix"] ? this.about["urlsuffix"] : this.mapID) + '/' + encodedSnapshotId,
-                                linkMessage: '<span style="font-size:10pt;">Paste link in email or IM:</span>',
-                                publishMessage: '<span style="font-size:10pt;">Paste HTML to embed in website:</span>',
                                 url: this.rest + (this.about["urlsuffix"] ? this.about["urlsuffix"] : this.mapID) + '/' + encodedSnapshotId + "/embed"
                             }
                         ]
@@ -1944,8 +1953,8 @@ var GeoExplorer = Ext.extend(gxp.Viewer, {
             closeAction: 'hide',
             items: this.infoTextPanel,
             modal: true,
-            width: 500,
-            height:400,
+            width: 512,
+            height:215,
             autoScroll: true
         });
     },

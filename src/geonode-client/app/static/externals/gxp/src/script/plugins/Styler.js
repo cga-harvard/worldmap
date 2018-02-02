@@ -99,7 +99,7 @@ gxp.plugins.Styler = Ext.extend(gxp.plugins.Tool, {
     /** private: method[destroy]
      */
     destroy: function() {
-        this.target.on("authorizationchange", this.enableOrDisable, this);
+        this.target.un("authorizationchange", this.enableOrDisable, this);
         gxp.plugins.Styler.superclass.destroy.apply(this, arguments);
     },
 

@@ -48,7 +48,7 @@ gxp.plugins.MapShare = Ext.extend(gxp.plugins.Tool, {
 
     linkPrefix: "/maps/",
     
-    linkSuffix: "/view",
+    linkSuffix: "",
 
     iconCls: "gxp-icon-link",
     
@@ -60,7 +60,7 @@ gxp.plugins.MapShare = Ext.extend(gxp.plugins.Tool, {
             iconCls: this.iconCls,
             text: this.text,
             tooltip: this.toolTip,
-            disabled: this.target.mapID == null,
+            disabled: this.target.mapID == null || this.target.mapID == 0,
             handler: function() {
                 window.open(link);
             },

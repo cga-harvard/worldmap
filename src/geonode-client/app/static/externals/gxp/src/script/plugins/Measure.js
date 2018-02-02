@@ -201,8 +201,8 @@ gxp.plugins.Measure = Ext.extend(gxp.plugins.Tool, {
         this.activeIndex = 0;
         this.button = new Ext.SplitButton({
             iconCls: "gxp-icon-measure-length",
-            text: "Measure",
             tooltip: this.measureTooltip,
+            text:this.buttonText,
             buttonText: this.buttonText,
             enableToggle: true,
             toggleGroup: this.toggleGroup,

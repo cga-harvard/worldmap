@@ -115,15 +115,17 @@
 
 footer {
   text-align: center;
-  background-color: #2c689c;
+  background-color: #f5f5f5;
+  font-family: Helvetica, Microsoft YaHei, Tohoma, Arial;
 }
 
 footer a {
-  color: #bfbfbf;
+  color: #2c689c;
+  font-size: 17px;
 }
 
 footer a:hover {
-  color: #fff;
+  color: #000FE8;
 }
 
 #permissions-body .panel .radio{
