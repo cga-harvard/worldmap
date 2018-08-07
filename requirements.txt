@@ -1,19 +1,2 @@
-five==0.4.0
-#geonode==2.6a1
-django-floppyforms==1.7.0
-django-oauth-toolkit==0.12.0
-csvkit==0.9.1
-kombu==4.1.0
-pinax-theme-bootstrap-account==1.0b2
-
-# For gazetteer.
--e git+https://github.com/cga-harvard/geopy.git#egg=geopy
-geojson
-dicttoxml==1.6.6
-datautil
-
-# --------------------------------------------------
-# For the Dataverse/Geoconnect/WorldMap connection
-# --------------------------------------------------
-xmltodict
--e git://github.com/cga-harvard/shared-dataverse-information.git#egg=shared_dataverse_information
+# GeoNode
+# -e git+https://github.com/GeoNode/geonode.git@master#egg=geonode
