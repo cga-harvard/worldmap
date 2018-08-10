@@ -34,12 +34,6 @@ LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
 
-if PROJECT_NAME not in INSTALLED_APPS:
-     INSTALLED_APPS += (
-        PROJECT_NAME,
-        'geonode.contrib.datastore_shards',
-     )
-
 # # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
 MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(LOCAL_ROOT, "uploaded"))
@@ -62,3 +56,15 @@ loaders = TEMPLATES[0]['OPTIONS'].get('loaders') or ['django.template.loaders.fi
 # loaders.insert(0, 'apptemplates.Loader')
 TEMPLATES[0]['OPTIONS']['loaders'] = loaders
 TEMPLATES[0].pop('APP_DIRS', None)
+
+if PROJECT_NAME not in INSTALLED_APPS:
+     INSTALLED_APPS += (
+        PROJECT_NAME,
+        # additional apps for worldmap
+        'geonode.contrib.datastore_shards',
+     )
+
+# shard per month
+SHARD_STRATEGY = 'monthly'
+SHARD_PREFIX = 'wm_'
+DATASTORE_URL = 'postgis://%s:%s@%s:5432/data' % (PG_USERNAME, PG_PASSWORD, PG_HOST)
