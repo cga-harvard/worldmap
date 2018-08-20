@@ -23,7 +23,9 @@ psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
         maps_contact.city,
         maps_contact.area,
         maps_contact.zipcode,
-        maps_contact.country
+        maps_contact.country,
+        'en',
+        ''
         FROM auth_user, maps_contact
     WHERE maps_contact.user_id = auth_user.id) to stdout with csv" | \
 sudo -u $USER psql $NEW_DB -c \
@@ -34,7 +36,7 @@ sudo -u $USER psql $NEW_DB -c \
         username,
         first_name,
         last_name,
-        email, 
+        email,
         is_staff,
         is_active,
         date_joined,
@@ -46,7 +48,9 @@ sudo -u $USER psql $NEW_DB -c \
         city,
         area,
         zipcode,
-        country)
+        country,
+        language,
+        timezone)
     FROM STDIN CSV"
 
 #############################################################################
@@ -85,9 +89,16 @@ do_hr
 echo "Migration for people groups"
 do_hr
 #############################################################################
+
+sudo -u $USER PGPASSWORD=$DB_PW \
+    psql -U $USER $NEW_DB -c "INSERT INTO auth_group(name,id) values('beta-users','1');"
+
+    sudo -u $USER PGPASSWORD=$DB_PW \
+        psql -U $USER $NEW_DB -c "INSERT INTO auth_group(name,id) values('dataverse','2');"
+
 sudo -u $USER PGPASSWORD=$DB_PW psql -U $DB_USER -h $DB_HOST $OLD_DB -c \
         "copy(
-                SELECT user_id, group_id FROM auth_user_groups 
+                SELECT user_id, group_id FROM auth_user_groups
         ) to stdout with csv;" | \
 sudo -u $USER PGPASSWORD=$DB_PW  psql $NEW_DB -c \
         "copy people_profile_groups(profile_id, group_id)
@@ -110,4 +121,4 @@ sudo -u $USER PGPASSWORD=$DB_PW  \
     psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
         "copy(SELECT user_id,$GROUP_ID FROM maps_contact WHERE is_harvard=true) to stdout with csv;" | \
 sudo -u $USER PGPASSWORD=$DB_PW  \
-psql $NEW_DB -c "copy people_profile_groups(profile_id,group_id) from stdin csv;" 
+psql $NEW_DB -c "copy people_profile_groups(profile_id,group_id) from stdin csv;"
