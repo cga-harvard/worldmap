@@ -49,9 +49,9 @@ psql $NEW_DB -c "copy base_contactrole (id, resource_id, contact_id , role) from
 echo "\nCopy rows into maps_map table"; do_dash
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
-	"copy (select base_id, title, abstract, zoom, projection, center_x, center_y, last_modified, urlsuffix, officialurl, content from augmented_maps_map) to stdout with csv" | \
+	"copy (select base_id, title, abstract, zoom, projection, center_x, center_y, last_modified, urlsuffix, officialurl from augmented_maps_map) to stdout with csv" | \
 sudo -u $USER \
-psql $NEW_DB -c 'copy maps_map (resourcebase_ptr_id, title_en, abstract_en, zoom, projection, center_x, center_y, last_modified, urlsuffix, featuredurl, content_map) from stdin csv'
+psql $NEW_DB -c 'copy maps_map (resourcebase_ptr_id, title_en, abstract_en, zoom, projection, center_x, center_y, last_modified, urlsuffix, featuredurl) from stdin csv'
 
 #############################################################################
 

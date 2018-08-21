@@ -41,12 +41,13 @@ LAYER_CT_ID=$(sudo -u $USER psql $NEW_DB -c \
 
 #############################################################################
 
+# TODO topic_category is not migrated! Fon now we hard-code "1"
 echo "\nCopy items to resourcebase. Removing temporal extent fields
 from previous database works"; do_dash
 # ERROD: invalid input syntax for type timestamp with time zone: "0840"
 # PGPASSWORD=$DB_PW psql -U $DB_USER -h $DB_HOST $OLD_DB -c "copy (select id, $ID, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, bbox_x0, bbox_y0, bbox_x1, bbox_y1, typename, false, temporal_extent_start, temporal_extent_end from augmented_maps_layer) to stdout with csv" | psql $NEW_DB -c "copy base_resourcebase (id, polymorphic_ctype_id, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, srid, csw_typename, csw_schema, csw_mdsource, csw_type, csw_wkt_geometry, metadata_uploaded, popular_count, share_count, featured, is_published, bbox_x0, bbox_y0, bbox_x1, bbox_y1, detail_url, metadata_uploaded_preserve, temporal_extent_start, temporal_extent_end) from stdin csv"
 sudo -u $USER PGPASSWORD=$DB_PW \
-psql -U $DB_USER -h $DB_HOST $OLD_DB -c "copy (select id, $LAYER_CT_ID, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, bbox_x0, bbox_y0, bbox_x1, bbox_y1, typename, typename, false, topic_category_id, false from augmented_maps_layer) to stdout with csv" | \
+psql -U $DB_USER -h $DB_HOST $OLD_DB -c "copy (select id, $LAYER_CT_ID, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, bbox_x0, bbox_y0, bbox_x1, bbox_y1, typename, typename, false, 1, false from augmented_maps_layer) to stdout with csv" | \
 sudo -u $USER \
 psql $NEW_DB -c "copy base_resourcebase (id, polymorphic_ctype_id, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, srid, csw_typename, csw_schema, csw_mdsource, csw_type, csw_wkt_geometry, metadata_uploaded, popular_count, share_count, featured, is_published, bbox_x0, bbox_y0, bbox_x1, bbox_y1, detail_url, alternate, metadata_uploaded_preserve, category_id, is_approved) from stdin csv"
 
@@ -59,12 +60,13 @@ sudo -u $USER psql $NEW_DB -c \
 #############################################################################
 
 #TODO: include layer_temporal_extents, and correct gazetteer migrations.
+# TODO handles in_gazetteer stuff
 echo "\nCopy items to layer table"; do_dash
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
-    'COPY (SELECT id, title, abstract, purpose, constraints_other, supplemental_information, data_quality_statement, workspace, store, "storeType", name, typename, name, false, false, false, false FROM augmented_maps_layer) to stdout with csv' | \
+    'COPY (SELECT id, title, abstract, purpose, constraints_other, supplemental_information, data_quality_statement, workspace, store, "storeType", name, typename, name, false, false, false FROM augmented_maps_layer) to stdout with csv' | \
 sudo -u $USER \
-psql $NEW_DB -c 'COPY layers_layer (resourcebase_ptr_id, title_en, abstract_en, purpose_en, constraints_other_en, supplemental_information_en, data_quality_statement_en, workspace, store, "storeType", name, typename, charset, is_mosaic, has_time, has_elevation, in_gazetteer) from stdin csv'
+psql $NEW_DB -c 'COPY layers_layer (resourcebase_ptr_id, title_en, abstract_en, purpose_en, constraints_other_en, supplemental_information_en, data_quality_statement_en, workspace, store, "storeType", name, typename, charset, is_mosaic, has_time, has_elevation) from stdin csv'
 
 #############################################################################
 
@@ -168,7 +170,7 @@ sudo -u $USER PGPASSWORD=$DB_PW psql -U $DB_USER -h $DB_HOST $NEW_DB -c \
         SELECT 	base_resourcebase.owner_id,
         		$LAYER_CT_ID,
         		base_resourcebase.id,
-        		$CHANGE_STYLE    
+        		$CHANGE_STYLE
         FROM base_resourcebase,
              layers_layer
         WHERE layers_layer.resourcebase_ptr_id = base_resourcebase.id
@@ -183,7 +185,7 @@ sudo -u $USER PGPASSWORD=$DB_PW psql -U $DB_USER -h $DB_HOST $NEW_DB -c \
         SELECT  base_resourcebase.owner_id,
                         $LAYER_CT_ID,
                         base_resourcebase.id,
-                        $EDIT_LAYER_DT    
+                        $EDIT_LAYER_DT
         FROM base_resourcebase,
              layers_layer
         WHERE layers_layer.resourcebase_ptr_id = base_resourcebase.id
@@ -250,7 +252,6 @@ echo "\nCopy attributes for layers"; do_dash
 
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
-    "copy (SELECT maps_layerattribute.id,maps_layerattribute.layer_id, maps_layerattribute.attribute, maps_layerattribute.attribute_label, maps_layerattribute.searchable, maps_layerattribute.attribute_type, maps_layerattribute.created_dttm, maps_layerattribute.last_modified, maps_layerattribute.display_order, maps_layerattribute.visible, maps_layerattribute.in_gazetteer, maps_layerattribute.is_gaz_start_date,maps_layerattribute.is_gaz_end_date,maps_layerattribute.date_format,0,now() FROM maps_layerattribute,augmented_maps_layer WHERE augmented_maps_layer.id=maps_layerattribute.layer_id ) to stdout with csv;" | \
+    "copy (SELECT maps_layerattribute.id,maps_layerattribute.layer_id, maps_layerattribute.attribute, maps_layerattribute.attribute_label, maps_layerattribute.attribute_type, maps_layerattribute.last_modified, maps_layerattribute.display_order, maps_layerattribute.visible, maps_layerattribute.in_gazetteer, maps_layerattribute.is_gaz_start_date,maps_layerattribute.is_gaz_end_date,maps_layerattribute.date_format,0,now() FROM maps_layerattribute,augmented_maps_layer WHERE augmented_maps_layer.id=maps_layerattribute.layer_id ) to stdout with csv;" | \
 sudo -u $USER PGPASSWORD=$DB_PW \
-psql $NEW_DB -c "copy layers_attribute(id,layer_id,attribute,attribute_label,searchable,attribute_type,created_dttm,last_modified,display_order,visible,in_gazetteer,is_gaz_start_date,is_gaz_end_date,date_format,count,last_stats_updated) from stdin csv"
-
+psql $NEW_DB -c "copy layers_attribute(id,layer_id,attribute,attribute_label,attribute_type,last_modified,display_order,visible,in_gazetteer,is_gaz_start_date,is_gaz_end_date,date_format,count,last_stats_updated) from stdin csv"

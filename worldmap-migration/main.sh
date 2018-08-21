@@ -50,7 +50,7 @@ do_hr
 #############################################################################
 
 if [ $(sudo -u $USER psql -l | grep $NEW_DB | wc -l ) = '1' ]
-then 
+then
 	echo "Removing $NEW_DB"
 	sudo -u $USER PGPASSWORD=$DB_PW psql -c "DROP DATABASE $NEW_DB;"
 fi
@@ -85,6 +85,8 @@ do_hr
 source $ENV_PATH/bin/activate
 #python $GEONODE_PATH/manage.py makemigrations --noinput
 python $GEONODE_PATH/manage.py migrate
+python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps_docker.json
+python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/initial_data.json
 # python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/fixtures/default_oauth_apps.json
 else
 do_hr
@@ -108,13 +110,19 @@ do_hr
 
 source scripts/users.sh
 
+#############################################################################
+do_hr
+echo "Migration for taggit"
+do_hr
+#############################################################################
+
 echo "\ntaggit_tag table migration"; do_dash
 sudo -u $USER PGPASSWORD=$DB_PW psql -U $DB_USER -h $DB_HOST $OLD_DB -c \
     "copy (
-        select id,
+        select min(id),
                name,
-               slug
-        FROM taggit_tag)
+               min(slug)
+        FROM taggit_tag group by name)
         to stdout with csv" | \
 sudo -u $USER psql $NEW_DB -c "copy taggit_tag (id, name, slug) from stdin csv"
 
@@ -160,20 +168,31 @@ echo "Migration for styles tables"
 do_hr
 #############################################################################
 
-if [ $STYLES ]; then
-    do_hr
-    echo "Get styles file from geoserver instance"
-    do_hr
-    # Removing previous styles file, if exists.
-    rm styles.csv
+# TODO things to fix
+# 1. topic_category is not migrated! For now we hard-coded "1"
+# 2. include layer_temporal_extents, and correct gazetteer migrations.
+# 3. handles gazetteer stuff
+# 4. handles searchabel of layers_attribute (maps_layerattribute.searchable)
+# 5. wm_extra_layerstats, wm_extra_mapstats
+# 6. certifications stuff
+# 7. content_map
 
-    scp wm-geoserver:/home/ubuntu/scripts/styles.csv .
-    source scripts/styles.sh
-fi
-#############################################################################
-do_hr
-echo "Dataverse and datatables migration"
-do_hr
-#############################################################################
+### for now we don't do this
 
-source scripts/dataverse.sh
+# if [ $STYLES ]; then
+#     do_hr
+#     echo "Get styles file from geoserver instance"
+#     do_hr
+#     # Removing previous styles file, if exists.
+#     rm styles.csv
+#
+#     scp wm-geoserver:/home/ubuntu/scripts/styles.csv .
+#     source scripts/styles.sh
+# fi
+# #############################################################################
+# do_hr
+# echo "Dataverse and datatables migration"
+# do_hr
+# #############################################################################
+#
+# source scripts/dataverse.sh
