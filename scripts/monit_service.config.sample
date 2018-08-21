@@ -1,0 +1,10 @@
+set daemon 10 # check services at 10-seconds intervals
+
+set mailserver localhost
+set alert admin@fas.harvard.edu
+
+check process tomcata with pidfile "/opt/tomcat/a/temp/tomcata.pid"
+    start program = "/bin/bash -c 'service tomcata start'"
+    stop program = "/bin/bash -c 'service tomcata stop'"
+    if failed port 8180 and protocol http then exec "/root/scripts/slack_notifications.sh GeoServerA"
+    if failed port 8180 then restart
