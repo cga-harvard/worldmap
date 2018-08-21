@@ -38,7 +38,7 @@ def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
 
 setup(
-    name="worldmap",
+    name="worldmap_site",
     version="2.9",
     author="",
     author_email="",
@@ -52,7 +52,7 @@ setup(
     license="BSD",
     keywords="worldmap geonode django",
     url='https://github.com/worldmap/worldmap',
-    packages=['worldmap',],
+    packages=['worldmap_site',],
     include_package_data=True,
     zip_safe=False,
     install_requires=REQUIREMENTS,

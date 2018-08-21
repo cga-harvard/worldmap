@@ -23,7 +23,7 @@ import os
 __version__ = (2, 7, 7, 'unstable', 0)
 
 
-default_app_config = "worldmap.apps.AppConfig"
+default_app_config = "worldmap_site.apps.AppConfig"
 
 
 def get_version():

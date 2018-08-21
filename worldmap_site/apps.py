@@ -29,10 +29,9 @@ def run_setup_hooks(*args, **kwargs):
 
 class AppConfig(BaseAppConfig):
 
-    name = "worldmap"
-    label = "worldmap"
+    name = "worldmap_site"
+    label = "worldmap_site"
 
     def ready(self):
         super(AppConfig, self).ready()
         run_setup_hooks()
-

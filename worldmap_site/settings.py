@@ -29,7 +29,7 @@ try:
 except ImportError:
     from geonode.settings import *
 
-PROJECT_NAME = 'worldmap'
+PROJECT_NAME = 'worldmap_site'
 LOCAL_ROOT = os.path.abspath(os.path.dirname(__file__))
 
 WSGI_APPLICATION = "{}.wsgi.application".format(PROJECT_NAME)
@@ -60,11 +60,17 @@ TEMPLATES[0].pop('APP_DIRS', None)
 if PROJECT_NAME not in INSTALLED_APPS:
      INSTALLED_APPS += (
         PROJECT_NAME,
+        'worldmap_site.certification',
         # additional apps for worldmap
         'geonode.contrib.datastore_shards',
      )
 
-# shard per month
-SHARD_STRATEGY = 'monthly'
-SHARD_PREFIX = 'wm_'
-DATASTORE_URL = 'postgis://%s:%s@%s:5432/data' % (PG_USERNAME, PG_PASSWORD, PG_HOST)
+if USE_WORLDMAP:
+
+    # shard per month
+    SHARD_STRATEGY = 'monthly'
+    SHARD_PREFIX = 'wm_'
+    DATASTORE_URL = 'postgis://%s:%s@%s:5432/data' % (PG_USERNAME, PG_PASSWORD, PG_HOST)
+
+# other settings specific to WorldMap CGA
+ACCOUNT_APPROVAL_REQUIRED = False
