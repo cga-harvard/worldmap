@@ -90,7 +90,7 @@ python $WORLDMAP_PATH/manage.py loaddata fixtures/initial_data.json
 python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps.json
 else
 do_hr
-echo "Generating tables from django server"
+echo "Generating tables from django server "
 do_hr
 
 ssh wm-django-01 /bin/bash << EOF

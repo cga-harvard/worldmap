@@ -12,4 +12,4 @@ export WORLDMAP_PATH=/home/ubuntu/worldmap
 export GEOSERVER_URL=http://128.31.22.83:8080/geoserver/
 export ENV_PATH=/home/ubuntu/env
 export DATABASE_URL=postgis://$DB_USER:$DB_PW@$DB_HOST:5432/$NEW_DB
-export STYLES_PATH=/home/ubuntu/worldmap-migration/styles.csv
+export STYLES_PATH=/home/ubuntu/worldmap-migration/styles.csv 
