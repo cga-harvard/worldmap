@@ -1,3 +1,4 @@
+export USE_WORLDMAP=true
 export LOCAL=true
 export USER=postgres
 export OLD_DB=worldmaplegacy
@@ -6,8 +7,8 @@ export DB_PW=worldmap
 export PGPASSWORD=$DB_PW
 export DB_HOST=192.168.100.20
 export NEW_DB=worldmap
-export GEONODE_PATH=/home/paolo/worldmap
+export GEONODE_PATH=/home/ubuntu/worldmap
 export GEOSERVER_URL=http://128.31.22.83:8080/geoserver/
-export ENV_PATH=/home/ubuntu/paolo/env
+export ENV_PATH=/home/ubuntu/env
 export DATABASE_URL=postgis://$DB_USER:$DB_PW@$DB_HOST:5432/$NEW_DB
 export STYLES_PATH=/home/ubuntu/worldmap-migration/styles.csv

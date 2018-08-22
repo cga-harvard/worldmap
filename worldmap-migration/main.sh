@@ -85,8 +85,8 @@ do_hr
 source $ENV_PATH/bin/activate
 #python $GEONODE_PATH/manage.py makemigrations --noinput
 python $GEONODE_PATH/manage.py migrate
-python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps_docker.json
-python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/initial_data.json
+# python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps_docker.json
+python $GEONODE_PATH/manage.py loaddata fixtures/initial_data.json
 # python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/fixtures/default_oauth_apps.json
 else
 do_hr
@@ -157,7 +157,7 @@ do_hr
 #############################################################################
 
 sudo -u $USER PGPASSWORD=$DB_PW \
-psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST wmdata -c \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $NEW_DB -c \
     "copy (SELECT layer_name, layer_attribute, feature_type, feature_fid, latitude, longitude, place_name, start_date, end_date, julian_start, julian_end, project, feature, username FROM gazetteer_gazetteerentry) to stdout with csv;" | \
 sudo -u $USER \
 psql $NEW_DB -c "copy gazetteer_gazetteerentry(layer_name, layer_attribute, feature_type, feature_fid, latitude, longitude, place_name, start_date, end_date, julian_start, julian_end, project, feature, username) from stdin csv"
@@ -189,10 +189,11 @@ do_hr
 #     scp wm-geoserver:/home/ubuntu/scripts/styles.csv .
 #     source scripts/styles.sh
 # fi
-# #############################################################################
-# do_hr
-# echo "Dataverse and datatables migration"
-# do_hr
-# #############################################################################
-#
-# source scripts/dataverse.sh
+
+#############################################################################
+do_hr
+echo "Dataverse and datatables migration"
+do_hr
+#############################################################################
+
+source scripts/dataverse.sh
