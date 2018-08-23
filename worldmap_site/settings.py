@@ -63,6 +63,7 @@ if PROJECT_NAME not in INSTALLED_APPS:
         'worldmap_site.certification',
         # additional apps for worldmap
         'geonode.contrib.datastore_shards',
+        'debug_toolbar',
      )
 
 if USE_WORLDMAP:
@@ -74,3 +75,11 @@ if USE_WORLDMAP:
 
 # other settings specific to WorldMap CGA
 ACCOUNT_APPROVAL_REQUIRED = False
+
+# debug toolbar
+if DEBUG:
+    MIDDLEWARE_CLASSES += (
+        'debug_toolbar.middleware.DebugToolbarMiddleware',
+    )
+    # TODO read INTERNAL_IPS form env variable
+    INTERNAL_IPS = ('127.0.0.1', 'localhost', '10.0.2.2', )

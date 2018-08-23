@@ -18,7 +18,10 @@
 #
 #########################################################################
 
+from django.conf import settings
 from django.conf.urls import url, include
+from django.core import urlresolvers
+from django.http import HttpResponse
 from django.views.generic import TemplateView
 
 from geonode.urls import urlpatterns
@@ -33,3 +36,52 @@ urlpatterns = [
        TemplateView.as_view(template_name='site_index.html'),
        name='home'),
  ] + urlpatterns
+
+
+# django debug toolbar stuff, including a custom decorator for debuggin not html
+# response (and in TastyPie)
+
+def html_decorator(func):
+    """
+    This decorator wraps the output in html.
+    (From http://stackoverflow.com/a/14647943)
+    """
+
+    def _decorated(*args, **kwargs):
+        response = func(*args, **kwargs)
+
+        wrapped = ("<html><body>",
+                   response.content,
+                   "</body></html>")
+
+        return HttpResponse(wrapped)
+
+    return _decorated
+
+
+@html_decorator
+def debug(request):
+    """
+    Debug endpoint that uses the html_decorator,
+    """
+    path = request.META.get("PATH_INFO")
+    api_url = path.replace("debug/", "")
+
+    view = urlresolvers.resolve(api_url)
+
+    accept = request.META.get("HTTP_ACCEPT")
+    accept += ",application/json"
+    request.META["HTTP_ACCEPT"] = accept
+
+    res = view.func(request, **view.kwargs)
+    return HttpResponse(res._container)
+
+
+if settings.DEBUG:
+
+    import debug_toolbar
+
+    urlpatterns = [
+        url(r'^debug/', debug),
+        url(r'^__debug__/', include(debug_toolbar.urls)),
+    ] + urlpatterns
