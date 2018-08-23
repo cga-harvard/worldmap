@@ -27,5 +27,5 @@ default_app_config = "worldmap_site.apps.AppConfig"
 
 
 def get_version():
-    import worldmap.version
-    return worldmap.version.get_version(__version__)
+    import worldmap_site.version
+    return worldmap_site.version.get_version(__version__)
