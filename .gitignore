@@ -67,3 +67,5 @@ development.db-journal
 *.dir
 
 .DS_Store
+worldmap-migration/config.sh
+
