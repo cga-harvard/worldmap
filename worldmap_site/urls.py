@@ -18,6 +18,8 @@
 #
 #########################################################################
 
+from tastypie.api import Api
+
 from django.conf import settings
 from django.conf.urls import url, include
 from django.core import urlresolvers
@@ -26,17 +28,17 @@ from django.views.generic import TemplateView
 
 from geonode.urls import urlpatterns
 
-urlpatterns += [
-## include your urls here
+# WorldMap API - to replace some of the slow GeoNode API endpoints
+from .api import LayerResource, TopicCategoryResource
 
-]
+wm_api = Api(api_name='wm_api')
+wm_api.register(LayerResource())
+wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
-   url(r'^/?$',
-       TemplateView.as_view(template_name='site_index.html'),
-       name='home'),
+   url(r'^/?$', TemplateView.as_view(template_name='site_index.html'), name='home'),
+   url(r'^api/', include(wm_api.urls)),
  ] + urlpatterns
-
 
 # django debug toolbar stuff, including a custom decorator for debuggin not html
 # response (and in TastyPie)
