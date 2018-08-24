@@ -29,10 +29,11 @@ from django.views.generic import TemplateView
 from geonode.urls import urlpatterns
 
 # WorldMap API - to replace some of the slow GeoNode API endpoints
-from .api import LayerResource, TopicCategoryResource
+from .api import LayerResource, OwnerResource, TopicCategoryResource
 
 wm_api = Api(api_name='wm_api')
 wm_api.register(LayerResource())
+wm_api.register(OwnerResource())
 wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
