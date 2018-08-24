@@ -247,3 +247,14 @@ sudo -u $USER PGPASSWORD=$DB_PW psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST 
         WHERE certification_certification.object_id = augmented_maps_map.id) to stdout with csv;" | \
 sudo -u $USER psql $NEW_DB -c \
     "copy certification_certification(certifier_id, object_ct_id, object_id) from stdin csv"
+
+#############################################################################
+
+echo "\nCopy statistics for maps"; do_dash
+
+sudo -u $USER psql $NEW_DB -c \
+    "update base_resourcebase
+		set popular_count = visits
+		from wm_extra_mapstats
+		where base_resourcebase.id = wm_extra_mapstats.map_id;
+    "
