@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 
 from geonode.base.models import TopicCategory
 from geonode.layers.models import Layer
+from guardian.shortcuts import get_objects_for_user
 
 
 class TopicCategoryResource(ModelResource):
@@ -38,6 +39,11 @@ class LayerResource(ModelResource):
         null=True,
         full=True)
     owner = fields.ToOneField(OwnerResource, 'owner', full=True)
+
+    def get_object_list(self, request):
+        visible_resources = get_objects_for_user(request.user, 'base.view_resourcebase')
+        visible_resources_ids = visible_resources.values_list('id', flat=True)
+        return super(LayerResource, self).get_object_list(request).filter(pk__in=visible_resources_ids)
 
     class Meta:
         queryset = Layer.objects.all()
