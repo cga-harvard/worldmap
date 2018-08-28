@@ -32,7 +32,21 @@ class OwnerResource(ModelResource):
         }
 
 
-class LayerResource(ModelResource):
+class CommonMetaApi:
+    allowed_methods = ['get']
+    filtering = {'title': ALL,
+                 # 'keywords': ALL_WITH_RELATIONS,
+                 # 'tkeywords': ALL_WITH_RELATIONS,
+                 # 'regions': ALL_WITH_RELATIONS,
+                 'category': ALL_WITH_RELATIONS,
+                 # 'group': ALL_WITH_RELATIONS,
+                 'owner': ALL_WITH_RELATIONS,
+                 # 'date': ALL,
+                 }
+    ordering = ['date', 'title', 'popular_count']
+
+
+class CommonModelApi(ModelResource):
     category = fields.ToOneField(
         TopicCategoryResource,
         'category',
@@ -43,18 +57,17 @@ class LayerResource(ModelResource):
     def get_object_list(self, request):
         visible_resources = get_objects_for_user(request.user, 'base.view_resourcebase')
         visible_resources_ids = visible_resources.values_list('id', flat=True)
-        return super(LayerResource, self).get_object_list(request).filter(pk__in=visible_resources_ids)
+        return super(CommonModelApi, self).get_object_list(request).filter(pk__in=visible_resources_ids)
 
-    class Meta:
+
+class LayerResource(CommonModelApi):
+    category = fields.ToOneField(
+        TopicCategoryResource,
+        'category',
+        null=True,
+        full=True)
+    owner = fields.ToOneField(OwnerResource, 'owner', full=True)
+
+    class Meta(CommonMetaApi):
         queryset = Layer.objects.all()
         resource_name = 'layers'
-        filtering = {'title': ALL,
-                     #'keywords': ALL_WITH_RELATIONS,
-                     #'tkeywords': ALL_WITH_RELATIONS,
-                     #'regions': ALL_WITH_RELATIONS,
-                     'category': ALL_WITH_RELATIONS,
-                     #'group': ALL_WITH_RELATIONS,
-                     'owner': ALL_WITH_RELATIONS,
-                     #'date': ALL,
-                     }
-        ordering = ['date', 'title', ]
