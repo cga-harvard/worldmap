@@ -2,11 +2,13 @@ from tastypie import fields
 from tastypie.resources import ModelResource
 from tastypie.constants import ALL, ALL_WITH_RELATIONS
 
+from guardian.shortcuts import get_objects_for_user
+
 from django.contrib.auth import get_user_model
 
 from geonode.base.models import TopicCategory
 from geonode.layers.models import Layer
-from guardian.shortcuts import get_objects_for_user
+from geonode.maps.models import Map
 
 
 class TopicCategoryResource(ModelResource):
@@ -61,13 +63,14 @@ class CommonModelApi(ModelResource):
 
 
 class LayerResource(CommonModelApi):
-    category = fields.ToOneField(
-        TopicCategoryResource,
-        'category',
-        null=True,
-        full=True)
-    owner = fields.ToOneField(OwnerResource, 'owner', full=True)
 
     class Meta(CommonMetaApi):
         queryset = Layer.objects.all()
         resource_name = 'layers'
+
+
+class MapResource(CommonModelApi):
+
+    class Meta(CommonMetaApi):
+        queryset = Map.objects.all()
+        resource_name = 'maps'
