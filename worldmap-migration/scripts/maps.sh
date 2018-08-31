@@ -31,7 +31,7 @@ MAP_CT_ID=$(sudo -u $USER psql $NEW_DB -c \
 echo "\nCopying elements into resourcebase table"; do_dash
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
-	"copy (select base_id, $MAP_CT_ID,  uuid_generate_v5(uuid_ns_url(), 'base_id'), owner_id, title, last_modified, 'date_type', abstract, 'eng', 'supplemental_information', 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, false, false, CONCAT('/maps/', base_id), true from augmented_maps_map) to stdout with csv" | \
+	"copy (select base_id, $MAP_CT_ID,  uuid_generate_v5(uuid_ns_url(), 'base_id'), owner_id, title, last_modified, 'date_type', abstract, 'eng', 'supplemental_information', 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, false, CONCAT('/maps/', base_id), true from augmented_maps_map) to stdout with csv" | \
 sudo -u $USER \
 psql $NEW_DB -c 'copy base_resourcebase (id, polymorphic_ctype_id, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, srid, csw_typename, csw_schema, csw_mdsource, csw_type, csw_wkt_geometry, metadata_uploaded, popular_count, share_count, featured, is_published, metadata_uploaded_preserve, detail_url, is_approved) from stdin csv'
 
