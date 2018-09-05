@@ -64,6 +64,15 @@ psql $NEW_DB -c 'copy maps_maplayer (stack_order, format, name, opacity, styles,
 
 #############################################################################
 
+echo "\nCopy rows into wm_extra_extmap table"; do_dash
+sudo -u $USER PGPASSWORD=$DB_PW \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
+	"copy (select content, base_id, group_params from augmented_maps_map) to stdout with csv" | \
+sudo -u $USER \
+psql $NEW_DB -c 'copy wm_extra_extmap (content_map, map_id, group_params) from stdin csv'
+
+#############################################################################
+
 echo "\nCopy row into maps_mapsnapshot table"; do_dash
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
