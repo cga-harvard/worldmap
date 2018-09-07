@@ -63,7 +63,7 @@ if PROJECT_NAME not in INSTALLED_APPS:
         'worldmap_site.certification',
         # additional apps for worldmap
         'geonode.contrib.datastore_shards',
-        'debug_toolbar',
+        #'debug_toolbar',
      )
 
 if USE_WORLDMAP:
@@ -184,7 +184,26 @@ WM_BASELAYERS = [
 
 MAP_BASELAYERS.extend(WM_BASELAYERS)
 
-# debug toolbar
+# disable for now csrf - we need to implement it when wfst
+MIDDLEWARE_CLASSES = (
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'dj_pagination.middleware.PaginationMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
+)
+
+# geofence
+GEOFENCE_URL = os.getenv('GEOFENCE_URL', 'postgresql://geonode:geonde@localhost:5432/geofence')
+
+debug toolbar
 if DEBUG:
     MIDDLEWARE_CLASSES += (
         'debug_toolbar.middleware.DebugToolbarMiddleware',
