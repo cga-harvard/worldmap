@@ -81,11 +81,11 @@ def debug(request):
     return HttpResponse(res._container)
 
 
-if settings.DEBUG:
-
-    import debug_toolbar
-
-    urlpatterns = [
-        url(r'^debug/', debug),
-        url(r'^__debug__/', include(debug_toolbar.urls)),
-    ] + urlpatterns
+# if settings.DEBUG:
+#
+#     import debug_toolbar
+#
+#     urlpatterns = [
+#         url(r'^debug/', debug),
+#         url(r'^__debug__/', include(debug_toolbar.urls)),
+#     ] + urlpatterns

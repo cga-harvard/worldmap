@@ -201,12 +201,11 @@ MIDDLEWARE_CLASSES = (
 )
 
 # geofence
-GEOFENCE_URL = os.getenv('GEOFENCE_URL', 'postgresql://geonode:geonde@localhost:5432/geofence')
+# GEOFENCE_URL = os.getenv('GEOFENCE_URL', 'postgresql://geonode:geonde@localhost:5432/geofence')
 
-debug toolbar
 if DEBUG:
     MIDDLEWARE_CLASSES += (
-        'debug_toolbar.middleware.DebugToolbarMiddleware',
+        #'debug_toolbar.middleware.DebugToolbarMiddleware',
     )
     # TODO read INTERNAL_IPS form env variable
     INTERNAL_IPS = ('127.0.0.1', 'localhost', '10.0.2.2', )
