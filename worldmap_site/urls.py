@@ -30,6 +30,7 @@ from geonode.urls import urlpatterns
 
 # WorldMap API - to replace some of the slow GeoNode API endpoints
 from .api import LayerResource, MapResource, OwnerResource, TopicCategoryResource
+from .views import wm_home
 
 wm_api = Api(api_name='wm_api')
 wm_api.register(LayerResource())
@@ -38,7 +39,7 @@ wm_api.register(OwnerResource())
 wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
-   url(r'^/?$', TemplateView.as_view(template_name='site_index.html'), name='home'),
+   url(r'^/?$', wm_home, name='home_page'),
    url(r'^api/', include(wm_api.urls)),
  ] + urlpatterns
 
