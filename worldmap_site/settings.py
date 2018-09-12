@@ -160,26 +160,39 @@ WM_BASELAYERS = [
         "name": "SATELLITE",
         "visibility": False,
         "fixed": True,
-    }, {
+    },
+    {
         "source": {"ptype": "gx_googlesource"},
         "group": "background",
         "name": "TERRAIN",
         "visibility": True,
         "fixed": True,
-    }, {
+    },
+    {
         "source": {"ptype": "gx_googlesource"},
         "group": "background",
         "name": "HYBRID",
         "visibility": False,
         "fixed": True,
-    }, {
+    },
+    {
         "source": {"ptype": "gx_googlesource"},
         "group": "background",
         "name": "ROADMAP",
         "visibility": False,
         "fixed": True,
         "group": "background"
-    }
+    },
+    # {
+    #     "source": {
+    #         "ptype": "gxp_bingsource",
+    #         "apiKey": BING_API_KEY
+    #     },
+    #     "name": "AerialWithLabels",
+    #     "fixed": True,
+    #     "visibility": False,
+    #     "group": "background"
+    # },
 ]
 
 MAP_BASELAYERS.extend(WM_BASELAYERS)
