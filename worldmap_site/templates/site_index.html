@@ -52,9 +52,8 @@ This is where you can override the hero area block. You can simply modify the co
         </a> -->
       </div>
 
-
-      <a class="btn btn-primary" href="{% url "maps_browse" %}">{{n_maps|intcomma}} {% trans "Maps" %}</a>
       <a class="btn btn-primary" href="{% url "layer_browse" %}">{{n_layers|intcomma}} {% trans "Layers" %}</a>
+      <a class="btn btn-primary" href="{% url "maps_browse" %}">{{n_maps|intcomma}} {% trans "Maps" %}</a>
       <a class="btn btn-primary" href="{% url "profile_browse" %}">{{n_users|intcomma}} {% trans "Users" %}</a>
 
       <a class="btn btn-primary" href="{% url "new_map" %}">{% trans "Create Map" %}</a>
