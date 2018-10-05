@@ -65,12 +65,12 @@ class CommonModelApi(ModelResource):
 class LayerResource(CommonModelApi):
 
     class Meta(CommonMetaApi):
-        queryset = Layer.objects.all()
+        queryset = Layer.objects.all().order_by('-popular_count')
         resource_name = 'layers'
 
 
 class MapResource(CommonModelApi):
 
     class Meta(CommonMetaApi):
-        queryset = Map.objects.all()
+        queryset = Map.objects.all().order_by('-popular_count')
         resource_name = 'maps'
