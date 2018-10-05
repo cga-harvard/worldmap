@@ -66,6 +66,9 @@ sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST -d $NEW_DB -c \
 	"CREATE EXTENSION postgis;"
 do_hr
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST -d $NEW_DB -c \
+	"CREATE EXTENSION dblink;"
+do_hr
 echo "CREATE EXTENSION FOR UUID"
 sudo -u $USER PGPASSWORD=$DB_PW \
 psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST -d $OLD_DB -c \
