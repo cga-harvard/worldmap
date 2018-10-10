@@ -66,6 +66,16 @@ if PROJECT_NAME not in INSTALLED_APPS:
         #'debug_toolbar',
      )
 
+# EMAIL server configuration
+DEFAULT_FROM_EMAIL = 'Harvard WorldMap <worldmap@harvard.edu>'
+SERVER_EMAIL = 'server@worldmap.harvard.edu'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+
 if USE_WORLDMAP:
 
     # shard per month
