@@ -25,6 +25,7 @@ from django.conf.urls import url, include
 from django.core import urlresolvers
 from django.http import HttpResponse
 from django.views.generic import TemplateView
+from django.views.defaults import page_not_found
 
 from geonode.urls import urlpatterns
 
@@ -39,9 +40,15 @@ wm_api.register(OwnerResource())
 wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
-   url(r'^/?$', wm_home, name='home_page'),
-   url(r'^api/', include(wm_api.urls)),
- ] + urlpatterns
+    # extra url for the worldmap project
+    url(r'^/?$', wm_home, name='home_page'),
+    url(r'^api/', include(wm_api.urls)),
+    # url to disable
+    url('^announcements', page_not_found),
+    url('^documents', page_not_found),
+    url('^groups', page_not_found),
+    url('^services', page_not_found),
+] + urlpatterns
 
 # django debug toolbar stuff, including a custom decorator for debuggin not html
 # response (and in TastyPie)
