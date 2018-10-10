@@ -266,3 +266,13 @@ sudo -u $USER psql $NEW_DB -c \
     from wm_extra_layerstats
     where base_resourcebase.id = wm_extra_layerstats.layer_id;
     "
+
+#############################################################################
+
+echo "\nSet default for supplemental_information"; do_dash
+
+sudo -u $USER psql $NEW_DB -c \
+    "update base_resourcebase set supplemental_information = 'No information provided' where supplemental_information = '';"
+
+sudo -u $USER psql $NEW_DB -c \
+    "update layers_layer set supplemental_information_en = 'No information provided' where supplemental_information_en = '';"
