@@ -202,3 +202,13 @@ do_hr
 source scripts/dataverse.sh
 
 python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps.json
+
+#############################################################################
+do_hr
+echo "At the beginning, no one has notifications enabled"
+do_hr
+#############################################################################
+
+sudo -u $USER PGPASSWORD=$DB_PW \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $NEW_DB -c \
+    "truncate table pinax_notifications_noticesetting;" | \
