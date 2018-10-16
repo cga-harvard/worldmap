@@ -60,7 +60,7 @@ TEMPLATES[0].pop('APP_DIRS', None)
 if PROJECT_NAME not in INSTALLED_APPS:
      INSTALLED_APPS += (
         PROJECT_NAME,
-        'worldmap_site.certification',
+        # 'worldmap_site.certification',
         # additional apps for worldmap
         'geonode.contrib.datastore_shards',
         #'debug_toolbar',
@@ -77,7 +77,54 @@ EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 
 if USE_WORLDMAP:
-
+    PG_HOST = os.getenv('PG_HOST', 'localhost')
+    PG_USERNAME = os.getenv('PG_USERNAME', 'worldmap')
+    PG_PASSWORD = os.getenv('PG_PASSWORD', 'worldmap')
+    PG_WORLDMAP_DJANGO_DB = os.getenv('PG_WORLDMAP_DJANGO_DB', 'geonode')
+    PG_WORLDMAP_UPLOADS_DB = os.getenv('PG_WORLDMAP_UPLOADS_DB', 'geonode_data')
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            'NAME': PG_WORLDMAP_DJANGO_DB,
+            'USER': PG_USERNAME,
+            'PASSWORD': PG_PASSWORD,
+            'HOST': PG_HOST,
+            'PORT': '5432',
+            'CONN_TOUT': 900,
+        },
+        # vector datastore for uploads
+        'datastore': {
+            'ENGINE': 'django.contrib.gis.db.backends.postgis',
+            # 'ENGINE': '', # Empty ENGINE name disables
+            'NAME': PG_WORLDMAP_UPLOADS_DB,
+            'USER': PG_USERNAME,
+            'PASSWORD': PG_PASSWORD,
+            'HOST': PG_HOST,
+            'PORT': '5432',
+            'CONN_TOUT': 900,
+        }
+    }
+    GEONODE_CLIENT_LOCATION = '/static/worldmap_client/'
+    GAZETTEER_DB_ALIAS = 'default'
+    GAZETTEER_FULLTEXTSEARCH = False
+    WM_COPYRIGHT_URL = "http://gis.harvard.edu/"
+    WM_COPYRIGHT_TEXT = "Center for Geographic Analysis"
+    USE_GAZETTEER = True
+    DEFAULT_MAP_ABSTRACT = """
+        <h3>The Harvard WorldMap Project</h3>
+        <p>WorldMap is an open source web mapping system that is currently
+        under construction. It is built to assist academic research and
+        teaching as well as the general public and supports discovery,
+        investigation, analysis, visualization, communication and archiving
+        of multi-disciplinary, multi-source and multi-format data,
+        organized spatially and temporally.</p>
+    """
+    # these are optionals
+    GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', 'your-key-here')
+    USE_HYPERMAP = strtobool(os.getenv('USE_HYPERMAP', 'False'))
+    HYPERMAP_REGISTRY_URL = os.getenv('HYPERMAP_REGISTRY_URL', 'http://localhost:8001')
+    SOLR_URL = os.getenv('SOLR_URL', 'http://localhost:8983/solr/hypermap/select/')
+    MAPPROXY_URL = os.getenv('MAPPROXY_URL', 'http://localhost:8001')
     # shard per month
     SHARD_STRATEGY = 'monthly'
     SHARD_PREFIX = 'wm_'
@@ -164,35 +211,35 @@ WM_BASELAYERS = [
     #     "tiled" : False,
     #     "title": "ESRI Dark Gray Reference"
     # },
-    {
-        "source": {"ptype": "gx_googlesource"},
-        "group": "background",
-        "name": "SATELLITE",
-        "visibility": False,
-        "fixed": True,
-    },
-    {
-        "source": {"ptype": "gx_googlesource"},
-        "group": "background",
-        "name": "TERRAIN",
-        "visibility": True,
-        "fixed": True,
-    },
-    {
-        "source": {"ptype": "gx_googlesource"},
-        "group": "background",
-        "name": "HYBRID",
-        "visibility": False,
-        "fixed": True,
-    },
-    {
-        "source": {"ptype": "gx_googlesource"},
-        "group": "background",
-        "name": "ROADMAP",
-        "visibility": False,
-        "fixed": True,
-        "group": "background"
-    },
+    # {
+    #     "source": {"ptype": "gx_googlesource"},
+    #     "group": "background",
+    #     "name": "SATELLITE",
+    #     "visibility": False,
+    #     "fixed": True,
+    # },
+    # {
+    #     "source": {"ptype": "gx_googlesource"},
+    #     "group": "background",
+    #     "name": "TERRAIN",
+    #     "visibility": True,
+    #     "fixed": True,
+    # },
+    # {
+    #     "source": {"ptype": "gx_googlesource"},
+    #     "group": "background",
+    #     "name": "HYBRID",
+    #     "visibility": False,
+    #     "fixed": True,
+    # },
+    # {
+    #     "source": {"ptype": "gx_googlesource"},
+    #     "group": "background",
+    #     "name": "ROADMAP",
+    #     "visibility": False,
+    #     "fixed": True,
+    #     "group": "background"
+    # },
     # {
     #     "source": {
     #         "ptype": "gxp_bingsource",
