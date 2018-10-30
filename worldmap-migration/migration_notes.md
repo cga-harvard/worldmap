@@ -62,6 +62,14 @@ set ows_url = replace(ows_url, 'worldmap.harvard.edu', '128.31.22.103'), layer_p
 where local = True;
 ```
 
+# fix broken maplayers (GeoNode 2.10 set styles in a list now vs a string)
+
+```sql
+update maps_maplayer
+set styles = E'[\'' || styles || E'\']'
+where local = true and not styles like '%[%';
+```
+
 # permissions checking
 
 maps to check:
