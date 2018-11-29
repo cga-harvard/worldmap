@@ -76,6 +76,24 @@ EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = False
 
+UPLOADER = {
+    # 'BACKEND': 'geonode.rest',
+    'BACKEND': 'geonode.importer',
+    'OPTIONS': {
+        'TIME_ENABLED': True,
+        'MOSAIC_ENABLED': False,
+        'GEOGIG_ENABLED': False,
+    },
+    'SUPPORTED_CRS': [
+        'EPSG:4326',
+        'EPSG:3785',
+        'EPSG:3857',
+        'EPSG:900913',
+        'EPSG:32647',
+        'EPSG:32736'
+    ]
+}
+
 if USE_WORLDMAP:
     PG_HOST = os.getenv('PG_HOST', 'localhost')
     PG_USERNAME = os.getenv('PG_USERNAME', 'worldmap')
