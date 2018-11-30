@@ -1,5 +1,5 @@
 from django import template
-from worldmap.certification.models import Certification
+from worldmap_site.certification.models import Certification
 register = template.Library()
 
 class IsCertifiedNode(template.Node):

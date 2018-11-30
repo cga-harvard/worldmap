@@ -8,6 +8,7 @@
 {% load base_tags %}
 {% load guardian_tags %}
 {% load client_lib_tags %}
+{% load certified %}
 
 {% block title %}{{ resource.title|default:resource.alternate }} — {{ block.super }}{% endblock %}
 
@@ -664,6 +665,31 @@
     {% endif %}
     {% endif %}
 
+    {% is_certified request.user resource as certified %}
+    {% object_certifications resource as certifications %}
+
+    <li class="list-group-item">
+      <h4>{% trans "Certifications" %}</h4>
+        {% if certifications %}
+          {% for certification in certifications %}
+            <p><a href="/people/profile/{{certification.certifier.username}}">{{ certification.certifier.get_username }}</a></p>
+          {% endfor %}
+        {% else %}
+          <p>{% trans "This layer has not been certified by any users." %}</p>
+        {% endif %}
+        {% if request.user.is_authenticated %}
+          {% if certified %}
+          <p><a class="btn btn-primary btn-block" href="{% url "uncertify" 'layers.Layer' resource.id %}">
+                    {% trans "Uncertify this layer." %}
+                </a></p>
+          {% else %}
+          <p><a class="btn btn-primary btn-block" href="{% url "certify" 'layers.Layer' resource.id %}">
+                    {% trans "Certify this layer." %}
+                </a></p>
+          {% endif %}
+        {% endif %}
+    </li>
+
     {% if resource.storeType == "remoteStore" %}
     <li class="list-group-item">
             <h4>{% trans "External service layer" %}</h4>
@@ -967,4 +993,6 @@
     {% if GEONODE_SECURITY_ENABLED %}
     {% include "_permissions_form_js.html" %}
     {% endif %}
+
+
 {% endblock extra_script %}

@@ -43,6 +43,7 @@ urlpatterns = [
     # extra url for the worldmap project
     url(r'^/?$', wm_home, name='home_page'),
     url(r'^api/', include(wm_api.urls)),
+    url(r'^certification/', include('worldmap_site.certification.urls')),
     # url to disable
     url('^announcements', page_not_found),
     url('^documents', page_not_found),
