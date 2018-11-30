@@ -41,7 +41,7 @@ wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
     # extra url for the worldmap project
-    url(r'^/?$', wm_home, name='home_page'),
+    url(r'^$', wm_home, name='home_page'),
     url(r'^api/', include(wm_api.urls)),
     url(r'^certification/', include('certification.urls')),
     # url to disable
