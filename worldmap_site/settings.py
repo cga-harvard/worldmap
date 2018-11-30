@@ -60,7 +60,7 @@ TEMPLATES[0].pop('APP_DIRS', None)
 if PROJECT_NAME not in INSTALLED_APPS:
      INSTALLED_APPS += (
         PROJECT_NAME,
-        'worldmap_site.certification',
+        'certification',
         # additional apps for worldmap
         'geonode.contrib.datastore_shards',
         #'debug_toolbar',
