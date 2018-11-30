@@ -1,4 +1,8 @@
-# database migrations (for CAMP)
+# GeoServer
+
+Delete the security directory and use the latest version
+
+# PostgreSQL
 
 ```shell
 ./manage.py migrate --fake gazetteer 0002_gazetteerattribute
@@ -83,3 +87,5 @@ layers to check:
     http://worldmap.harvard.edu//data/geonode:informalurbanisation_okd
     http://worldmap.harvard.edu/data/geonode:etnicity_felix
     http://worldmap.harvard.edu//data/geonode:testpolygons_vxf
+
+Make sure this doesn't apply: https://github.com/cga-harvard/geonode/issues/528

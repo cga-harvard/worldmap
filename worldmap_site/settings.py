@@ -24,8 +24,7 @@ import os
 from urlparse import urlparse, urlunparse
 # Load more settings from a file called local_settings.py if it exists
 try:
-    from worldmap.local_settings import *
-#    from geonode.local_settings import *
+    from worldmap_site.local_settings import *
 except ImportError:
     from geonode.settings import *
 
@@ -151,6 +150,35 @@ if USE_WORLDMAP:
 ###########################################
 # other settings specific to WorldMap CGA #
 ###########################################
+
+# OGC (WMS/WFS/WCS) Server Settings
+OGC_SERVER = {
+    'default': {
+        'BACKEND': 'geonode.geoserver',
+        'LOCATION': GEOSERVER_LOCATION,
+        'LOGIN_ENDPOINT': 'j_spring_oauth2_geonode_login',
+        'LOGOUT_ENDPOINT': 'j_spring_oauth2_geonode_logout',
+        'PUBLIC_LOCATION': GEOSERVER_PUBLIC_LOCATION,
+        'USER': OGC_SERVER_DEFAULT_USER,
+        'PASSWORD': OGC_SERVER_DEFAULT_PASSWORD,
+        'MAPFISH_PRINT_ENABLED': True,
+        'PRINT_NG_ENABLED': True,
+        'GEONODE_SECURITY_ENABLED': True,
+        'GEOFENCE_SECURITY_ENABLED': GEOFENCE_SECURITY_ENABLED,
+        'GEOFENCE_URL': os.getenv('GEOFENCE_URL', 'internal:/'),
+        'GEOGIG_ENABLED': False,
+        'WMST_ENABLED': False,
+        'BACKEND_WRITE_ENABLED': True,
+        'WPS_ENABLED': False,
+        'LOG_FILE': '%s/geoserver/data/logs/geoserver.log',
+        # Set to dictionary identifier of database containing spatial data in
+        # DATABASES dictionary to enable
+        'DATASTORE': os.getenv('DEFAULT_BACKEND_DATASTORE', 'datastore'),
+        'PG_GEOGIG': False,
+        # 'CACHE': ".cache"  # local cache file to for HTTP requests
+        'TIMEOUT': int(os.getenv('OGC_REQUEST_TIMEOUT', '30'))  # number of seconds to allow for HTTP requests
+    }
+}
 
 ACCOUNT_APPROVAL_REQUIRED = False
 

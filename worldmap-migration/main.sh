@@ -87,6 +87,7 @@ do_hr
 
 source $ENV_PATH/bin/activate
 #python $GEONODE_PATH/manage.py makemigrations --noinput
+python $GEONODE_PATH/manage.py migrate
 python $WORLDMAP_PATH/manage.py migrate
 # python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps_docker.json
 python $WORLDMAP_PATH/manage.py loaddata fixtures/initial_data.json

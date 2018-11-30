@@ -86,6 +86,6 @@ GeoServer data Directory
 ========================
 
 * update the PostGIS connection strings by using the store_update_connection.sh script
-* security directory must be removed, and we need to use the one which comes with geoserver-2.12.x.war
-* add geofence directory (included in geoserver-2.12.x.war)
+* security directory must be removed, and we need to use the one which comes with geoserver-2.15.x.war
+* add geofence directory (included in geoserver-2.15.x.war)
 * configure security (input oauth parameters)
