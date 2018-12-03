@@ -86,10 +86,7 @@ echo "Generating tables locally"
 do_hr
 
 source $ENV_PATH/bin/activate
-#python $GEONODE_PATH/manage.py makemigrations --noinput
-python $GEONODE_PATH/manage.py migrate
 python $WORLDMAP_PATH/manage.py migrate
-# python $GEONODE_PATH/manage.py loaddata $GEONODE_PATH/geonode/base/fixtures/default_oauth_apps_docker.json
 python $WORLDMAP_PATH/manage.py loaddata fixtures/initial_data.json
 
 else
@@ -161,7 +158,7 @@ do_hr
 #############################################################################
 
 sudo -u $USER PGPASSWORD=$DB_PW \
-psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $NEW_DB -c \
+psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST wmdata -c \
     "copy (SELECT layer_name, layer_attribute, feature_type, feature_fid, latitude, longitude, place_name, start_date, end_date, julian_start, julian_end, project, feature, username FROM gazetteer_gazetteerentry) to stdout with csv;" | \
 sudo -u $USER \
 psql $NEW_DB -c "copy gazetteer_gazetteerentry(layer_name, layer_attribute, feature_type, feature_fid, latitude, longitude, place_name, start_date, end_date, julian_start, julian_end, project, feature, username) from stdin csv"
