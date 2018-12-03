@@ -228,30 +228,30 @@ MAP_BASELAYERS = [{
     "fixed": True,
     "group":"background"
 }, {
-    "source": {
-        "ptype": "gxp_tianditusource"
-    },
-    "group": "background",
-    "name": "TIANDITUROAD",
-    "visibility": True,
-    "fixed": True,
-}, {
-    "source": {
-        "ptype": "gxp_tianditusource",
-    },
-    "group": "background",
-    "name": "TIANDITUIMAGE",
-    "visibility": False,
-    "fixed": True,
-}, {
-    "source": {
-        "ptype": "gxp_tianditusource"
-    },
-    "group": "background",
-    "name": "TIANDITUTERRAIN",
-    "visibility": False,
-    "fixed": True,
-}, {
+#     "source": {
+#         "ptype": "gxp_tianditusource"
+#     },
+#     "group": "background",
+#     "name": "TIANDITUROAD",
+#     "visibility": True,
+#     "fixed": True,
+# }, {
+#     "source": {
+#         "ptype": "gxp_tianditusource",
+#     },
+#     "group": "background",
+#     "name": "TIANDITUIMAGE",
+#     "visibility": False,
+#     "fixed": True,
+# }, {
+#     "source": {
+#         "ptype": "gxp_tianditusource"
+#     },
+#     "group": "background",
+#     "name": "TIANDITUTERRAIN",
+#     "visibility": False,
+#     "fixed": True,
+# }, {
 #     "source": {
 #         "ptype": "gxp_tianditusource"
 #     },
