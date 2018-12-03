@@ -538,6 +538,11 @@ DATABASES = {
         }
     }
 
+# shard per month
+SHARD_STRATEGY = 'monthly'
+SHARD_PREFIX = 'wm_'
+DATASTORE_URL = 'postgis://%s:%s@%s:5432/data' % (PG_USERNAME, PG_PASSWORD, PG_HOST)
+
 GEOSERVER_LOCATION = os.getenv(
     'GEOSERVER_LOCATION', 'http://localhost:8080/geoserver/'
 )
