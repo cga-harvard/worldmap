@@ -1,5 +1,13 @@
 # worldmap-migration
-Worldmap Database migrations....written in pure shell
+Worldmap Database migrations
+
+In short
+========
+
+$ ssh wm-postgres-2
+
+$ source vars
+$ ./main.sh
 
 Usage
 =====
