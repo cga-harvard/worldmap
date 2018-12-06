@@ -83,6 +83,15 @@ Only for Camp
 ```
 alter sequence auth_group_id_seq restart with 6;
 
+# compromised sequences
+
+Some sequence seems compromised. Set it correctly using this command:
+
+```sql
+select setval('base_resourcebase_id_seq', (select (max(id) + 1) from base_resourcebase), false);
+select setval('layers_attribute_id_seq', (select (max(id) + 1) from layers_attribute), false);
+```
+
 # sync geofence permissions
 
 ```shell
