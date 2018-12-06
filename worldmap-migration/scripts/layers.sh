@@ -25,11 +25,12 @@ psql -v ON_ERROR_STOP=1 -U $DB_USER -h $DB_HOST $OLD_DB -c \
     "CREATE OR REPLACE VIEW augmented_maps_layer AS
         SELECT * FROM maps_layer
         INNER JOIN
-            maps_layer_bbox USING (id) WHERE
-                maps_layer_bbox.bbox_x0 > -181 AND
-                maps_layer_bbox.bbox_x1 < 181 AND
-                maps_layer_bbox.bbox_y0 > -91 AND
-                maps_layer_bbox.bbox_y1 < 90"
+            maps_layer_bbox USING (id)"
+            #WHERE
+            #    maps_layer_bbox.bbox_x0 > -181 AND
+            #    maps_layer_bbox.bbox_x1 < 181 AND
+            #    maps_layer_bbox.bbox_y0 > -91 AND
+            #    maps_layer_bbox.bbox_y1 < 90"
 
 #############################################################################
 
@@ -47,7 +48,7 @@ from previous database works"; do_dash
 # ERROD: invalid input syntax for type timestamp with time zone: "0840"
 # PGPASSWORD=$DB_PW psql -U $DB_USER -h $DB_HOST $OLD_DB -c "copy (select id, $ID, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, bbox_x0, bbox_y0, bbox_x1, bbox_y1, typename, false, temporal_extent_start, temporal_extent_end from augmented_maps_layer) to stdout with csv" | psql $NEW_DB -c "copy base_resourcebase (id, polymorphic_ctype_id, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, srid, csw_typename, csw_schema, csw_mdsource, csw_type, csw_wkt_geometry, metadata_uploaded, popular_count, share_count, featured, is_published, bbox_x0, bbox_y0, bbox_x1, bbox_y1, detail_url, metadata_uploaded_preserve, temporal_extent_start, temporal_extent_end) from stdin csv"
 sudo -u $USER PGPASSWORD=$DB_PW \
-psql -U $DB_USER -h $DB_HOST $OLD_DB -c "copy (select id, $LAYER_CT_ID, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, bbox_x0, bbox_y0, bbox_x1, bbox_y1, typename, typename, false, topic_category_id, true, false from augmented_maps_layer) to stdout with csv" | \
+psql -U $DB_USER -h $DB_HOST $OLD_DB -c "copy (select id, $LAYER_CT_ID, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, 'EPSG:4326', 'csw_typename', 'csw_schema', 'csw_mdsource', 'csw_type', 'csw_wkt_geometry', false, 0, 0, false, true, -189, -89, 89, 189, typename, typename, false, topic_category_id, true, false from augmented_maps_layer) to stdout with csv" | \
 sudo -u $USER \
 psql $NEW_DB -c "copy base_resourcebase (id, polymorphic_ctype_id, uuid, owner_id, title, date, date_type, abstract, language, supplemental_information, srid, csw_typename, csw_schema, csw_mdsource, csw_type, csw_wkt_geometry, metadata_uploaded, popular_count, share_count, featured, is_published, bbox_x0, bbox_y0, bbox_x1, bbox_y1, detail_url, alternate, metadata_uploaded_preserve, category_id, is_approved, dirty_state) from stdin csv"
 
