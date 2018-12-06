@@ -597,7 +597,7 @@ UPLOADER = {
     # 'BACKEND': 'geonode.rest',
     'BACKEND': 'geonode.importer',
     'OPTIONS': {
-        'TIME_ENABLED': True,
+        'TIME_ENABLED': False,
         'MOSAIC_ENABLED': False,
         'GEOGIG_ENABLED': False,
     },
