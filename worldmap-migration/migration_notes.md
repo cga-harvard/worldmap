@@ -159,6 +159,12 @@ where local = true and not styles like '%[%';
 
 # permissions checking
 
+Fix permssions by using this:
+
+```shell
+python fix_permissions.py
+```
+
 maps to check:
 
     http://worldmap.harvard.edu/maps/6442/info/
