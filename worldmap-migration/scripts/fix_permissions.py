@@ -36,6 +36,14 @@ def get_dst():
     conn = psycopg2.connect("dbname='worldmapnew' user='worldmap' port='5432' host='localhost' password='worldmap'")
     return conn
 
+def get_group_id_by_name(group_name):
+    dst = get_dst()
+    dst_cur = dst.cursor()
+    dst_cur.execute("select id from auth_group where name = '%s';" % group_name)
+    if dst_cur.rowcount == 0:
+        return None
+    return dst_cur.next()[0]
+
 def get_layer_id_by_old_id(id):
     """Get an resource id by old id"""
     src = get_src()
@@ -200,6 +208,9 @@ def set_group_perms_for_object(old_object_id, object_id, obj_type='layer'):
                     content_type_id = ctype_dict['resourcebase']
                     sql_insert = "INSERT INTO guardian_userobjectpermission (permission_id, content_type_id, object_pk, user_id) VALUES (%s, %s, '%s', %s)" % (perm_id, content_type_id, object_id, -1)
                     dst_cur.execute(sql_insert)
+                    print 'Inserting permission %s for group anonymous for content %s' % (perm, object_id)
+                    sql_insert = "INSERT INTO guardian_groupobjectpermission (permission_id, content_type_id, object_pk, group_id) VALUES (%s, %s, '%s', %s)" % (perm_id, content_type_id, object_id, anonymous_group_id)
+                    dst_cur.execute(sql_insert)
                     dst.commit()
             if group_name in ('customgroup', 'authenticated'):
                 if group_name == 'customgroup':
@@ -271,11 +282,12 @@ dst_cur.execute('TRUNCATE TABLE guardian_groupobjectpermission;')
 #     http://worldmap.harvard.edu/maps/121/info/
 #
 # layers to check:
-#
+#     http://worldmap.harvard.edu/data/layers/geonode:ukr_hotspots_7jf
 #     http://worldmap.harvard.edu//data/geonode:informalurbanisation_okd    (6921)
 #     http://worldmap.harvard.edu/data/geonode:etnicity_felix   (10819)
 #     http://worldmap.harvard.edu/data/geonode:testpolygons_vxf
 #     http://worldmap.harvard.edu/data/geonode:PARK_hst (1700)
+#     http://worldmap.harvard.edu/data/geonode:limite_parroquial_hxt
 
 # how to translate core_genericobjectrolemapping
 # subject=anonymous --> -1 can view and download
@@ -292,6 +304,8 @@ dst_cur.execute('TRUNCATE TABLE guardian_groupobjectpermission;')
 # ********************
 # MAIN COMMAND
 src_cur = src.cursor()
+
+anonymous_group_id = get_group_id_by_name('anonymous')
 
 src_cur.execute('select id from maps_layer;')
 count = 0
