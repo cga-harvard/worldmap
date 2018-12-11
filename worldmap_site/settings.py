@@ -406,23 +406,6 @@ baselayers = MAP_BASELAYERS
 MAP_BASELAYERS = [PUBLIC_GEOSERVER]
 MAP_BASELAYERS.extend(baselayers)
 
-# notification settings
-NOTIFICATION_ENABLED = False
-
-# notifications backends
-_EMAIL_BACKEND = "pinax.notifications.backends.email.EmailBackend"
-PINAX_NOTIFICATIONS_BACKENDS = [
-    ("email", _EMAIL_BACKEND),
-]
-
-# Queue non-blocking notifications.
-PINAX_NOTIFICATIONS_QUEUE_ALL = False
-PINAX_NOTIFICATIONS_LOCK_WAIT_TIMEOUT = -1
-
-# pinax.notifications
-# or notification
-NOTIFICATIONS_MODULE = 'pinax.notifications'
-
 CORS_ORIGIN_ALLOW_ALL = True
 
 GEOIP_PATH = os.path.join(os.path.dirname(__file__), '..', 'GeoLiteCity.dat')

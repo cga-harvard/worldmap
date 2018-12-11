@@ -106,11 +106,9 @@ Run this after syncing geofence permissions.
 import sys
 import time
 import timeit
-import traceback
+# import traceback
 from geonode.layers.models import Layer
-
 count = 0
-
 for layer in Layer.objects.all():
     count += 1
     print 'Checking layer %s/%s: %s' % (count, Layer.objects.count(), layer.title)
@@ -123,12 +121,12 @@ for layer in Layer.objects.all():
         try:
             start = timeit.default_timer()
             layer.save()
-            time.sleep(5)
             end = timeit.default_timer()
             total_time = end - start
             print 'Updated in %s' % total_time
         except Exception as e:
-            traceback.format_exception(*sys.exc_info())
+            print str(e)
+            # traceback.format_exception(*sys.exc_info())
     else:
         print 'This layer already has the thumbnail and the styles synced'
 ```
@@ -184,5 +182,5 @@ Make sure this doesn't apply: https://github.com/cga-harvard/geonode/issues/528
 run this query after some clean up in the database (it looks like there is some user with multiple emails):
 
 ```sql
-insert into account_emailaddress (email, verified, "primary", user_id) select email, true, true, id from people_profile;
+insert into account_emailaddress (email, verified, "primary", user_id) select email, true, true, min(id) from people_profile group by email;
 ```
