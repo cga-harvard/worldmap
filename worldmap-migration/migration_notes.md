@@ -90,6 +90,7 @@ Some sequence seems compromised. Set it correctly using this command:
 ```sql
 select setval('base_resourcebase_id_seq', (select (max(id) + 1) from base_resourcebase), false);
 select setval('layers_attribute_id_seq', (select (max(id) + 1) from layers_attribute), false);
+select setval('base_contactrole_id_seq', (select (max(id) + 1) from base_contactrole), false);
 ```
 
 # sync geofence permissions
