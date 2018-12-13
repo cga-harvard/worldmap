@@ -134,14 +134,6 @@ for layer in Layer.objects.all():
 
 # fix map layers IP
 
-Use this command:
-
-```bash
-./manage updatemaplayerip
-```
-
-if raises error, use this SQL:
-
 ```sql
 update maps_maplayer
 set ows_url = replace(ows_url, 'worldmap.harvard.edu', '128.31.22.103'), layer_params = replace(layer_params, 'worldmap.harvard.edu', '128.31.22.103')
@@ -154,6 +146,13 @@ where local = True;
 update maps_maplayer
 set styles = E'[\'' || styles || E'\']'
 where local = true and not styles like '%[%';
+```
+
+# fix map snapshots:
+
+```sql
+update maps_mapsnapshot
+set config = replace(config, 'worldmap.harvard.edu', '128.31.22.103');
 ```
 
 # permissions checking
