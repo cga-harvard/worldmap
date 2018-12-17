@@ -21,7 +21,13 @@ def checkLayer(layer, remove=False):
         cur.execute('SELECT COUNT(*) FROM "%s";' % layer_name)
         num_features = cur.next()[0]
         if num_features == 0:
-            print '%s, %s, %s%s' % (layer.alternate, layer.owner.username, settings.SITEURL[0:-1], layer.get_absolute_url())
+            print '%s, "%s", %s, %s, %s, %s%s' % (layer.alternate,
+                                        layer.title.replace('"', '\''),
+                                        layer.owner.username,
+                                        layer.owner.email,
+                                        layer.date.isoformat(),
+                                        settings.SITEURL[0:-1], layer.get_absolute_url()
+            )
             if remove:
                 print 'Removing layer %s' % layer_name
                 layer.delete()
