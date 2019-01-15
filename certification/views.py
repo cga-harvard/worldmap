@@ -5,7 +5,10 @@ from django.template import RequestContext
 from django.contrib.auth.decorators import login_required
 from django.apps import apps
 
+from geonode.people.models import Profile
+
 from .models import Certification
+
 
 @login_required
 def uncertify(request, modelid, modeltype):
@@ -52,3 +55,15 @@ def certify(request, modeltype, modelid):
         certification = Certification.objects.certify(request.user,model_obj)
         redirecturl = model_obj.get_absolute_url()
         return HttpResponseRedirect(redirecturl)
+
+def certified_by_user(request, username):
+    ''' Get certified objects per user '''
+    profile = Profile.objects.get(username=username)
+    cert_objects = Certification.objects.certifications_user(profile)
+
+    return render(request, 'certification/certified_by_user.html',
+        {
+          'cert_objects': cert_objects,
+          'profile': profile,
+        }
+    )

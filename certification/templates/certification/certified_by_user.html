@@ -1,0 +1,42 @@
+{% extends "people/profile_base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+{% trans "Certified resources by " %}{{ profile.first_name|default:profile.username }}
+{% endblock %}
+
+{% block body %}
+
+<div class="page-header">
+  <h2 class="page-title">{% trans "Certified resources by " %}{{ profile.first_name|default:profile.username }}</h2>
+</div>
+
+{% if cert_objects %}
+
+  <table class="table table-user-profile">
+  <tbody>{{ cert_objects.count }} certified resources
+
+  {% for cert_object in cert_objects %}
+  <tr>
+    <td class="table-user-profile-attribute">
+      {% if cert_object.object_ct.model == 'map' %}
+        <i class='fa fa-map-marker'></i>
+      {% else %}
+        <i class='fa fa-map'></i>
+      {% endif %}
+    </td>
+    <td>
+        <a href='{{ cert_object.object.get_absolute_url }}'>{{ cert_object.object.title }}</a>
+    </td>
+  </tr>
+  {% endfor %}
+
+  </tbody>
+  </table>
+
+{% else %}
+  <p>{{ profile.username}} didn't certify any layer or map</p>
+{% endif %}
+
+{% endblock %}
