@@ -155,12 +155,18 @@ update maps_mapsnapshot
 set config = replace(config, 'worldmap.harvard.edu', '128.31.22.103');
 ```
 
+# fix map uuid
+
+```shell
+python worldmap-migration/scripts/fix_map_uuid.py
+```
+
 # permissions checking
 
 Fix permssions by using this:
 
 ```shell
-python fix_permissions.py
+python worldmap-migration/scripts/fix_permissions.py
 ```
 
 maps to check:
