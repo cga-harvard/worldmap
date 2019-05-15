@@ -78,4 +78,7 @@ class MapResource(CommonModelApi):
         resource_name = 'maps'
 
     def dehydrate_detail_url(self, bundle):
-        return '/maps/%s' % bundle.obj.urlsuffix
+        if bundle.obj.urlsuffix:
+            return '/maps/%s' % bundle.obj.urlsuffix
+        else:
+            return bundle.obj.detail_url
