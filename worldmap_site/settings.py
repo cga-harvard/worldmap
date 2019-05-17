@@ -642,3 +642,46 @@ DOWNLOAD_FORMATS_RASTER = [
     'QGIS project file (.qgs)',
     'Zipped All Files'
 ]
+
+DEFAULT_MAP_ABSTRACT = """
+    <h3>The Harvard WorldMap Project2</h3>
+
+    <p>WorldMap is an open source web mapping system. It has been developed to
+    assist academic research and teaching as well as the general public.
+    It supports data discovery, analysis, visualization, and data sharing of
+    multi-disciplinary, multi-source and multi-format data, which is organized
+    spatially and temporally.</p>
+
+    <h4>Introduction to the WorldMap Project</h4>
+    <p>WorldMap attempts to address the problem of discovering where things
+    happen. It draws together an array of public maps and scholarly data
+    to create a common source where users can:</p>
+
+    <ul>
+    <li>1. Interact with the best available public data for a
+    city/region/continent</li>
+    <li>2. See the whole of that area, yet also zoom in to particular places</li>
+    <li>3. Accumulate both contemporary and historical data supplied by researchers
+    and make it permanently accessible online</li>
+    <li>4. Work collaboratively across disciplines and organizations with
+    spatial information in an online environment</li>
+    </ul>
+
+    <p>The WorldMap project aims to accomplish these goals in stages, with public
+    and private support. It draws on the basic insight of geographic
+    information systems that spatiotemporal data becomes more meaningful
+    as more "layers" are added, and makes use of tiling and indexing
+    approaches to facilitate rapid search and visualization of
+    large volumes of disparate data.</p>
+
+    <p>WorldMap aims to augment existing initiatives for globally sharing
+    spatial data and technology such as GSDI (Global Spatial Data
+    Infrastructure). WorldMap makes use of OGC (Open Geospatial Consortium)
+    compliant web services such as WMS (Web Map Service), emerging
+    open standards such as WMS-C (cached WMS), and standards-based metadata
+    formats, to enable WorldMap data layers to be inserted into existing
+    data infrastructures.</p>
+
+    <p>All WorldMap source code is made available here for others to use
+    and improve upon.</p>
+"""
