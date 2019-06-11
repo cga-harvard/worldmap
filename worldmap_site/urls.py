@@ -40,6 +40,15 @@ wm_api.register(OwnerResource())
 wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
+    url(r'', include('geonode_contribs.worldmap.wm_extra.urls',
+        namespace='worldmap')),
+    url(r'', include('geonode_contribs.worldmap.gazetteer.urls',
+        namespace='gazetteer')),
+    url(r'', include('geonode_contribs.worldmap.mapnotes.urls',
+        namespace='mapnotes'))
+    ] + urlpatterns
+
+urlpatterns = [
     # extra url for the worldmap project
     url(r'^$', wm_home, name='home_page'),
     # geojson upload (temp)

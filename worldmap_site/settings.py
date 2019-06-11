@@ -62,13 +62,38 @@ AUTH_IP_WHITELIST = []
 
 MANAGERS = ADMINS = os.getenv('ADMINS', [])
 
+# WorldMap configuration
+
 INSTALLED_APPS += (
         PROJECT_NAME,
         'certification',
         # additional apps for worldmap
-        'geonode.contrib.datastore_shards',
+        'geoexplorer-worldmap',
+        'geonode_contribs.worldmap',
+        'geonode_contribs.worldmap.gazetteer',
+        'geonode_contribs.worldmap.wm_extra',
+        #'geonode_contribs.worldmap.mapnotes',
+        'geonode_contribs.datastore_shards',
         #'debug_toolbar',
      )
+
+GEONODE_CLIENT_LOCATION = '/static/worldmap_client/'
+USE_GAZETTEER = True
+GAZETTEER_DB_ALIAS = 'default'
+GAZETTEER_FULLTEXTSEARCH = False
+# external services to be used by the gazetteer
+GAZETTEER_SERVICES = 'worldmap,geonames,nominatim'
+# this is the GeoNames key which is needed by the WorldMap Gazetteer
+GAZETTEER_GEONAMES_USER = os.getenv('GEONAMES_USER', 'your-key-here')
+WM_COPYRIGHT_URL = "http://gis.harvard.edu/"
+WM_COPYRIGHT_TEXT = "Center for Geographic Analysis"
+DEFAULT_MAP_ABSTRACT = "Your text"
+# these are optionals
+GOOGLE_MAPS_API_KEY = os.getenv('GOOGLE_MAPS_API_KEY', 'your-key-here')
+USE_HYPERMAP = strtobool(os.getenv('USE_HYPERMAP', 'False'))
+HYPERMAP_REGISTRY_URL = os.getenv('HYPERMAP_REGISTRY_URL', 'http://localhost:8001')
+SOLR_URL = os.getenv('SOLR_URL', 'http://localhost:8983/solr/hypermap/select/')
+MAPPROXY_URL = os.getenv('MAPPROXY_URL', 'http://localhost:8001')
 
 # Location of url mappings
 ROOT_URLCONF = os.getenv('ROOT_URLCONF', '{}.urls'.format(PROJECT_NAME))
@@ -78,6 +103,9 @@ MEDIA_ROOT = os.getenv('MEDIA_ROOT', os.path.join(LOCAL_ROOT, "uploaded"))
 STATIC_ROOT = os.getenv('STATIC_ROOT',
                         os.path.join(LOCAL_ROOT, "static_root")
                         )
+
+from settings import TEMPLATES
+TEMPLATES[0]['OPTIONS']['context_processors'].append('geonode_contribs.worldmap.context_processors.resource_urls')
 
 # Additional directories which hold static files
 # In order to use the staticfiles in camp earlier than in geonode, use insert instead of append
@@ -467,7 +495,7 @@ SITE_HOST_NAME = os.getenv('SITE_HOST_NAME', "localhost")
 SITE_HOST_PORT = os.getenv('SITE_HOST_PORT', "8000")
 
 # use the WorldMap client
-GEONODE_CLIENT_HOOKSET = "geonode.client.hooksets.WorldMapHookSet"
+GEONODE_CLIENT_HOOKSET = "geonode_contribs.worldmap.hooksets.WorldMapHookSet"
 CORS_ORIGIN_WHITELIST = (
     HOSTNAME
 )
