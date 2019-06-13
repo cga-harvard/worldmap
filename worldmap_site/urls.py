@@ -40,11 +40,11 @@ wm_api.register(OwnerResource())
 wm_api.register(TopicCategoryResource())
 
 urlpatterns = [
-    url(r'', include('geonode_contribs.worldmap.wm_extra.urls',
+    url(r'', include('geonode_worldmap.wm_extra.urls',
         namespace='worldmap')),
-    url(r'', include('geonode_contribs.worldmap.gazetteer.urls',
+    url(r'', include('geonode_worldmap.gazetteer.urls',
         namespace='gazetteer')),
-    url(r'', include('geonode_contribs.worldmap.mapnotes.urls',
+    url(r'', include('geonode_worldmap.mapnotes.urls',
         namespace='mapnotes'))
     ] + urlpatterns
 

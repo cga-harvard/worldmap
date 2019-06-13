@@ -69,11 +69,11 @@ INSTALLED_APPS += (
         'certification',
         # additional apps for worldmap
         'geoexplorer-worldmap',
-        'geonode_contribs.worldmap',
-        'geonode_contribs.worldmap.gazetteer',
-        'geonode_contribs.worldmap.wm_extra',
+        'geonode_worldmap',
+        'geonode_worldmap.gazetteer',
+        'geonode_worldmap.wm_extra',
         #'geonode_contribs.worldmap.mapnotes',
-        'geonode_contribs.datastore_shards',
+        'geonode_datastore_shards',
         #'debug_toolbar',
      )
 
@@ -105,7 +105,7 @@ STATIC_ROOT = os.getenv('STATIC_ROOT',
                         )
 
 from settings import TEMPLATES
-TEMPLATES[0]['OPTIONS']['context_processors'].append('geonode_contribs.worldmap.context_processors.resource_urls')
+TEMPLATES[0]['OPTIONS']['context_processors'].append('geonode_worldmap.context_processors.resource_urls')
 
 # Additional directories which hold static files
 # In order to use the staticfiles in camp earlier than in geonode, use insert instead of append
@@ -495,7 +495,7 @@ SITE_HOST_NAME = os.getenv('SITE_HOST_NAME', "localhost")
 SITE_HOST_PORT = os.getenv('SITE_HOST_PORT', "8000")
 
 # use the WorldMap client
-GEONODE_CLIENT_HOOKSET = "geonode_contribs.worldmap.hooksets.WorldMapHookSet"
+GEONODE_CLIENT_HOOKSET = "geonode_worldmap.hooksets.WorldMapHookSet"
 CORS_ORIGIN_WHITELIST = (
     HOSTNAME
 )
