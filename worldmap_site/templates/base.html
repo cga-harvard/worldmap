@@ -69,7 +69,7 @@
                 <li><a href="{% url "layer_browse" %}?limit={{ CLIENT_RESULTS_LIMIT }}">{% trans "Layers" %}</a></li>
                 {% if user.is_authenticated %}
                     <li><a href="{% url "layer_upload" %}">Upload Layer</a></li>
-                    {% if 'geonode.contrib.createlayer' in INSTALLED_APPS %}
+                    {% if 'geonode.geoserver.createlayer' in INSTALLED_APPS %}
                         <li><a href="{% url "layer_create" %}">{% trans "Create Layer" %}</a></li>
                     {% endif %}
                 {% endif %}
