@@ -713,3 +713,8 @@ DEFAULT_MAP_ABSTRACT = """
     <p>All WorldMap source code is made available here for others to use
     and improve upon.</p>
 """
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+    'http://localhost:8080',
+]
